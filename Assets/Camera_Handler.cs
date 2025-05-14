@@ -34,6 +34,9 @@ public class Camera_Handler : MonoBehaviour
     [SerializeField] private VolumeProfile cameraProfile;
     //
     bool isSheepDebugOn = true;
+    //
+    Manager_Collector managerCollector;
+    UI_Manager uiManager;
 
     void Start()
     {
@@ -45,6 +48,9 @@ public class Camera_Handler : MonoBehaviour
         baseMode.AddListener(BaseVolume);
 
         DebugReferences();
+
+        managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
+        uiManager = managerCollector.uiManager;
 
     }
 
@@ -73,20 +79,25 @@ public class Camera_Handler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
+            uiManager.TurnOnAnimalCard();
             followAnimal = true;
             animalIndex = (animalIndex + 1) % animals.Count;
             followedAnimal = animals[animalIndex];
+            SetAnimalCard(followedAnimal);
+            // uiManager.SetAnimalAge(animalScript.animalAge);
             
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
+            uiManager.TurnOnAnimalCard();
             followAnimal = true;
             animalIndex = (animalIndex - 1 + animals.Count) % animals.Count;
             followedAnimal = animals[animalIndex];
-            
+            SetAnimalCard(followedAnimal);
         }
         else if (Input.GetKeyDown(KeyCode.V))
         {
+            uiManager.TurnOffAnimalCard();
             followAnimal = false;
             targetPosition = originalPosition;
             targetRotation = Quaternion.Euler(25f, 0, 0); // Reset to default angle
@@ -177,14 +188,23 @@ public class Camera_Handler : MonoBehaviour
             if(Physics.Raycast(ray, out hit)){
                 if(hit.transform.tag == "Prey" || hit.transform.tag == "Predator"){
                     Debug.Log("Clicked on Animal. Animal ID is: " + hit.transform.gameObject.GetComponent<Animal_BaseClass>().animalId);
+                    uiManager.TurnOnAnimalCard();
                     followAnimal = true;
                     followedAnimal = hit.transform.gameObject;
+                    SetAnimalCard(followedAnimal);
                     followAnimalMode.Invoke();
                 }
             }
         }
     }
 
+    void SetAnimalCard(GameObject animal){
+        if(animal != null){
+            uiManager.SetAnimalImage(animal.GetComponent<Animal_BaseClass>().animalType);
+            uiManager.SetAnimalName(animal.GetComponent<Animal_BaseClass>().animalName);
+            // uiManager.SetAnimalAge(followedAnimal.GetComponent<Animal_BaseClass>().animalAge);
+        }
+    }
 
     
 }

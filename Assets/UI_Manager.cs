@@ -1,21 +1,39 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UI_Manager : MonoBehaviour
 {
     World_Status worldStatus;
     Spawn_Manager spawnManager;
+    Manager_Collector managerCollector;
+    //
+    [Header("Time Texts")]
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI dayText;
     public TextMeshProUGUI timeSpeed;
     //
+    [Space]
+    [Header("Counter Texts")]
     public TextMeshProUGUI wolfCounterText;
     public TextMeshProUGUI sheepCounterText;
     public TextMeshProUGUI rabbitCounterText;
     public TextMeshProUGUI goatCounterText;
     //
-    Manager_Collector managerCollector;
-
+    [Space]
+    [Header("Animal Card UI Elements")]
+    public GameObject animalCard;
+    public TextMeshProUGUI animalName_Text;
+    public TextMeshProUGUI animalAge_Text;
+    public UnityEngine.UI.Image animalImage_Image;
+    //
+    [Space]
+    [Header("Animal Sprites")]
+    public Sprite wolfImage;
+    public Sprite sheepImage;
+    public Sprite rabbitImage;
+    public Sprite goatImage;
     void Awake()
     {
 
@@ -81,5 +99,34 @@ public class UI_Manager : MonoBehaviour
     }
     void SetGoatNumber(){
         goatCounterText.text ="Goats: " + worldStatus.goatDict.Count.ToString();
+    }
+    //
+    public void SetAnimalName(string currentName){
+        animalName_Text.text = currentName;
+    }
+    public void SetAnimalAge(int currentAge){
+        animalAge_Text.text = currentAge.ToString();
+    }
+    public void SetAnimalImage(string animalType){
+        switch(animalType){
+            case "Sheep":
+                animalImage_Image.sprite = sheepImage;
+                break;
+            case "Wolf":
+                animalImage_Image.sprite = wolfImage;
+                break;
+            case "Rabbit":
+                animalImage_Image.sprite = rabbitImage;
+                break;
+            case "Goat":
+                animalImage_Image.sprite = goatImage;
+                break;
+        }
+    }
+    public void TurnOnAnimalCard(){
+        animalCard.SetActive(true);
+    }
+    public void TurnOffAnimalCard(){
+        animalCard.SetActive(false);
     }
 }
