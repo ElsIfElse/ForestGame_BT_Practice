@@ -4644,6 +4644,7 @@ MonoBehaviour:
   uiManager: {fileID: 0}
   worldStatus: {fileID: 0}
   spawnManager: {fileID: 0}
+  audioManager: {fileID: 0}
 --- !u!1 &885737951
 GameObject:
   m_ObjectHideFlags: 0
@@ -5693,7 +5694,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1016582034}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1016582037
 Camera:
   m_ObjectHideFlags: 0
@@ -11025,7 +11026,7 @@ GameObject:
   - component: {fileID: 2025145491}
   m_Layer: 0
   m_Name: Audio Manager
-  m_TagString: Untagged
+  m_TagString: AudioManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11061,6 +11062,8 @@ MonoBehaviour:
   thunderSound: {fileID: 8300000, guid: 45824c04e6f0f674892528f33896c9c0, type: 3}
   rainSound: {fileID: 8300000, guid: ab80877202346b745abef147d558cfb0, type: 3}
   forestAmbianceSound: {fileID: 8300000, guid: 03a039fa56e988848b59ca73662d4b0f, type: 3}
+  chatWishNotificationSound: {fileID: 8300000, guid: 8b1c71d6bfc321046a1bcf2b662079b2, type: 3}
+  wishFulfilledSound: {fileID: 8300000, guid: 10c34e0715071794caa3207196a73996, type: 3}
 --- !u!1 &2037019346
 GameObject:
   m_ObjectHideFlags: 0

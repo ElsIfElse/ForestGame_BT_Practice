@@ -102,7 +102,12 @@ public class Audio_Manager : MonoBehaviour
     public void PlayNight(){
         PlayAudio(nightAmbiance,0.5f,true,true);
     }
-    
+    public void PlayChatNotification(){
+        PlayAudio(chatWishNotificationSound,0.5f);
+    }
+    public void PlayWishFulfilled(){
+        PlayAudio(wishFulfilledSound,0.5f);
+    }
     // Utility
     void PlayAudio(AudioClip clipToPlay,float volume = 0.5f,bool isRandomPitch = false,bool isLooping = false,float startFrom = 0,float delay = 0){
         
@@ -132,7 +137,6 @@ public class Audio_Manager : MonoBehaviour
         StartCoroutine(EnqueueWhenFinished_Coroutine(source));
 
     }
- 
     void CreateAudioSource(Vector3? spawnLocation = null){
         Vector3 objectSpawnLocation = spawnLocation ?? defaultSpawnLocation;
 
@@ -149,7 +153,6 @@ public class Audio_Manager : MonoBehaviour
 
 
     }
- 
     IEnumerator EnqueueWhenFinished_Coroutine(AudioSource source){
         while(source.isPlaying == true){
             yield return null;
@@ -157,7 +160,6 @@ public class Audio_Manager : MonoBehaviour
 
         audioSources.Enqueue(source);
     }
- 
     IEnumerator Timer(float timeToWait,Action action){
         yield return new WaitForSeconds(timeToWait);
         action();

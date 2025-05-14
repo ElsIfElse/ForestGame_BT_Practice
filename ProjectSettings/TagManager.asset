@@ -19,6 +19,7 @@ TagManager:
   - RabbitHome
   - GoatHome
   - GoatWanderingArea
+  - AudioManager
   layers:
   - Default
   - TransparentFX
