@@ -16,6 +16,8 @@ public class Audio_Manager : MonoBehaviour
     public AudioClip thunderSound;
     public AudioClip rainSound;
     public AudioClip forestAmbianceSound;
+    public AudioClip chatWishNotificationSound;
+    public AudioClip wishFulfilledSound;
     //
     AudioSource rainSource;
     AudioSource forestAmbianceSource;

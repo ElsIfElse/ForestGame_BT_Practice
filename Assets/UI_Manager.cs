@@ -34,10 +34,9 @@ public class UI_Manager : MonoBehaviour
     public Sprite sheepImage;
     public Sprite rabbitImage;
     public Sprite goatImage;
-    void Awake()
-    {
-
-    }
+    //
+    [SerializeField] TextMeshProUGUI cameraType;
+    [SerializeField] GameObject streamView;
     void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
@@ -67,7 +66,15 @@ public class UI_Manager : MonoBehaviour
         SetRabbitNumber();
         SetGoatNumber();
     }
-
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.O)){
+            ToggleStreamView();
+        }
+        if(Input.GetKeyDown(KeyCode.I)){
+            ToggleAnimalCard();
+        }
+    }
     public void SetTime(){
         timeText.text = "Time: " + worldStatus.currentTimeInHours + ":00";
     }
@@ -128,5 +135,17 @@ public class UI_Manager : MonoBehaviour
     }
     public void TurnOffAnimalCard(){
         animalCard.SetActive(false);
+    }
+    void ToggleStreamView(){
+        streamView.SetActive(!streamView.activeSelf);
+    }
+    void ToggleAnimalCard(){
+        animalCard.SetActive(!animalCard.activeSelf);
+    }
+    public void HandHeldCamera(){
+        cameraType.text = "Hand_Cam";
+    }
+    public void AnimalCamera(){
+        cameraType.text = "Animal_Cam";
     }
 }

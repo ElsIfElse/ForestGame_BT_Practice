@@ -37,12 +37,14 @@ public class Camera_Handler : MonoBehaviour
     //
     Manager_Collector managerCollector;
     UI_Manager uiManager;
+    [SerializeField] GameObject handcamPositionObject;
 
     void Start()
-    {
+    {        
+        CollectAnimals();
         targetPosition = originalPosition;
         targetRotation = transform.rotation;
-        CollectAnimals();
+
 
         followAnimalMode.AddListener(CameraVolume);
         baseMode.AddListener(BaseVolume);
@@ -52,16 +54,18 @@ public class Camera_Handler : MonoBehaviour
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         uiManager = managerCollector.uiManager;
 
+        CameraVolume();
+        followedAnimal = handcamPositionObject;
     }
 
     void Update()
     {
-        GODMODE();
+        // GODMODE();
         HandleFollowAnimal();
         HandleCameraMovement();
         HandleCameraZoom();
         SmoothCameraMovement();
-        ClickingOnAnimal();
+        // ClickingOnAnimal();
 
         
     }
@@ -69,48 +73,66 @@ public class Camera_Handler : MonoBehaviour
     public void CollectAnimals()
     {
         animals.Clear();
+
         preys = GameObject.FindGameObjectsWithTag("Prey").ToList();
         wolfs = GameObject.FindGameObjectsWithTag("Predator").ToList();
+
         animals.AddRange(wolfs);
         animals.AddRange(preys);
+
+        Debug.Log("Animals Found: " + animals.Count);
     }
 
     private void HandleFollowAnimal()
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            uiManager.TurnOnAnimalCard();
-            followAnimal = true;
-            animalIndex = (animalIndex + 1) % animals.Count;
+            if(animals.Count == 0){
+                Debug.Log("Animal List is emmpty. Attempting to collect animals.");
+                CollectAnimals();
+            };
+
+            animalIndex++;
+            if(animalIndex >= animals.Count) animalIndex = 0;
             followedAnimal = animals[animalIndex];
+
+            uiManager.AnimalCamera();
+            // uiManager.TurnOnAnimalCard();
             SetAnimalCard(followedAnimal);
             // uiManager.SetAnimalAge(animalScript.animalAge);
-            
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            uiManager.TurnOnAnimalCard();
-            followAnimal = true;
-            animalIndex = (animalIndex - 1 + animals.Count) % animals.Count;
+            if(animals.Count == 0){
+                Debug.Log("Animal List is emmpty. Attempting to collect animals.");
+                CollectAnimals();
+            };
+
+            animalIndex--;
+            if(animalIndex < 0) animalIndex = animals.Count - 1;
             followedAnimal = animals[animalIndex];
+            uiManager.AnimalCamera();
+            // uiManager.TurnOnAnimalCard();
             SetAnimalCard(followedAnimal);
-        }
-        else if (Input.GetKeyDown(KeyCode.V))
-        {
-            uiManager.TurnOffAnimalCard();
-            followAnimal = false;
-            targetPosition = originalPosition;
-            targetRotation = Quaternion.Euler(25f, 0, 0); // Reset to default angle
-            
+            // uiManager.SetAnimalAge(animalScript.animalAge);
         }
 
-        if (followAnimal && followedAnimal != null)
-        {
-            Transform cameraHolderTransform = followedAnimal.transform.FindDeepChild("CameraHolder");
-            Vector3 cameraHolderLocation = cameraHolderTransform.position;
-            targetPosition = cameraHolderLocation;
-            targetRotation = Quaternion.LookRotation(cameraHolderTransform.forward);
+        else if(Input.GetKeyDown(KeyCode.V)){
+            followedAnimal = handcamPositionObject;
+            uiManager.HandHeldCamera();
         }
+
+        Transform cameraHolderTransform = followedAnimal.transform.FindDeepChild("CameraHolder");
+
+        if(cameraHolderTransform == null){
+            cameraHolderTransform = handcamPositionObject.transform;
+            uiManager.TurnOffAnimalCard();
+        }
+
+        Vector3 cameraHolderLocation = cameraHolderTransform.position;
+        targetPosition = cameraHolderLocation;
+        targetRotation = Quaternion.LookRotation(cameraHolderTransform.forward);
+        
     }
 
     private void HandleCameraMovement()
