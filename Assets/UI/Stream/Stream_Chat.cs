@@ -417,5 +417,5 @@ public class Stream_Chat : MonoBehaviour
             chatWishTimer = chatWishFrequencyCheck;
         }
     }
-
+    
 }

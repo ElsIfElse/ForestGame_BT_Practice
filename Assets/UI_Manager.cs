@@ -1,6 +1,7 @@
 
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class UI_Manager : MonoBehaviour
@@ -35,8 +36,14 @@ public class UI_Manager : MonoBehaviour
     public Sprite rabbitImage;
     public Sprite goatImage;
     //
+    [Space]
+    [Header("Stream UI Elements")]
+    [SerializeField] TextMeshProUGUI viewerCounter;
     [SerializeField] TextMeshProUGUI cameraType;
     [SerializeField] GameObject streamView;
+    //
+    float viewershipRandomizerCounter;
+    float viewershipRandomizerFrequency = 1f;
     void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
@@ -65,6 +72,9 @@ public class UI_Manager : MonoBehaviour
         SetSheepNumber();
         SetRabbitNumber();
         SetGoatNumber();
+
+        viewershipRandomizerCounter = viewershipRandomizerFrequency;
+        RandomizerViewershipBetween(10, 40);
     }
     void Update()
     {
@@ -74,6 +84,8 @@ public class UI_Manager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.I)){
             ToggleAnimalCard();
         }
+
+        RandomizerViewership();
     }
     public void SetTime(){
         timeText.text = "Time: " + worldStatus.currentTimeInHours + ":00";
@@ -147,5 +159,29 @@ public class UI_Manager : MonoBehaviour
     }
     public void AnimalCamera(){
         cameraType.text = "Animal_Cam";
+    }
+    // Viewership
+    public void SetViewerCounter(int currentViewers){
+        viewerCounter.text = currentViewers.ToString();
+    }
+    void RandomizerViewershipBetween(int min, int max){
+        int randomViewerNum = Random.Range(min, max);
+        SetViewerCounter(randomViewerNum);
+    }
+    void RandomizerViewership(){
+        viewershipRandomizerCounter -= Time.deltaTime;
+        
+        if(viewershipRandomizerCounter <= 0){
+            float chanceToChangeViewerNumber = Random.Range(0,100);
+
+            if(chanceToChangeViewerNumber < 10){
+                RandomizerViewershipBetween(10, 40);
+            }
+
+            viewershipRandomizerCounter = viewershipRandomizerFrequency;
+            
+        }
+
+        
     }
 }

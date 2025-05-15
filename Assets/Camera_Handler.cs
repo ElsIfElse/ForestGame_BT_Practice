@@ -16,7 +16,8 @@ public class Camera_Handler : MonoBehaviour
     [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private float zoomSpeed = 5f;
     [SerializeField] private float rotationSpeed = 100f;
-    [SerializeField] private float smoothness = 5f;
+    [SerializeField] private float handheldCamSmoothness = 5f;
+    [SerializeField] private float animalCamSmoothness = 5f;
 
     private List<GameObject> animals = new();
     private List<GameObject> wolfs = new();
@@ -34,6 +35,7 @@ public class Camera_Handler : MonoBehaviour
     [SerializeField] private VolumeProfile cameraProfile;
     //
     bool isSheepDebugOn = true;
+    bool isCamHandHeld = true;
     //
     Manager_Collector managerCollector;
     UI_Manager uiManager;
@@ -62,8 +64,8 @@ public class Camera_Handler : MonoBehaviour
     {
         // GODMODE();
         HandleFollowAnimal();
-        HandleCameraMovement();
-        HandleCameraZoom();
+        // HandleCameraMovement();
+        // HandleCameraZoom();
         SmoothCameraMovement();
         // ClickingOnAnimal();
 
@@ -87,6 +89,7 @@ public class Camera_Handler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
+            isCamHandHeld = false;
             if(animals.Count == 0){
                 Debug.Log("Animal List is emmpty. Attempting to collect animals.");
                 CollectAnimals();
@@ -97,12 +100,11 @@ public class Camera_Handler : MonoBehaviour
             followedAnimal = animals[animalIndex];
 
             uiManager.AnimalCamera();
-            // uiManager.TurnOnAnimalCard();
             SetAnimalCard(followedAnimal);
-            // uiManager.SetAnimalAge(animalScript.animalAge);
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
+            isCamHandHeld = false;
             if(animals.Count == 0){
                 Debug.Log("Animal List is emmpty. Attempting to collect animals.");
                 CollectAnimals();
@@ -112,9 +114,7 @@ public class Camera_Handler : MonoBehaviour
             if(animalIndex < 0) animalIndex = animals.Count - 1;
             followedAnimal = animals[animalIndex];
             uiManager.AnimalCamera();
-            // uiManager.TurnOnAnimalCard();
             SetAnimalCard(followedAnimal);
-            // uiManager.SetAnimalAge(animalScript.animalAge);
         }
 
         else if(Input.GetKeyDown(KeyCode.V)){
@@ -127,6 +127,7 @@ public class Camera_Handler : MonoBehaviour
         if(cameraHolderTransform == null){
             cameraHolderTransform = handcamPositionObject.transform;
             uiManager.TurnOffAnimalCard();
+            isCamHandHeld = true;
         }
 
         Vector3 cameraHolderLocation = cameraHolderTransform.position;
@@ -135,42 +136,17 @@ public class Camera_Handler : MonoBehaviour
         
     }
 
-    private void HandleCameraMovement()
-{
-    if (!followAnimal)
-    {
-        float horizontal = Input.GetAxis("Horizontal"); // A/D or Left/Right Arrow
-        float vertical = Input.GetAxis("Vertical");     // W/S or Up/Down Arrow
-
-        // Move in global X and Z directions (not camera-relative)
-        Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
-        targetPosition += moveDirection * movementSpeed * Time.deltaTime;
-    }
-}
-
-    private void HandleCameraZoom()
-    {
-        if (!followAnimal)
-        {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            targetPosition += transform.forward * scroll * zoomSpeed;
-        }
-    }
-
     private void SmoothCameraMovement()
     {
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothness * Time.deltaTime);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, smoothness * Time.deltaTime);
-    }
-
-    void GODMODE(){
-        if(Input.GetKeyDown(KeyCode.V)){
-            baseMode.Invoke();
+        if(isCamHandHeld){
+            transform.position = Vector3.Lerp(transform.position, targetPosition, handheldCamSmoothness * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, handheldCamSmoothness * Time.deltaTime);
         }
-        if(Input.GetKeyDown(KeyCode.C) || Input.GetKey(KeyCode.X)){
-
-            followAnimalMode.Invoke();
+        else{
+            transform.position = Vector3.Lerp(transform.position, targetPosition, animalCamSmoothness * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, animalCamSmoothness * Time.deltaTime);
         }
+
     }
 
     void CameraVolume(){
@@ -202,6 +178,37 @@ public class Camera_Handler : MonoBehaviour
         }
     }
 
+    void SetAnimalCard(GameObject animal){
+        if(animal != null){
+            uiManager.SetAnimalImage(animal.GetComponent<Animal_BaseClass>().animalType);
+            uiManager.SetAnimalName(animal.GetComponent<Animal_BaseClass>().animalName);
+            // uiManager.SetAnimalAge(followedAnimal.GetComponent<Animal_BaseClass>().animalAge);
+        }
+    }
+   
+    // Deprecated
+    private void HandleCameraMovement()
+{
+    if (!followAnimal)
+    {
+        float horizontal = Input.GetAxis("Horizontal"); // A/D or Left/Right Arrow
+        float vertical = Input.GetAxis("Vertical");     // W/S or Up/Down Arrow
+
+        // Move in global X and Z directions (not camera-relative)
+        Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
+        targetPosition += moveDirection * movementSpeed * Time.deltaTime;
+    }
+}
+
+    private void HandleCameraZoom()
+    {
+        if (!followAnimal)
+        {
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            targetPosition += transform.forward * scroll * zoomSpeed;
+        }
+    }
+    
     void ClickingOnAnimal(){
         if(Input.GetMouseButtonDown(0)){
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -219,14 +226,4 @@ public class Camera_Handler : MonoBehaviour
             }
         }
     }
-
-    void SetAnimalCard(GameObject animal){
-        if(animal != null){
-            uiManager.SetAnimalImage(animal.GetComponent<Animal_BaseClass>().animalType);
-            uiManager.SetAnimalName(animal.GetComponent<Animal_BaseClass>().animalName);
-            // uiManager.SetAnimalAge(followedAnimal.GetComponent<Animal_BaseClass>().animalAge);
-        }
-    }
-
-    
 }
