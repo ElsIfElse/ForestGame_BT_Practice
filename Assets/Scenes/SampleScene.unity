@@ -4645,6 +4645,7 @@ MonoBehaviour:
   worldStatus: {fileID: 0}
   spawnManager: {fileID: 0}
   audioManager: {fileID: 0}
+  cameraHandler: {fileID: 0}
 --- !u!1 &885737951
 GameObject:
   m_ObjectHideFlags: 0
@@ -5638,7 +5639,7 @@ GameObject:
   - component: {fileID: 1016582039}
   m_Layer: 0
   m_Name: Stream_Camera
-  m_TagString: Untagged
+  m_TagString: CameraHandler
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7510,9 +7511,10 @@ MonoBehaviour:
   - {fileID: 201316949}
   - {fileID: 2120425390}
   messageFrequencyCheck: 1
-  percantageChanceToGetMessage: 30
+  percentageChanceToGetMessage: 10
   chatWishFrequencyCheck: 20
-  percantageChanceToGetWish: 10
+  percentageChanceToGetWish: 100
+  wishFulfillmentTimer: 3
   isWishActive: 0
 --- !u!1 &1321208089
 GameObject:

@@ -38,21 +38,25 @@ public class Stream_Chat : MonoBehaviour
     List<String> messageList = new List<String>(15);
     //
     public float messageFrequencyCheck = 2f;
-    public float percantageChanceToGetMessage = 10f;
+    public float percentageChanceToGetMessage = 10f;
     public float chatWishFrequencyCheck = 10f;
-    public float percantageChanceToGetWish = 10f;
+    public float percentageChanceToGetWish = 10f;
     //
     float messageTimer;
     float chatWishTimer;
+    [SerializeField] float wishFulfillmentTimer;
+    float timeToFullfillWish = 3f;
 
     public bool isWishActive = false;
     Manager_Collector managerCollector;
     Audio_Manager audioManager;
+    Camera_Handler cameraHandler;
 
     void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         audioManager = managerCollector.audioManager;
+        cameraHandler = managerCollector.cameraHandler;
         
         for(int i = 0; i < 15; i++){
             messageList.Add("");
@@ -305,7 +309,6 @@ public class Stream_Chat : MonoBehaviour
             "I just want to see hand again 😭",
             "That hand cam was hypnotic"
         };
-
     }
 
 
@@ -380,6 +383,9 @@ public class Stream_Chat : MonoBehaviour
             isWishActive = false;
             currentWish = null;
         }
+
+        FulfillingWishTimer();
+        Debug.Log(cameraHandler.CurrentAnimalType());
     }
 
     void GetMessagesRandomly(){
@@ -388,7 +394,7 @@ public class Stream_Chat : MonoBehaviour
         if(messageTimer <= 0){
             float randomNum = UnityEngine.Random.Range(0f, 100f);
 
-            if(randomNum < percantageChanceToGetMessage){
+            if(randomNum < percentageChanceToGetMessage){
                 AddMessage();
             }
             messageTimer = messageFrequencyCheck;
@@ -401,7 +407,7 @@ public class Stream_Chat : MonoBehaviour
         if(chatWishTimer <= 0){
             float randomNum = UnityEngine.Random.Range(0f, 100f);
 
-            if(randomNum < percantageChanceToGetWish && !isWishActive){
+            if(randomNum < percentageChanceToGetWish && !isWishActive){
                 string wish = chatWishes[UnityEngine.Random.Range(0, chatWishes.Length)];
 
                 if(wish == currentWish){
@@ -417,5 +423,20 @@ public class Stream_Chat : MonoBehaviour
             chatWishTimer = chatWishFrequencyCheck;
         }
     }
-    
+
+    void FulfillingWishTimer(){
+        if(isWishActive && cameraHandler.CurrentAnimalType() == currentWish){
+            wishFulfillmentTimer -= Time.deltaTime;
+            
+            if(wishFulfillmentTimer <= 0){
+                Debug.Log("Wish Fulfilled");
+                audioManager.PlayWishFulfilled();
+                isWishActive = false;
+                currentWish = null;
+            }
+        }
+        else{
+            wishFulfillmentTimer = timeToFullfillWish;
+        }
+    }
 }

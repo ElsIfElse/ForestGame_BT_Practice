@@ -133,7 +133,6 @@ public class Camera_Handler : MonoBehaviour
         Vector3 cameraHolderLocation = cameraHolderTransform.position;
         targetPosition = cameraHolderLocation;
         targetRotation = Quaternion.LookRotation(cameraHolderTransform.forward);
-        
     }
 
     private void SmoothCameraMovement()
@@ -146,7 +145,6 @@ public class Camera_Handler : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, targetPosition, animalCamSmoothness * Time.deltaTime);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, animalCamSmoothness * Time.deltaTime);
         }
-
     }
 
     void CameraVolume(){
@@ -225,5 +223,15 @@ public class Camera_Handler : MonoBehaviour
                 }
             }
         }
+    }
+
+    public string CurrentAnimalType(){
+        if(followedAnimal.GetComponent<Animal_BaseClass>() != null){
+            return followedAnimal.GetComponent<Animal_BaseClass>().animalType;
+        }
+        else{
+            return "HandCam";
+        }
+        
     }
 }

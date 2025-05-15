@@ -20,6 +20,7 @@ TagManager:
   - GoatHome
   - GoatWanderingArea
   - AudioManager
+  - CameraHandler
   layers:
   - Default
   - TransparentFX
