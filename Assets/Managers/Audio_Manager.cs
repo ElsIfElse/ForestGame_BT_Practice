@@ -15,8 +15,12 @@ public class Audio_Manager : MonoBehaviour
     public AudioClip nightAmbiance;
     public AudioClip rainSound;
     public AudioClip forestAmbianceSound;
+
+    [Space]
+    [Header("Stream Sounds")]
     public AudioClip chatWishNotificationSound;
     public AudioClip wishFulfilledSound;
+    public AudioClip wishFailedSound;
     //
     [Space]
     [Header("Thunder Clips")]
@@ -112,6 +116,10 @@ public class Audio_Manager : MonoBehaviour
     }
     public void PlayWishFulfilled(){
         PlayAudio(wishFulfilledSound,0.5f);
+    }
+    public void PlayWishFailed()
+    {
+        PlayAudio(wishFailedSound, 0.5f);
     }
     // Utility
     void PlayAudio(AudioClip clipToPlay,float volume = 0.5f,bool isRandomPitch = false,bool isLooping = false,float startFrom = 0,float delay = 0){

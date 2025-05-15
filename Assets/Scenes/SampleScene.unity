@@ -8006,6 +8006,7 @@ MonoBehaviour:
   wishRabbitMessages: []
   wishSheepMessages: []
   wishHandCamMessages: []
+  wishFailedMessages: []
   chatMessageSlots:
   - {fileID: 477039015}
   - {fileID: 1945654435}
@@ -8026,7 +8027,8 @@ MonoBehaviour:
   percentageChanceToGetMessage: 10
   chatWishFrequencyCheck: 20
   percentageChanceToGetWish: 10
-  wishFulfillmentTimer: 10
+  requiredTimeToFullfillWish: 10
+  timeToFullfillWish: 60
   isWishActive: 0
 --- !u!1 &1321208089
 GameObject:
@@ -12012,6 +12014,7 @@ MonoBehaviour:
   forestAmbianceSound: {fileID: 8300000, guid: 03a039fa56e988848b59ca73662d4b0f, type: 3}
   chatWishNotificationSound: {fileID: 8300000, guid: 8b1c71d6bfc321046a1bcf2b662079b2, type: 3}
   wishFulfilledSound: {fileID: 8300000, guid: 10c34e0715071794caa3207196a73996, type: 3}
+  wishFailedSound: {fileID: 8300000, guid: aaaa7b7aef1e7f141939a80c98c47aa4, type: 3}
   thunderClips: []
 --- !u!1 &2037019346
 GameObject:

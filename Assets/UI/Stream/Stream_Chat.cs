@@ -21,9 +21,10 @@ public class Stream_Chat : MonoBehaviour
         "ChillByte", "FrostAce", "TurboByte", "LunarAce", "GhostByte",
         "NitroAce", "ZenZap", "ByteDash", "SkyZap", "EchoFox"
     };
-    
+
     // WISHES
-    string[] chatWishes = new string[]{"Bear","Sheep","Wolf","Goat","Rabbit","HandCam"};
+    [Header("Wishes")]
+    string[] chatWishes = new string[] { "Bear", "Sheep", "Wolf", "Goat", "Rabbit", "HandCam" };
     public string currentWish = null;
     public string[] generalChatMessages;
 
@@ -33,21 +34,30 @@ public class Stream_Chat : MonoBehaviour
     public string[] wishRabbitMessages;
     public string[] wishSheepMessages;
     public string[] wishHandCamMessages;
+    public string[] wishFailedMessages;
     //
     [SerializeField] List<TextMeshProUGUI> chatMessageSlots = new List<TextMeshProUGUI>(15);
     List<String> messageList = new List<String>(15);
     //
     public float messageFrequencyCheck = 2f;
+
     public float percentageChanceToGetMessage = 10f;
+    public float basePercentageToGetMessage = 10f;
     public float chatWishFrequencyCheck = 10f;
     public float percentageChanceToGetWish = 10f;
     //
     float messageTimer;
     float chatWishTimer;
-    [SerializeField] float wishFulfillmentTimer;
-    float timeToFullfillWish = 3f;
+    float wishFulfillmentTimer;
+    float timeToFullfillWishTimer;
+    [Space]
+
+    [Header("Wish Settings")]
+    [SerializeField] float requiredTimeToFullfillWish = 3f;
+    [SerializeField] float timeToFullfillWish = 30f;
 
     public bool isWishActive = false;
+    bool reminderSent = false;
     Manager_Collector managerCollector;
     Audio_Manager audioManager;
     Camera_Handler cameraHandler;
@@ -57,8 +67,11 @@ public class Stream_Chat : MonoBehaviour
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         audioManager = managerCollector.audioManager;
         cameraHandler = managerCollector.cameraHandler;
-        
-        for(int i = 0; i < 15; i++){
+
+        percentageChanceToGetMessage = basePercentageToGetMessage;
+
+        for (int i = 0; i < 15; i++)
+        {
             messageList.Add("");
         }
 
@@ -314,64 +327,70 @@ public class Stream_Chat : MonoBehaviour
 
 
 
-    string RandomizeColor(){
-        string[] colors = new string[]{"<color=red>","<color=blue>","<color=green>","<color=yellow>","<color=purple>","<color=black>","<color=orange>"};
+    string RandomizeColor()
+    {
+        string[] colors = new string[] { "<color=red>", "<color=blue>", "<color=green>", "<color=yellow>", "<color=purple>", "<color=black>", "<color=orange>" };
         return colors[UnityEngine.Random.Range(0, colors.Length)];
     }
 
-    void CreateRandomMessageAndAddToList(){
-        switch (currentWish){
+    void CreateRandomMessageAndAddToList()
+    {
+        switch (currentWish)
+        {
             case "Rabbit":
-                string randomRabbitWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>"  + ": "+ generalChatMessages[UnityEngine.Random.Range(0, generalChatMessages.Length)];
+                string randomRabbitWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + generalChatMessages[UnityEngine.Random.Range(0, generalChatMessages.Length)];
                 messageList.Add(randomRabbitWishMessage);
                 break;
 
             case "Sheep":
-                string randomSheepWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>"  + ": "+ wishSheepMessages[UnityEngine.Random.Range(0, wishSheepMessages.Length)];
+                string randomSheepWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + wishSheepMessages[UnityEngine.Random.Range(0, wishSheepMessages.Length)];
                 messageList.Add(randomSheepWishMessage);
                 break;
 
             case "Wolf":
-                string randomWolfWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>"  + ": "+ wishWolfMessages[UnityEngine.Random.Range(0, wishWolfMessages.Length)];
+                string randomWolfWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + wishWolfMessages[UnityEngine.Random.Range(0, wishWolfMessages.Length)];
                 messageList.Add(randomWolfWishMessage);
                 break;
 
             case "Goat":
-                string randomGoatWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>"  + ": "+ wishGoatMessages[UnityEngine.Random.Range(0, wishGoatMessages.Length)];
+                string randomGoatWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + wishGoatMessages[UnityEngine.Random.Range(0, wishGoatMessages.Length)];
                 messageList.Add(randomGoatWishMessage);
                 break;
 
             case "HandCam":
-                string randomHandCamWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>"  + ": "+ wishHandCamMessages[UnityEngine.Random.Range(0, wishHandCamMessages.Length)];
+                string randomHandCamWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + wishHandCamMessages[UnityEngine.Random.Range(0, wishHandCamMessages.Length)];
                 messageList.Add(randomHandCamWishMessage);
                 break;
-            
+
             case "Bear":
-                string randomBearWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>"  + ": "+ wishBearMessages[UnityEngine.Random.Range(0, wishBearMessages.Length)];
+                string randomBearWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + wishBearMessages[UnityEngine.Random.Range(0, wishBearMessages.Length)];
                 messageList.Add(randomBearWishMessage);
                 break;
 
             default:
-                string randomGeneralMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>"  + ": "+ generalChatMessages[UnityEngine.Random.Range(0, generalChatMessages.Length)];
+                string randomGeneralMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + generalChatMessages[UnityEngine.Random.Range(0, generalChatMessages.Length)];
                 messageList.Add(randomGeneralMessage);
                 break;
         }
     }
 
-    void ResetMessageLocations(){
+    void ResetMessageLocations()
+    {
         messageList.RemoveAt(0);
 
-        for(int i = 1; i < chatMessageSlots.Count; i++){
-            chatMessageSlots[i].text = messageList[i-1];
+        for (int i = 1; i < chatMessageSlots.Count; i++)
+        {
+            chatMessageSlots[i].text = messageList[i - 1];
         }
     }
 
-    void AddMessage(){
+    void AddMessage()
+    {
         ResetMessageLocations();
         CreateRandomMessageAndAddToList();
         chatMessageSlots[0].text = messageList[0];
     }
-    
+
 
     void Update()
     {
@@ -379,58 +398,101 @@ public class Stream_Chat : MonoBehaviour
         GetWish();
 
         FulfillingWishTimer();
+        WishFailureTimer(); 
         Debug.Log(cameraHandler.CurrentAnimalType());
     }
 
-    void GetMessagesRandomly(){
+    void GetMessagesRandomly()
+    {
         messageTimer -= Time.deltaTime;
 
-        if(messageTimer <= 0){
+        if (messageTimer <= 0)
+        {
             float randomNum = UnityEngine.Random.Range(0f, 100f);
 
-            if(randomNum < percentageChanceToGetMessage){
+            if (randomNum < percentageChanceToGetMessage)
+            {
                 AddMessage();
             }
             messageTimer = messageFrequencyCheck;
         }
     }
 
-    void GetWish(){
+    void GetWish()
+    {
         chatWishTimer -= Time.deltaTime;
 
-        if(chatWishTimer <= 0){
+        if (chatWishTimer <= 0)
+        {
             float randomNum = UnityEngine.Random.Range(0f, 100f);
 
-            if(randomNum < percentageChanceToGetWish && !isWishActive){
+            if (randomNum < percentageChanceToGetWish && !isWishActive)
+            {
                 string wish = chatWishes[UnityEngine.Random.Range(0, chatWishes.Length)];
 
-                if(wish == currentWish){
+                if (wish == currentWish)
+                {
                     Debug.Log("Wish Already Active");
                 }
-                else{
+                else
+                {
                     isWishActive = true;
                     audioManager.PlayChatNotification();
                     Debug.Log("New Wish: " + wish);
                     currentWish = wish;
+                    percentageChanceToGetMessage = basePercentageToGetMessage * 2;
                 }
             }
             chatWishTimer = chatWishFrequencyCheck;
         }
     }
 
-    void FulfillingWishTimer(){
-        if(isWishActive && cameraHandler.CurrentAnimalType() == currentWish){
+    void FulfillingWishTimer()
+    {
+        if (isWishActive && cameraHandler.CurrentAnimalType() == currentWish)
+        {
             wishFulfillmentTimer -= Time.deltaTime;
-            
-            if(wishFulfillmentTimer <= 0){
+
+            if (wishFulfillmentTimer <= 0)
+            {
                 Debug.Log("Wish Fulfilled");
                 audioManager.PlayWishFulfilled();
                 isWishActive = false;
                 currentWish = null;
+                percentageChanceToGetMessage = basePercentageToGetMessage;
             }
         }
-        else{
-            wishFulfillmentTimer = timeToFullfillWish;
+        else
+        {
+            wishFulfillmentTimer = requiredTimeToFullfillWish;
         }
     }
+    void WishFailureTimer()
+    {
+        if (isWishActive)
+        {
+            timeToFullfillWishTimer -= Time.deltaTime;
+
+            if (timeToFullfillWishTimer < timeToFullfillWish / 2 && !reminderSent)
+            {
+                reminderSent = true;
+                audioManager.PlayChatNotification();
+            }
+            else if (timeToFullfillWishTimer <= 0)
+            {
+                Debug.Log("Wish Failed");
+                audioManager.PlayWishFailed();
+                isWishActive = false;
+                currentWish = null;
+                reminderSent = false;
+                percentageChanceToGetMessage = basePercentageToGetMessage;
+            }
+        }
+
+        else
+        {
+            timeToFullfillWishTimer = timeToFullfillWish;
+        }
+    }
+
 }
