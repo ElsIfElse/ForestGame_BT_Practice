@@ -7,17 +7,37 @@ using UnityEngine.Rendering;
 
 public class Camera_Handler : MonoBehaviour
 {
+    [Header("Camera")]
+    [SerializeField] Camera handHeldCamera;
+    [Space]
     [Header("Camera Follow")]
     [SerializeField] private Vector3 cameraOffset = new Vector3(0, 10, -10);
     [SerializeField] private Vector3 originalPosition = new Vector3(0, 26, -120);
     [SerializeField] private float followSmoothness = 5f;
 
-    [Header("Free Movement")]
-    [SerializeField] private float movementSpeed = 10f;
-    [SerializeField] private float zoomSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 100f;
+    [Space]
+    [Space]
+    [Header("Camera Movement")]
     [SerializeField] private float handheldCamSmoothness = 5f;
     [SerializeField] private float animalCamSmoothness = 5f;
+    [SerializeField] private float movementSpeed = 10f;
+
+    [Space]
+    [Header("Camera Zoom")]
+    [SerializeField] private float zoomSpeed = 15f;
+    [SerializeField] private float cameraBaseZoom = 120;
+    [SerializeField] private float cameraMaxZoom = 40;
+    [SerializeField] private float cameraMinZoom = 80;
+
+    [Space]
+    [Header("Flashlight")]
+    [SerializeField] private Light flashlight;
+    [SerializeField] private float flashlightIntensity = 10f;
+    [SerializeField] private int[] flashLightStrengthLevel = new int[4]{0,10,20,30};
+    [SerializeField] private int[] flashLightRanges = new int[4]{0,10,20,30};
+    private int flashLightStrengthLevelCounter = 0; 
+    [SerializeField] private bool isFlashlightOn = false;
+
 
     private List<GameObject> animals = new();
     private List<GameObject> wolfs = new();
@@ -36,17 +56,18 @@ public class Camera_Handler : MonoBehaviour
     //
     bool isSheepDebugOn = true;
     bool isCamHandHeld = true;
+    bool isPhoneOut = false;
     //
     Manager_Collector managerCollector;
     UI_Manager uiManager;
     [SerializeField] GameObject handcamPositionObject;
+    [SerializeField] GameObject crosshair;
 
     void Start()
     {        
         CollectAnimals();
         targetPosition = originalPosition;
         targetRotation = transform.rotation;
-
 
         followAnimalMode.AddListener(CameraVolume);
         baseMode.AddListener(BaseVolume);
@@ -62,14 +83,19 @@ public class Camera_Handler : MonoBehaviour
 
     void Update()
     {
-        // GODMODE();
+
         HandleFollowAnimal();
+        SmoothCameraMovement();
+        HandleHandHeldCameraZoom();
+
+        HandleFlashlight();
+        Crosshair();
+        // DEPRECATED FUNCTIONS
+
         // HandleCameraMovement();
         // HandleCameraZoom();
-        SmoothCameraMovement();
         // ClickingOnAnimal();
-
-        
+        // GODMODE();
     }
 
     public void CollectAnimals()
@@ -82,7 +108,7 @@ public class Camera_Handler : MonoBehaviour
         animals.AddRange(wolfs);
         animals.AddRange(preys);
 
-        Debug.Log("Animals Found: " + animals.Count);
+        // Debug.Log("Animals Found: " + animals.Count);
     }
 
     private void HandleFollowAnimal()
@@ -162,6 +188,86 @@ public class Camera_Handler : MonoBehaviour
         }
     }
 
+    void SetAnimalCard(GameObject animal){
+        if(animal != null){
+            uiManager.SetAnimalImage(animal.GetComponent<Animal_BaseClass>().animalType);
+            uiManager.SetAnimalName(animal.GetComponent<Animal_BaseClass>().animalName);
+            // uiManager.SetAnimalAge(followedAnimal.GetComponent<Animal_BaseClass>().animalAge);
+        }
+    }
+    public string CurrentAnimalType(){
+        if(followedAnimal.GetComponent<Animal_BaseClass>() != null){
+            return followedAnimal.GetComponent<Animal_BaseClass>().animalType;
+        }
+        else{
+            return "HandCam";
+        }
+    }
+
+    public void HandleHandHeldCameraZoom()
+    {
+        if (isCamHandHeld)
+        {
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            handHeldCamera.fieldOfView -= scroll * zoomSpeed;
+
+            if (handHeldCamera.fieldOfView <= cameraMaxZoom)
+            {
+                handHeldCamera.fieldOfView = cameraMaxZoom;
+            }
+            else if (handHeldCamera.fieldOfView >= cameraMinZoom)
+            {
+                handHeldCamera.fieldOfView = cameraMinZoom;
+            }
+            else if (Input.GetMouseButtonDown(2))
+            {
+                handHeldCamera.fieldOfView = cameraBaseZoom;
+            }
+        }
+    }
+
+    // Flashlight
+    void HandleFlashlight()
+    {
+        if (uiManager.isPhoneOut)
+        {
+            flashlight.enabled = true;
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                flashLightStrengthLevelCounter++;
+
+                if (flashLightStrengthLevelCounter >= flashLightStrengthLevel.Count())
+                {
+                    flashLightStrengthLevelCounter = 0;
+                }
+
+                flashlight.intensity = flashLightStrengthLevel[flashLightStrengthLevelCounter];
+                flashlight.range = flashLightRanges[flashLightStrengthLevelCounter];
+            }
+        }
+        else
+        {
+            flashlight.enabled = false;
+            flashLightStrengthLevelCounter = 0;
+
+            flashlight.intensity = flashLightStrengthLevel[flashLightStrengthLevelCounter];
+            flashlight.range = flashLightRanges[flashLightStrengthLevelCounter];
+        }
+    }
+
+    void Crosshair()
+    {
+        if (uiManager.isPhoneOut)
+        {
+            crosshair.SetActive(false);
+        }
+        else
+        {
+            crosshair.SetActive(true);
+        }
+    }
+
+    // Debugging
     void DebugReferences(){
         if(isSheepDebugOn){
             if(globalVolume == null){
@@ -176,28 +282,19 @@ public class Camera_Handler : MonoBehaviour
         }
     }
 
-    void SetAnimalCard(GameObject animal){
-        if(animal != null){
-            uiManager.SetAnimalImage(animal.GetComponent<Animal_BaseClass>().animalType);
-            uiManager.SetAnimalName(animal.GetComponent<Animal_BaseClass>().animalName);
-            // uiManager.SetAnimalAge(followedAnimal.GetComponent<Animal_BaseClass>().animalAge);
-        }
-    }
-   
     // Deprecated
     private void HandleCameraMovement()
-{
-    if (!followAnimal)
     {
-        float horizontal = Input.GetAxis("Horizontal"); // A/D or Left/Right Arrow
-        float vertical = Input.GetAxis("Vertical");     // W/S or Up/Down Arrow
+        if (!followAnimal)
+        {
+            float horizontal = Input.GetAxis("Horizontal"); // A/D or Left/Right Arrow
+            float vertical = Input.GetAxis("Vertical");     // W/S or Up/Down Arrow
 
-        // Move in global X and Z directions (not camera-relative)
-        Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
-        targetPosition += moveDirection * movementSpeed * Time.deltaTime;
+            // Move in global X and Z directions (not camera-relative)
+            Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
+            targetPosition += moveDirection * movementSpeed * Time.deltaTime;
+        }
     }
-}
-
     private void HandleCameraZoom()
     {
         if (!followAnimal)
@@ -206,7 +303,6 @@ public class Camera_Handler : MonoBehaviour
             targetPosition += transform.forward * scroll * zoomSpeed;
         }
     }
-    
     void ClickingOnAnimal(){
         if(Input.GetMouseButtonDown(0)){
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -225,13 +321,5 @@ public class Camera_Handler : MonoBehaviour
         }
     }
 
-    public string CurrentAnimalType(){
-        if(followedAnimal.GetComponent<Animal_BaseClass>() != null){
-            return followedAnimal.GetComponent<Animal_BaseClass>().animalType;
-        }
-        else{
-            return "HandCam";
-        }
-        
-    }
+
 }

@@ -37,6 +37,7 @@ public class Spawn_Manager : MonoBehaviour
     void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
+        cameraHandler = managerCollector.cameraHandler;
         Addressables.InitializeAsync();
 
         SpawnAtTheBeginningOfBuild(sheepSpawnAmount,wolfSpawnAmount,rabbitSpawnAmount,goatSpawnAmount);

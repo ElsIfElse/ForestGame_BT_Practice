@@ -13,12 +13,17 @@ public class Audio_Manager : MonoBehaviour
     [Header("Audio Clips")]
 
     public AudioClip nightAmbiance;
-    public AudioClip thunderSound;
     public AudioClip rainSound;
     public AudioClip forestAmbianceSound;
     public AudioClip chatWishNotificationSound;
     public AudioClip wishFulfilledSound;
     //
+    [Space]
+    [Header("Thunder Clips")]
+
+    public AudioClip[] thunderClips;
+
+
     AudioSource rainSource;
     AudioSource forestAmbianceSource;
     //
@@ -94,7 +99,7 @@ public class Audio_Manager : MonoBehaviour
 
     // Pool Sounds
     public void PlayThunder(){
-        PlayAudio(thunderSound,0.5f,true,false,1.5f);
+        PlayAudio(thunderClips[UnityEngine.Random.Range(0,thunderClips.Length)],0.5f,true,false,1.5f);
     }
     public void PlayBirds(){
         PlayAudio(forestAmbianceSound,0.5f,true,true);

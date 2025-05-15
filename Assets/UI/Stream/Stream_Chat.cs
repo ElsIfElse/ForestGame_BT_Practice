@@ -378,12 +378,6 @@ public class Stream_Chat : MonoBehaviour
         GetMessagesRandomly();
         GetWish();
 
-        if(Input.GetKeyDown(KeyCode.Space)){
-            audioManager.PlayWishFulfilled();
-            isWishActive = false;
-            currentWish = null;
-        }
-
         FulfillingWishTimer();
         Debug.Log(cameraHandler.CurrentAnimalType());
     }

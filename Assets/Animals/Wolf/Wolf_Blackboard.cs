@@ -93,9 +93,11 @@ public class Wolf_Blackboard : Animal_BaseClass
             case "Sheep":
                 managerCollector.worldStatus.RemoveSheep(currentPrey.GetComponent<Animal_BaseClass>().animalId);
                 break;
+
             case "Goat":
                 managerCollector.worldStatus.RemoveGoat(currentPrey.GetComponent<Animal_BaseClass>().animalId);
                 break;
+                
             case "Rabbit":
                 managerCollector.worldStatus.RemoveRabbit(currentPrey.GetComponent<Animal_BaseClass>().animalId);
                 break;

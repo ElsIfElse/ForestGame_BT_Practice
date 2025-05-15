@@ -1,6 +1,7 @@
 
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 
@@ -41,7 +42,16 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] TextMeshProUGUI viewerCounter;
     [SerializeField] TextMeshProUGUI cameraType;
     [SerializeField] GameObject streamView;
+
+    [Space]
+    [Header("Interaction Indicators")]
+    [SerializeField] Sprite indicator_PickFood_Sprite;
+    [SerializeField] Sprite indicator_FeedAnimal_Sprite;
+    [SerializeField] Sprite indicator_SetCameraOnAnimal_Sprite;
+    [SerializeField] UnityEngine.UI.Image currentIndicator;
+    [SerializeField] GameObject indicatorObject; 
     //
+    public bool isPhoneOut = false;
     float viewershipRandomizerCounter;
     float viewershipRandomizerFrequency = 1f;
     void Start()
@@ -78,56 +88,74 @@ public class UI_Manager : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.O)){
+        if (Input.GetKeyDown(KeyCode.O))
+        {
             ToggleStreamView();
+            isPhoneOut = !isPhoneOut;
         }
-        if(Input.GetKeyDown(KeyCode.I)){
+        if (Input.GetKeyDown(KeyCode.I))
+        {
             ToggleAnimalCard();
         }
 
         RandomizerViewership();
     }
-    public void SetTime(){
+    public void SetTime()
+    {
         timeText.text = "Time: " + worldStatus.currentTimeInHours + ":00";
     }
-    public void SetDay(){
+    public void SetDay()
+    {
         dayText.text = "Day " + worldStatus.dayCounter;
     }
-    public void SetTimeSpeed(){
-        if(worldStatus.timeSpeed == 0){
+    public void SetTimeSpeed()
+    {
+        if (worldStatus.timeSpeed == 0)
+        {
             timeSpeed.text = "||";
         }
-        if(worldStatus.timeSpeed == 1){
+        if (worldStatus.timeSpeed == 1)
+        {
             timeSpeed.text = ">   1x";
         }
-        if(worldStatus.timeSpeed == 2){
+        if (worldStatus.timeSpeed == 2)
+        {
             timeSpeed.text = ">>  2x";
         }
-        if(worldStatus.timeSpeed == 3){
+        if (worldStatus.timeSpeed == 3)
+        {
             timeSpeed.text = ">>> 3x";
         }
     }
-    void SetWolfNumber(){
-        wolfCounterText.text ="Wolves: " + worldStatus.wolfDict.Count.ToString();
+    void SetWolfNumber()
+    {
+        wolfCounterText.text = "Wolves: " + worldStatus.wolfDict.Count.ToString();
     }
-    void SetSheepNumber(){
-        sheepCounterText.text ="Sheeps: " + worldStatus.sheepDict.Count.ToString();
+    void SetSheepNumber()
+    {
+        sheepCounterText.text = "Sheeps: " + worldStatus.sheepDict.Count.ToString();
     }
-    void SetRabbitNumber(){
-        rabbitCounterText.text ="Rabbits: " + worldStatus.rabbitDict.Count.ToString();
+    void SetRabbitNumber()
+    {
+        rabbitCounterText.text = "Rabbits: " + worldStatus.rabbitDict.Count.ToString();
     }
-    void SetGoatNumber(){
-        goatCounterText.text ="Goats: " + worldStatus.goatDict.Count.ToString();
+    void SetGoatNumber()
+    {
+        goatCounterText.text = "Goats: " + worldStatus.goatDict.Count.ToString();
     }
     //
-    public void SetAnimalName(string currentName){
+    public void SetAnimalName(string currentName)
+    {
         animalName_Text.text = currentName;
     }
-    public void SetAnimalAge(int currentAge){
+    public void SetAnimalAge(int currentAge)
+    {
         animalAge_Text.text = currentAge.ToString();
     }
-    public void SetAnimalImage(string animalType){
-        switch(animalType){
+    public void SetAnimalImage(string animalType)
+    {
+        switch (animalType)
+        {
             case "Sheep":
                 animalImage_Image.sprite = sheepImage;
                 break;
@@ -142,46 +170,82 @@ public class UI_Manager : MonoBehaviour
                 break;
         }
     }
-    public void TurnOnAnimalCard(){
+    public void TurnOnAnimalCard()
+    {
         animalCard.SetActive(true);
     }
-    public void TurnOffAnimalCard(){
+    public void TurnOffAnimalCard()
+    {
         animalCard.SetActive(false);
     }
-    void ToggleStreamView(){
+    void ToggleStreamView()
+    {
         streamView.SetActive(!streamView.activeSelf);
     }
-    void ToggleAnimalCard(){
+    void ToggleAnimalCard()
+    {
         animalCard.SetActive(!animalCard.activeSelf);
     }
-    public void HandHeldCamera(){
+    public void HandHeldCamera()
+    {
         cameraType.text = "Hand_Cam";
     }
-    public void AnimalCamera(){
+    public void AnimalCamera()
+    {
         cameraType.text = "Animal_Cam";
     }
     // Viewership
-    public void SetViewerCounter(int currentViewers){
+    public void SetViewerCounter(int currentViewers)
+    {
         viewerCounter.text = currentViewers.ToString();
     }
-    void RandomizerViewershipBetween(int min, int max){
+    void RandomizerViewershipBetween(int min, int max)
+    {
         int randomViewerNum = Random.Range(min, max);
         SetViewerCounter(randomViewerNum);
     }
-    void RandomizerViewership(){
+    void RandomizerViewership()
+    {
         viewershipRandomizerCounter -= Time.deltaTime;
-        
-        if(viewershipRandomizerCounter <= 0){
-            float chanceToChangeViewerNumber = Random.Range(0,100);
 
-            if(chanceToChangeViewerNumber < 10){
+        if (viewershipRandomizerCounter <= 0)
+        {
+            float chanceToChangeViewerNumber = Random.Range(0, 100);
+
+            if (chanceToChangeViewerNumber < 10)
+            {
                 RandomizerViewershipBetween(10, 40);
             }
 
             viewershipRandomizerCounter = viewershipRandomizerFrequency;
-            
+
         }
 
-        
+
     }
+ 
+    // Interaction Indicators
+    public void TurnOnIndicator_PickFood()
+    {
+        indicatorObject.SetActive(true);
+        currentIndicator.sprite = indicator_PickFood_Sprite;
+    }
+    public void TurnOnIndicator_FeedAnimal()
+    {
+        indicatorObject.SetActive(true);
+        currentIndicator.sprite = indicator_FeedAnimal_Sprite;
+    }
+    // public void TurnOnIndicator_SetCameraOnAnmial()
+    // {
+    //     indicatorObject.SetActive(true);
+    //     currentIndicator.sprite = indicator_SetCameraOnAnimal_Sprite;
+    // }
+    public void TurnOffIndicator()
+    {
+        indicatorObject.SetActive(false);
+    }
+    
+    
+
+    
 }
