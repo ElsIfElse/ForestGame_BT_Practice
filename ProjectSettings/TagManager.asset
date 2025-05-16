@@ -21,6 +21,10 @@ TagManager:
   - GoatWanderingArea
   - AudioManager
   - CameraHandler
+  - BearHome
+  - BearHuntingArea
+  - BearWanderingArea
+  - FpsCameraHandler
   layers:
   - Default
   - TransparentFX

@@ -45,6 +45,7 @@ public class Stream_Chat : MonoBehaviour
     public float basePercentageToGetMessage = 10f;
     public float chatWishFrequencyCheck = 10f;
     public float percentageChanceToGetWish = 10f;
+    public float wishMessageChanceMultiplier = 5f;
     //
     float messageTimer;
     float chatWishTimer;
@@ -338,7 +339,7 @@ public class Stream_Chat : MonoBehaviour
         switch (currentWish)
         {
             case "Rabbit":
-                string randomRabbitWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + generalChatMessages[UnityEngine.Random.Range(0, generalChatMessages.Length)];
+                string randomRabbitWishMessage = RandomizeColor() + twitchUsernames[UnityEngine.Random.Range(0, twitchUsernames.Length)] + "</color>" + ": " + wishRabbitMessages[UnityEngine.Random.Range(0, wishRabbitMessages.Length)];
                 messageList.Add(randomRabbitWishMessage);
                 break;
 
@@ -440,7 +441,7 @@ public class Stream_Chat : MonoBehaviour
                     audioManager.PlayChatNotification();
                     Debug.Log("New Wish: " + wish);
                     currentWish = wish;
-                    percentageChanceToGetMessage = basePercentageToGetMessage * 2;
+                    percentageChanceToGetMessage = basePercentageToGetMessage * wishMessageChanceMultiplier;
                 }
             }
             chatWishTimer = chatWishFrequencyCheck;
@@ -449,7 +450,7 @@ public class Stream_Chat : MonoBehaviour
 
     void FulfillingWishTimer()
     {
-        if (isWishActive && cameraHandler.CurrentAnimalType() == currentWish)
+        if (isWishActive && (cameraHandler.CurrentAnimalType() == currentWish || cameraHandler.CurrentlyViewedAnimalType() == currentWish))
         {
             wishFulfillmentTimer -= Time.deltaTime;
 

@@ -26,30 +26,29 @@ public class World_Status : MonoBehaviour
     public Material daySkybox;
     public Material nightSkybox;
     public Light sun;
+    Color defaultAmbientColor;
+    Color nightAmbientColor;
+
     [Space]
-    [HideInInspector]
-    public UnityEvent hourPassedEvent;
-    [HideInInspector]
-    public UnityEvent dayPassedEvent;
-    [HideInInspector]
-    public UnityEvent timeSpeedChanged;
-    [HideInInspector]
+    [HideInInspector] public UnityEvent hourPassedEvent;
+    
+    [HideInInspector] public UnityEvent dayPassedEvent;
+    
+    [HideInInspector] public UnityEvent timeSpeedChanged;
+
     //
-    public UnityEvent wolfAdded;
-    [HideInInspector]
-    public UnityEvent sheepAdded;
-    [HideInInspector]
-    public UnityEvent rabbitAdded;
-    [HideInInspector]
-    public UnityEvent goatAdded;
-    [HideInInspector]
-    public UnityEvent wolfRemoved;
-    [HideInInspector]
-    public UnityEvent sheepRemoved;
-    [HideInInspector]
-    public UnityEvent rabbitRemoved;
-    [HideInInspector]
-    public UnityEvent goatRemoved;
+    
+    [HideInInspector] public UnityEvent wolfAdded;
+    [HideInInspector] public UnityEvent sheepAdded;
+    [HideInInspector] public UnityEvent rabbitAdded;
+    [HideInInspector] public UnityEvent goatAdded;
+    [HideInInspector] public UnityEvent bearAdded;
+    
+    [HideInInspector] public UnityEvent wolfRemoved;
+    [HideInInspector] public UnityEvent sheepRemoved;
+    [HideInInspector] public UnityEvent rabbitRemoved;
+    [HideInInspector] public UnityEvent goatRemoved;
+    [HideInInspector] public UnityEvent bearRemoved;
     //
     [HideInInspector]
     public UnityEvent rainStarted;
@@ -71,6 +70,7 @@ public class World_Status : MonoBehaviour
     public Dictionary<int,GameObject> rabbitDict = new Dictionary<int,GameObject>();
     [HideInInspector]
     public Dictionary<int,GameObject> goatDict = new Dictionary<int,GameObject>();
+    public Dictionary<int,GameObject> bearDict = new Dictionary<int,GameObject>();
 
     int objectId = 0;
     //
@@ -85,7 +85,7 @@ public class World_Status : MonoBehaviour
     [SerializeField] GameObject lightningSpawnArea;
     //
     Color ogSunColor;
-  
+
 
 
     void Awake()
@@ -94,6 +94,8 @@ public class World_Status : MonoBehaviour
         rainParticle.Stop();
 
         lightningParticle.Stop();
+        defaultAmbientColor = RenderSettings.ambientLight;
+        nightAmbientColor = Color.black;
     }
     void Start()
     {
@@ -112,15 +114,21 @@ public class World_Status : MonoBehaviour
     }
     void Update()
     {
-        if(isDay == true){
+        if (isDay == true)
+        {
             RenderSettings.skybox = daySkybox;
-            sun.DOIntensity(1,3).SetEase(Ease.Linear);
+            sun.DOIntensity(1, 4).SetEase(Ease.Linear);
             DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0.00f, 4).SetEase(Ease.Linear);
+            RenderSettings.ambientLight = defaultAmbientColor;
+            DOTween.To(() => RenderSettings.reflectionIntensity, x => RenderSettings.reflectionIntensity = x, 1f, 4).SetEase(Ease.Linear);
         }
-        else{ 
+        else
+        {
             RenderSettings.skybox = nightSkybox;
-            sun.DOIntensity(0.3f,3).SetEase(Ease.Linear);
-            DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0.01f, 4).SetEase(Ease.Linear);
+            sun.DOIntensity(0.0f, 4).SetEase(Ease.Linear);
+            DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0.015f, 4).SetEase(Ease.Linear);
+            RenderSettings.ambientLight = nightAmbientColor;
+            DOTween.To(() => RenderSettings.reflectionIntensity, x => RenderSettings.reflectionIntensity = x, 0.15f, 4).SetEase(Ease.Linear);
         }
 
         HourPass();
@@ -199,14 +207,19 @@ public class World_Status : MonoBehaviour
 
         rabbitAdded.Invoke();
     }
-
     public void AddGoat(GameObject goat){
         goatDict.Add(objectId,goat);
         objectId++;
 
         goatAdded.Invoke();
     }
+    public void AddBear(GameObject bear)
+    {
+        bearDict.Add(objectId,bear);
+        objectId++;
 
+        bearAdded.Invoke();   
+    }
     public void RemoveWolf(int id){
         Addressables.ReleaseInstance(wolfDict[id]);
         wolfDict.Remove(id);
@@ -227,7 +240,11 @@ public class World_Status : MonoBehaviour
         goatDict.Remove(id);
         goatRemoved.Invoke();
     }
-    
+    public void RemoveBear(int id){
+        Addressables.ReleaseInstance(bearDict[id]);
+        bearDict.Remove(id);
+        bearRemoved.Invoke();
+    }
     // Weather Settings
     void RandomChanceForRain(){
         if(!isRaining){

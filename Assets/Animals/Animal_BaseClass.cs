@@ -87,52 +87,65 @@ public abstract class Animal_BaseClass : MonoBehaviour
         }
     }
     public void AssignHome(){
-        switch(animalType){
+        switch (animalType)
+        {
             case "Sheep":
                 GameObject[] sheepHomes = GameObject.FindGameObjectsWithTag("SheepHome");
-                GameObject sheepHome = sheepHomes[Random.Range(0,sheepHomes.Length)];
+                GameObject sheepHome = sheepHomes[Random.Range(0, sheepHomes.Length)];
                 home = sheepHome;
                 break;
 
             case "Wolf":
                 GameObject[] wolfHomes = GameObject.FindGameObjectsWithTag("WolfHome");
-                GameObject wolfHome = wolfHomes[Random.Range(0,wolfHomes.Length)];
+                GameObject wolfHome = wolfHomes[Random.Range(0, wolfHomes.Length)];
                 home = wolfHome;
                 break;
 
             case "Rabbit":
                 GameObject[] rabbitHomes = GameObject.FindGameObjectsWithTag("RabbitHome");
-                GameObject rabbitHome = rabbitHomes[Random.Range(0,rabbitHomes.Length)];
+                GameObject rabbitHome = rabbitHomes[Random.Range(0, rabbitHomes.Length)];
                 home = rabbitHome;
                 break;
 
             case "Goat":
                 GameObject[] goatHomes = GameObject.FindGameObjectsWithTag("GoatHome");
-                GameObject goatHome = goatHomes[Random.Range(0,goatHomes.Length)];
+                GameObject goatHome = goatHomes[Random.Range(0, goatHomes.Length)];
                 home = goatHome;
+                break;
+                
+            case "Bear":
+                GameObject[] bearHomes = GameObject.FindGameObjectsWithTag("BearHome");
+                GameObject bearHome = bearHomes[Random.Range(0, bearHomes.Length)];
+                home = bearHome;
                 break;
         }
     }
     public void AssignBaseSpeeds(){
-        switch(animalType){
+        switch (animalType)
+        {
             case "Sheep":
-                animalWalkspeed = Random.Range(2,5);
-                animalRunspeed = Random.Range(6,8);
+                animalWalkspeed = Random.Range(2, 5);
+                animalRunspeed = Random.Range(6, 8);
                 break;
 
             case "Wolf":
-                animalWalkspeed = Random.Range(4,6);
-                animalRunspeed = Random.Range(7,12);
+                animalWalkspeed = Random.Range(4, 6);
+                animalRunspeed = Random.Range(7, 12);
                 break;
-            
+
             case "Rabbit":
-                animalWalkspeed = Random.Range(2,5);
-                animalRunspeed = Random.Range(6,9);
+                animalWalkspeed = Random.Range(2, 5);
+                animalRunspeed = Random.Range(6, 9);
                 break;
-            
+
             case "Goat":
-                animalWalkspeed = Random.Range(5,7);
-                animalRunspeed = Random.Range(8,11);
+                animalWalkspeed = Random.Range(5, 7);
+                animalRunspeed = Random.Range(8, 11);
+                break;
+                
+            case "Bear":
+                animalWalkspeed = Random.Range(4, 6);
+                animalRunspeed = Random.Range(8, 12);
                 break;
         }
     }
@@ -140,29 +153,36 @@ public abstract class Animal_BaseClass : MonoBehaviour
         animalName = names[Random.Range(0,names.Length)];
     }
     public void AssignWanderingArea(){
-        switch(animalType){
+        switch (animalType)
+        {
             case "Sheep":
                 GameObject[] sheepWanderingAreas = GameObject.FindGameObjectsWithTag("Meadow");
                 wanderingAreas = sheepWanderingAreas;
-                wanderingArea = wanderingAreas[Random.Range(0,wanderingAreas.Length)];
+                wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
                 break;
 
             case "Wolf":
                 GameObject[] wolfWanderingAreas = GameObject.FindGameObjectsWithTag("WolfWanderingArea");
                 wanderingAreas = wolfWanderingAreas;
-                wanderingArea = wanderingAreas[Random.Range(0,wanderingAreas.Length)];
+                wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
                 break;
 
             case "Rabbit":
                 GameObject[] rabbitWanderingAreas = GameObject.FindGameObjectsWithTag("Meadow");
                 wanderingAreas = rabbitWanderingAreas;
-                wanderingArea = wanderingAreas[Random.Range(0,wanderingAreas.Length)];
+                wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
                 break;
 
             case "Goat":
                 GameObject[] goatWanderingAreas = GameObject.FindGameObjectsWithTag("GoatWanderingArea");
                 wanderingAreas = goatWanderingAreas;
-                wanderingArea = wanderingAreas[Random.Range(0,wanderingAreas.Length)];
+                wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
+                break;
+                
+            case "Bear":
+                GameObject[] bearWanderingAreas = GameObject.FindGameObjectsWithTag("BearWanderingArea");
+                wanderingAreas = bearWanderingAreas;
+                wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
                 break;
         }
     }

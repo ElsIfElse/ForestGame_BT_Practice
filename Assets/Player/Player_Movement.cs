@@ -17,7 +17,14 @@ public class Player_Movement : MonoBehaviour
     private float moveSpeed;
     private Vector2 input;
     private bool isGrounded;
+    bool isRunning = false;
     [SerializeField] CinemachineCamera  fpsCamera;
+
+    //
+    
+    Manager_Collector managerCollector;
+    Audio_Manager audioManager;
+    Fps_Camera_Handler fpsCameraHandler;
 
     private void Start()
     {
@@ -25,7 +32,11 @@ public class Player_Movement : MonoBehaviour
         rb.freezeRotation = true;
 
         Cursor.lockState = CursorLockMode.Locked; // Hide and lock the cursor = CursorLockMode.Locked;
-        
+
+        managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
+        audioManager = managerCollector.audioManager;
+        fpsCameraHandler = managerCollector.fpsCameraHandler;
+
     }
 
     private void Update()
@@ -33,6 +44,23 @@ public class Player_Movement : MonoBehaviour
         // Movement input
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
+
+        // Stand
+        if (input.x == 0 || input.y == 0)
+        {
+            fpsCameraHandler.SetHeadBop_Stand();
+        }
+
+        // Walk
+        if ((input.x != 0 || input.y != 0) && isGrounded && !isRunning)
+        {
+            fpsCameraHandler.SetHeadBop_Walk();
+            audioManager.PlayWalkSound();
+        }
+        else
+        {
+            audioManager.StopWalkSound();
+        }
 
         // Raycast ground check from player’s position straight down
         isGrounded = Physics.Raycast(transform.position, Vector3.down, raycastLength, groundMask);
@@ -44,6 +72,19 @@ public class Player_Movement : MonoBehaviour
         }
 
         // Sprint
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded && (input.x != 0 || input.y != 0))
+        {   
+            fpsCameraHandler.SetHeadBop_Run();
+            audioManager.PlayRunSound();
+            isRunning = true;
+        }
+        else
+        {
+            audioManager.StopRunSound();
+            isRunning = false;
+        }
+
+        // Deciding movespeed
         moveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
 
         FollowCameraRotation();

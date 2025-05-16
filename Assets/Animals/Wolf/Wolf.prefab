@@ -1237,9 +1237,7 @@ GameObject:
   - component: {fileID: 2509799342908698621}
   - component: {fileID: 4632607174483222131}
   - component: {fileID: 4194622302395503642}
-  - component: {fileID: 581482848045257783}
   - component: {fileID: 4975980486149157838}
-  - component: {fileID: -5360452181097425080}
   - component: {fileID: -3883561230306444456}
   m_Layer: 8
   m_Name: Wolf
@@ -1360,8 +1358,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 3}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 1.5, y: 3, z: 3.5}
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &4194622302395503642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,38 +1372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89f57b608c4610d46be1284f51d2e082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &581482848045257783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7699322067309695447}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef1b062ca8f870345a71bd95f7f9c093, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  home: {fileID: 0}
-  sleepTime: 20
-  wakeUpTime: 8
-  chaseDistance: 15
-  attackDistance: 2
-  runningSpeed: 8
-  walkingSpeed: 4
-  wolfName: 
-  isDay: 0
-  isHome: 0
-  notHungry: 1
-  hasFood: 0
-  canAttack: 0
-  canSeePrey: 0
-  isEating: 0
-  isAttacking: 0
-  isOnWayToHuntingArea: 0
-  currentPrey: {fileID: 0}
-  isWandering: 0
-  wanderingHelper: 0
 --- !u!114 &4975980486149157838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1418,19 +1384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64ce49b0dc1dffc44a1d7a401e3c4254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-5360452181097425080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7699322067309695447}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ef399fdd0876f247a4720f585b5ce83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
 --- !u!114 &-3883561230306444456
 MonoBehaviour:
   m_ObjectHideFlags: 0

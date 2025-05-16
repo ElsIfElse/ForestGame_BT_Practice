@@ -27,6 +27,12 @@ public class Audio_Manager : MonoBehaviour
 
     public AudioClip[] thunderClips;
 
+    [Space]
+    [Header("Player Sounds")]
+    [SerializeField] private AudioClip walkSound;
+    [SerializeField] private AudioClip runSound;
+    AudioSource walkSource;
+    AudioSource runSource;
 
     AudioSource rainSource;
     AudioSource forestAmbianceSource;
@@ -46,9 +52,52 @@ public class Audio_Manager : MonoBehaviour
         InitializeRainAudioSource();
         InitializeForestAmbianceSource();
 
+        InitializeWalkSoundSource();
+        InitializeRunSoundSource();
+
         worldStatus.thunderEvent.AddListener(PlayThunder);
     }
 
+
+    // Walk
+    void InitializeWalkSoundSource()
+    {
+        GameObject walkObject = new GameObject();
+        walkObject.name = "Walk AudioSource";
+        walkSource = walkObject.AddComponent<AudioSource>();
+        walkSource.clip = walkSound;
+        walkSource.loop = true;
+
+        walkSource.time = 1.9f;
+
+        walkSource.Play();
+    }
+    public void PlayWalkSound(){
+        walkSource.volume = 0.25f;
+    }
+    public void StopWalkSound(){
+        walkSource.volume = 0f;
+    }
+
+    // Run
+    void InitializeRunSoundSource()
+    {
+        GameObject walkObject = new GameObject();
+        walkObject.name = "Run AudioSource";
+        runSource = walkObject.AddComponent<AudioSource>();
+        runSource.clip = runSound;
+        runSource.loop = true;
+
+        runSource.time = 1.9f;
+
+        runSource.Play();
+    }
+    public void PlayRunSound(){
+        runSource.volume = 0.35f;
+    }
+    public void StopRunSound(){
+        runSource.volume = 0f;
+    }
 
     // Forest
     void InitializeForestAmbianceSource(){
@@ -65,7 +114,6 @@ public class Audio_Manager : MonoBehaviour
 
         PlayForestAmbiance();
     }
-
     void PlayForestAmbiance(){
         forestAmbianceSource.Play();
         forestAmbianceSource.DOFade(0.5f,2f);
@@ -90,12 +138,10 @@ public class Audio_Manager : MonoBehaviour
         worldStatus.rainStarted.AddListener(PlayRain);
         worldStatus.rainStopped.AddListener(StopRain);
     }
-
     public void PlayRain(){
         rainSource.Play();
         rainSource.DOFade(0.5f,2);
     }
-    
     public void StopRain(){
         rainSource.DOFade(0.0f,2);
         StartCoroutine(Timer(2f,rainSource.Stop));

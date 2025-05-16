@@ -24,10 +24,15 @@ public class Spawn_Manager : MonoBehaviour
     public GameObject goatCollectorObject;
     public int goatSpawnAmount;
 
+    [Header("Bear")]
+    public GameObject bearCollectorObject;
+    public int bearSpawnAmount;
+
     int sheepAvoidancePriority = 1;
     int wolfAvoidancePriority = 1;
     int rabbitAvoidancePriority = 1;
     int goatAvoidancePriority = 1;
+    int bearAvoidancePriority = 1;
     int idCounter = 0;
 
     public UnityEvent sheepSpawned;
@@ -40,7 +45,7 @@ public class Spawn_Manager : MonoBehaviour
         cameraHandler = managerCollector.cameraHandler;
         Addressables.InitializeAsync();
 
-        SpawnAtTheBeginningOfBuild(sheepSpawnAmount,wolfSpawnAmount,rabbitSpawnAmount,goatSpawnAmount);
+        SpawnAtTheBeginningOfBuild(sheepSpawnAmount,wolfSpawnAmount,rabbitSpawnAmount,goatSpawnAmount,bearSpawnAmount);
     }
     void Update()
     { 
@@ -100,7 +105,8 @@ public class Spawn_Manager : MonoBehaviour
         }
     }
     void SpawnWolf()
-{
+    
+    {
     float randomX = Random.Range(-15f, -125f);
     float randomZ = Random.Range(-4f,-140f);
 
@@ -219,23 +225,69 @@ public class Spawn_Manager : MonoBehaviour
         SpawnGoat();
     }
 }
+    void SpawnBear()
+    {
+    float randomX = Random.Range(-15f,-125f);
+    float randomZ = Random.Range(-4f,-140f);
 
-    void SpawnAtTheBeginningOfBuild(int sheepSpawnAmount, int wolfSpawnAmount, int rabbitSpawnAmount, int goatSpawnAmount){
+    Vector3 samplePos = new Vector3(randomX, 0, randomZ);
+    NavMeshHit navHit;
 
-        for(int i = 0; i < sheepSpawnAmount; i++){
+    if (NavMesh.SamplePosition(samplePos, out navHit, 10f, NavMesh.AllAreas))
+    {
+        samplePos = navHit.position;
+
+        RaycastHit groundHit;
+        if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f))
+        {
+            samplePos.y = groundHit.point.y;
+        }
+
+        Addressables.InstantiateAsync("Bear", samplePos, Quaternion.identity).Completed += (handle) =>
+        {
+            GameObject bear = handle.Result;
+            bear.name = "Bear"; 
+            bear.GetComponent<Animal_BaseClass>().animalId = idCounter;
+            bear.GetComponent<NavMeshAgent>().avoidancePriority = bearAvoidancePriority;
+            bear.transform.parent = bearCollectorObject.transform;
+
+            cameraHandler.CollectAnimals();
+            bearAvoidancePriority++;
+            managerCollector.worldStatus.AddBear(bear);
+            idCounter++;
+        };
+    }
+    else
+    {
+        Debug.LogWarning("Failed to find NavMesh position for Goat. RETRYING");
+        SpawnGoat();
+    }
+    }
+    void SpawnAtTheBeginningOfBuild(int sheepSpawnAmount, int wolfSpawnAmount, int rabbitSpawnAmount, int goatSpawnAmount, int bearSpawnAmount)
+    {
+        for (int i = 0; i < sheepSpawnAmount; i++)
+        {
             SpawnSheep();
         }
 
-        for(int i = 0; i < wolfSpawnAmount; i++){
+        for (int i = 0; i < wolfSpawnAmount; i++)
+        {
             SpawnWolf();
         }
 
-        for(int i = 0; i < rabbitSpawnAmount; i++){
+        for (int i = 0; i < rabbitSpawnAmount; i++)
+        {
             SpawnRabbit();
         }
 
-        for(int i = 0; i < goatSpawnAmount; i++){
+        for (int i = 0; i < goatSpawnAmount; i++)
+        {
             SpawnGoat();
+        }
+
+        for (int i = 0; i < bearSpawnAmount; i++)
+        {
+            SpawnBear();
         }
     }
 }
