@@ -400,7 +400,7 @@ public class Stream_Chat : MonoBehaviour
 
         FulfillingWishTimer();
         WishFailureTimer(); 
-        Debug.Log(cameraHandler.CurrentAnimalType());
+        // Debug.Log(cameraHandler.CurrentAnimalType());
     }
 
     void GetMessagesRandomly()
@@ -439,7 +439,7 @@ public class Stream_Chat : MonoBehaviour
                 {
                     isWishActive = true;
                     audioManager.PlayChatNotification();
-                    Debug.Log("New Wish: " + wish);
+                    // Debug.Log("New Wish: " + wish);
                     currentWish = wish;
                     percentageChanceToGetMessage = basePercentageToGetMessage * wishMessageChanceMultiplier;
                 }
@@ -456,7 +456,7 @@ public class Stream_Chat : MonoBehaviour
 
             if (wishFulfillmentTimer <= 0)
             {
-                Debug.Log("Wish Fulfilled");
+                // Debug.Log("Wish Fulfilled");
                 audioManager.PlayWishFulfilled();
                 isWishActive = false;
                 currentWish = null;
@@ -481,7 +481,7 @@ public class Stream_Chat : MonoBehaviour
             }
             else if (timeToFullfillWishTimer <= 0)
             {
-                Debug.Log("Wish Failed");
+                // Debug.Log("Wish Failed");
                 audioManager.PlayWishFailed();
                 isWishActive = false;
                 currentWish = null;

@@ -46,15 +46,17 @@ public abstract class Animal_BaseClass : MonoBehaviour
 
 
     // References To Managers
-    public Manager_Collector managerCollector;
-    public World_Status worldStatus;
+    protected Manager_Collector managerCollector;
+    protected World_Status worldStatus;
 
     //
 
     protected bool isWolfDebugOn = false;
     protected bool isSheepDebugOn = false;
+    public bool isSafe;
 
-    public virtual void Start() {
+    public virtual void Start()
+    {
         animalVisual = transform.Find("animalVisual").gameObject;
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         worldStatus = managerCollector.worldStatus;
@@ -64,7 +66,7 @@ public abstract class Animal_BaseClass : MonoBehaviour
 
         AssignHome();
         AssignBaseSpeeds();
-        AssignRandomName(); 
+        AssignRandomName();
         AssignWanderingArea();
         AssignAlertDistanceForPreys();
     }
@@ -252,9 +254,14 @@ public abstract class Animal_BaseClass : MonoBehaviour
 
         // Use the RANDOM positions for NavMesh sampling
         NavMeshHit hit;
-        if (NavMesh.SamplePosition(new Vector3(randomX, 0, randomZ), out hit, 10f, NavMesh.AllAreas)) {
+        if (NavMesh.SamplePosition(new Vector3(randomX, 0, randomZ), out hit, 10f, NavMesh.AllAreas))
+        {
             randomX = hit.position.x;
             randomZ = hit.position.z;
+        }
+        else
+        {
+            return transform.position;
         }
 
         // Use the RANDOM positions for raycasting

@@ -59,7 +59,8 @@ public class Sheep_Tree : MonoBehaviour
 
     static bool isDebugOn = false;
     // Sheep_Status sheepStatus;
-    Sheep_Blackboard sheepStatus;
+    // Sheep_Blackboard sheepStatus;
+    Prey_Blackboard sheepStatus;
     World_Status worldStatus;
 
     void Start()
@@ -75,11 +76,11 @@ public class Sheep_Tree : MonoBehaviour
     {
         CheckConditions();
         RootNode.Tick();
-        RootNode.Reset();
+        // RootNode.Reset();
     }
 
     void GetReferences(){
-        sheepStatus = gameObject.GetComponent<Sheep_Blackboard>();
+        sheepStatus = gameObject.GetComponent<Prey_Blackboard>();
         worldStatus = GameObject.FindWithTag("WorldStatus").GetComponent<World_Status>();
     }
     void ConnectTrees(){
@@ -87,10 +88,10 @@ public class Sheep_Tree : MonoBehaviour
 
         MainSequence.children.Add(isSafeHead_Fallback);
         MainSequence.children.Add(isDayHead_Fallback);
-        // MainSequence.children.Add(isHungryHead_Fallback);
         MainSequence.children.Add(wandering_Action);
     }
-    void Build_IsSafe(){
+    void Build_IsSafe()
+    {
         isSafeHead_Fallback.AddChild(noEnemy_Condition);
         isSafeHead_Fallback.AddChild(noEnemy_Sequence);
 
@@ -100,8 +101,10 @@ public class Sheep_Tree : MonoBehaviour
         staySafe_Fallback.AddChild(isSafe_Condition);
         staySafe_Fallback.AddChild(runToSafety_Action);
 
-        staySafe_Action.SetAction(sheepStatus.IdleStayStill);
-        runToSafety_Action.SetAction(sheepStatus.GoToClosestSafePlace);
+        staySafe_Action.SetAction(sheepStatus.Stay);
+
+        runToSafety_Action.SetAction(sheepStatus.GetToSafePlace_Action);
+        runToSafety_Action.SetIsDone(()=>sheepStatus.isFleeDone); 
     }
     void Build_IsDay(){
         isDayHead_Fallback.AddChild(isDay_Condition);
@@ -113,29 +116,17 @@ public class Sheep_Tree : MonoBehaviour
         staySleep_Fallback.AddChild(isHome_Condition);
         staySleep_Fallback.AddChild(goHome_Action);
 
-        sleepAction.SetAction(sheepStatus.IdleStayStill);
+        sleepAction.SetAction(sheepStatus.Stay);
         goHome_Action.SetAction(sheepStatus.GoHome);
     }
 
-    void Build_Wandering(){
-        // isAtPositionHead_Fallback.AddChild(sequence01);
-        // isAtPositionHead_Fallback.AddChild(sequence02);
-
-        // sequence01.AddChild(atPosition_Condition);
-        // sequence01.AddChild(stayAtPosition_Action);
-
-        // sequence02.AddChild(go_Fallback);
-        // sequence01.AddChild(wandering_Action);
-
-        // go_Fallback.AddChild(hasDestination_Condition); 
-        // go_Fallback.AddChild(getDestination_Action);
-
-        // stayAtPosition_Action.SetAction(sheepStatus.StandStillAndWander); 
-        wandering_Action.SetAction(sheepStatus.Wandering_Action); 
-        // getDestination_Action.SetAction(sheepStatus.GetRandomMeadowLocationForWandering);
+    void Build_Wandering()
+    {
+        wandering_Action.SetAction(sheepStatus.Wandering); 
+        
     }
     void CheckConditions(){
-        noEnemy_Condition.condition = !sheepStatus.isEnemyNear;
+        noEnemy_Condition.condition = !sheepStatus.isEnemyNearby;
         isSafe_Condition.condition = sheepStatus.isSafe;
 
         isDay_Condition.condition = worldStatus.isDay;
@@ -144,7 +135,7 @@ public class Sheep_Tree : MonoBehaviour
         // notHungry_Condition.condition = !sheepStatus.isHungry;
         // atFood_Condition.condition = sheepStatus.atFood;
 
-        atPosition_Condition.condition = sheepStatus.isAtWanderingLocation;
+        // atPosition_Condition.condition = sheepStatus.isAtWanderingLocation;
         // hasDestination_Condition.condition = sheepStatus.hasWanderingLocation;
     }
 

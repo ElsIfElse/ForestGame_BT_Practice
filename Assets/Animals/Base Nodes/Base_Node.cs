@@ -73,7 +73,7 @@ public class Sequence_Node : Base_Node
 
             currentChildIndex++;
         }
-        Reset();
+        // Reset();
         return Node_States.Success;
     }
 }
@@ -112,14 +112,14 @@ public class Fallback_Node : Base_Node
 
             currentChildIndex++;
         }
-        Reset();
+        // Reset();
         return Node_States.Failure;
     }
 }
 
 public class Leaf_Node : Base_Node
 {
-    bool isDone = false;
+    private Func<bool> isDoneCondition = null;
     bool isInterrupted;
     bool resetOnRunning;
     public override void Reset(){}
@@ -130,26 +130,39 @@ public class Leaf_Node : Base_Node
         this.resetOnRunning = resetOnRunning;
         this.isDebugOn = isDebugOn;
     }
-
+ 
     public void SetAction(Action action){
         this.action = action;
+    }
+    public void SetIsDone(Func<bool> isDoneCondition)
+    {
+        this.isDoneCondition = isDoneCondition;
     }
 
     public override Node_States Tick()
     {
-        if(isDebugOn){
+        if (isDebugOn)
+        {
             Debug.Log(nodeName + " is running");
         }
-
-        if(isDone){
+ 
+        if (isDoneCondition != null && isDoneCondition.Invoke())
+        {
+            if (isDebugOn)
+            {
+                Debug.Log(nodeName + " is done and called isDoneCondition");
+            }
+            
             Reset();
             return Node_States.Success;
         }
 
-        if(isInterrupted){
+        if (isInterrupted)
+        {
             return Node_States.Failure;
         }
-        if(resetOnRunning){
+        if (resetOnRunning)
+        {
             Reset();
         }
 

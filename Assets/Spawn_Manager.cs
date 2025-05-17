@@ -35,8 +35,8 @@ public class Spawn_Manager : MonoBehaviour
     int bearAvoidancePriority = 1;
     int idCounter = 0;
 
-    public UnityEvent sheepSpawned;
-    public UnityEvent wolfSpawned;
+    [HideInInspector] public UnityEvent sheepSpawned;
+    [HideInInspector] public UnityEvent wolfSpawned;
     Manager_Collector managerCollector;
 
     void Start()
@@ -46,10 +46,6 @@ public class Spawn_Manager : MonoBehaviour
         Addressables.InitializeAsync();
 
         SpawnAtTheBeginningOfBuild(sheepSpawnAmount,wolfSpawnAmount,rabbitSpawnAmount,goatSpawnAmount,bearSpawnAmount);
-    }
-    void Update()
-    { 
-        SpawnKeys();
     }
     void SpawnKeys(){
         if(Input.GetKeyDown(KeyCode.S)){
@@ -68,13 +64,13 @@ public class Spawn_Manager : MonoBehaviour
     
     void SpawnSheep(){
 
-        float randomX = Random.Range(15f,-125f);
-        float randomZ = Random.Range(-4f,-140f);
+        float randomX = Random.Range(-30f,10f);
+        float randomZ = Random.Range(-130f,-90f);
 
         Vector3 samplePos = new Vector3(randomX, 0, randomZ);
         NavMeshHit navHit;
 
-        if (NavMesh.SamplePosition(samplePos, out navHit, 5f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(samplePos, out navHit, 20f, NavMesh.AllAreas))
         {
             samplePos = navHit.position;
 
@@ -88,7 +84,7 @@ public class Spawn_Manager : MonoBehaviour
             {
                 GameObject sheep = handle.Result;
                 sheep.name = "Sheep";
-                sheep.GetComponent<Animal_BaseClass>().animalId = idCounter;
+                sheep.GetComponent<AnimalBlackboard_Base>().animalId = idCounter;
                 sheep.GetComponent<NavMeshAgent>().avoidancePriority = sheepAvoidancePriority;
                 sheep.transform.parent = sheepCollectorObject.transform;
 
@@ -107,13 +103,13 @@ public class Spawn_Manager : MonoBehaviour
     void SpawnWolf()
     
     {
-    float randomX = Random.Range(-15f, -125f);
-    float randomZ = Random.Range(-4f,-140f);
+        float randomX = Random.Range(-30f,10f);
+        float randomZ = Random.Range(-130f,-90f);
 
     Vector3 samplePos = new Vector3(randomX, 0, randomZ);
     NavMeshHit navHit;
 
-    if (NavMesh.SamplePosition(samplePos, out navHit, 5f, NavMesh.AllAreas))
+    if (NavMesh.SamplePosition(samplePos, out navHit, 20f, NavMesh.AllAreas))
     {
         samplePos = navHit.position;
 
@@ -127,7 +123,7 @@ public class Spawn_Manager : MonoBehaviour
         {
             GameObject wolf = handle.Result;
             wolf.name = "Wolf";
-            wolf.GetComponent<Animal_BaseClass>().animalId = idCounter;
+            wolf.GetComponent<AnimalBlackboard_Base>().animalId = idCounter;
             wolf.GetComponent<NavMeshAgent>().avoidancePriority = wolfAvoidancePriority;
             wolf.transform.parent = wolfCollectorObject.transform;
 

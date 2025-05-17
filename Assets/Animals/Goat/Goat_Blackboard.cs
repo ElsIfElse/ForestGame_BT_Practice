@@ -4,7 +4,6 @@ using UnityEngine.AI;
 
 public class Goat_Blackboard : Animal_BaseClass
 {
-    public bool isSafe;
     public bool isEnemyNear;
     public bool isAtWanderingLocation;
     GameObject[] predators = null;

@@ -320,7 +320,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1512,12 +1512,10 @@ GameObject:
   - component: {fileID: 2499073279126956483}
   - component: {fileID: 3009449095532680331}
   - component: {fileID: 2106409554972517144}
-  - component: {fileID: 5721790152232880248}
   - component: {fileID: 7125114356347889199}
-  - component: {fileID: -7951679580646514769}
   - component: {fileID: -2928621328828572582}
   - component: {fileID: 970424317952024658}
-  - component: {fileID: 7619544692278758831}
+  - component: {fileID: 5564482364802730609}
   m_Layer: 8
   m_Name: Sheep
   m_TagString: Prey
@@ -1574,14 +1572,14 @@ NavMeshAgent:
   m_GameObject: {fileID: 3930536829682006628}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
-  m_Speed: 200
+  m_Radius: 0.5
+  m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 200
+  m_AngularSpeed: 300
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0
@@ -1599,30 +1597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0373fda597509ae409334126ec269792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5721790152232880248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3930536829682006628}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59eddaf191ae67547b4fa4a66e1edd8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sheepName: Ronald
-  sheepWalkSpeed: 0
-  sheepRunningSpeed: 0
-  isSafe: 0
-  isHome: 0
-  isEnemyNear: 0
-  isFleeing: 0
-  isHungry: 0
-  atFood: 0
-  isAtWanderingLocation: 0
-  wanderingHelper: 0
-  home: {fileID: 0}
 --- !u!114 &7125114356347889199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1639,7 +1613,55 @@ MonoBehaviour:
   runAnimation: run_forward
   eatAnimation: eating
   idleAnimation: idle
---- !u!114 &-7951679580646514769
+--- !u!54 &-2928621328828572582
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3930536829682006628}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!65 &970424317952024658
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3930536829682006628}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2, y: 1.6, z: 1.6}
+  m_Center: {x: 0, y: 0.8, z: 0.2}
+--- !u!114 &5564482364802730609
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1648,16 +1670,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3930536829682006628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4831e55c09278654ab464db242013717, type: 3}
+  m_Script: {fileID: 11500000, guid: 25802c8a971127549af412a0252e238d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTired: 0
-  notHungry: 0
-  isHome: 0
-  isEating: 0
+  animalName: 
+  animalBreed: 
+  animalType: 
+  animalId: 0
   isDay: 0
+  isHome: 0
+  home: {fileID: 0}
+  wanderingArea: {fileID: 0}
   isWandering: 0
-  isWanderIdling: 0
+  isIdle: 0
+  currentWanderingLocation: {x: 0, y: 0, z: 0}
   names:
   - Finn
   - Sparky
@@ -1771,85 +1797,7 @@ MonoBehaviour:
   - Xander
   - Yvonne
   - Zachary
-  animalName: 
-  animalType: 
-  animalId: 0
-  home: {fileID: 0}
-  wanderingArea: {fileID: 0}
-  animalVisual: {fileID: 0}
-  wanderingLocation: {x: 0, y: 0, z: 0}
-  animalWalkspeed: 0
-  animalRunspeed: 0
-  enemySleepTime: 0
-  enemyWakeTime: 0
-  animalAgent: {fileID: 0}
-  animalAnimator: {fileID: 0}
-  managerCollector: {fileID: 0}
-  worldStatus: {fileID: 0}
   isSafe: 0
-  isEnemyNear: 0
-  isAtWanderingLocation: 0
---- !u!54 &-2928621328828572582
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3930536829682006628}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 1
---- !u!65 &970424317952024658
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3930536829682006628}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.2, y: 1.6, z: 1.6}
-  m_Center: {x: 0, y: 0.8, z: 0.2}
---- !u!114 &7619544692278758831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3930536829682006628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ef399fdd0876f247a4720f585b5ce83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  id: 0
 --- !u!1 &3963526771421734846
 GameObject:
   m_ObjectHideFlags: 0

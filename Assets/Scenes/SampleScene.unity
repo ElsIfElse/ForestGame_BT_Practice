@@ -156,7 +156,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_UseGeometry: 0
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
@@ -812,7 +812,7 @@ Transform:
   m_GameObject: {fileID: 146295330}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 74.54, y: 3.2, z: -179.57}
+  m_LocalPosition: {x: 8.75, y: 0, z: -179.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2798,7 +2798,7 @@ Transform:
   m_GameObject: {fileID: 365750285}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.299999, y: 12.2, z: -13.299997}
+  m_LocalPosition: {x: -43.75, y: 12.2, z: -29}
   m_LocalScale: {x: 60, y: 1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4836,15 +4836,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraHandler: {fileID: 0}
   sheepCollectorObject: {fileID: 1627210678}
-  sheepSpawnAmount: 5
+  sheepSpawnAmount: 1
   wolfCollectorObject: {fileID: 1012750516}
-  wolfSpawnAmount: 3
+  wolfSpawnAmount: 1
   rabbitCollectorObject: {fileID: 2089476929}
-  rabbitSpawnAmount: 4
+  rabbitSpawnAmount: 0
   goatCollectorObject: {fileID: 1220829238}
-  goatSpawnAmount: 4
+  goatSpawnAmount: 0
   bearCollectorObject: {fileID: 265399920}
-  bearSpawnAmount: 5
+  bearSpawnAmount: 0
   sheepSpawned:
     m_PersistentCalls:
       m_Calls: []
@@ -4877,8 +4877,8 @@ Transform:
   m_GameObject: {fileID: 741453816}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.05, y: 12.95, z: 84.6}
-  m_LocalScale: {x: 40, y: 1, z: 40}
+  m_LocalPosition: {x: -41.3, y: 12.95, z: -6.8499985}
+  m_LocalScale: {x: 50, y: 1, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1076152866}
@@ -12611,7 +12611,12 @@ MonoBehaviour:
   chatWishNotificationSound: {fileID: 8300000, guid: 8b1c71d6bfc321046a1bcf2b662079b2, type: 3}
   wishFulfilledSound: {fileID: 8300000, guid: 10c34e0715071794caa3207196a73996, type: 3}
   wishFailedSound: {fileID: 8300000, guid: aaaa7b7aef1e7f141939a80c98c47aa4, type: 3}
-  thunderClips: []
+  thunderClips:
+  - {fileID: 8300000, guid: 45824c04e6f0f674892528f33896c9c0, type: 3}
+  - {fileID: 8300000, guid: df7f778be7190ed48ac5d4974eae9272, type: 3}
+  - {fileID: 8300000, guid: a244625076e919f438c1e5bcc7313ba3, type: 3}
+  - {fileID: 8300000, guid: 166407398f0131142b15f4a23a0315c9, type: 3}
+  - {fileID: 8300000, guid: 2a085cc83b0c4394da1ae086b4a985ab, type: 3}
   walkSound: {fileID: 8300000, guid: 20020ea3ed8e2e6499ba2463fbe1d730, type: 3}
   runSound: {fileID: 8300000, guid: b455714f7a5d1d44394a3cc79ac17f37, type: 3}
 --- !u!1 &2037019346
@@ -12661,8 +12666,8 @@ Transform:
   m_GameObject: {fileID: 2037019346}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.45, y: 0, z: 20.449997}
-  m_LocalScale: {x: 40, y: 1, z: 40}
+  m_LocalPosition: {x: -112.05, y: 0, z: -138.25}
+  m_LocalScale: {x: 60, y: 1, z: 60}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1076152866}

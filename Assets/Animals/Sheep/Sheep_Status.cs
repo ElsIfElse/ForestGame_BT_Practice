@@ -11,7 +11,7 @@ public class Sheep_Status : MonoBehaviour
     public float sheepRunningSpeed;
     //
     public bool isSafe;
-    public bool isHome;
+    public bool isHome; 
     public bool isEnemyNear;
     public bool isFleeing;
     public bool isHungry;

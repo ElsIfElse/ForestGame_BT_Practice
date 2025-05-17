@@ -245,6 +245,33 @@ public class World_Status : MonoBehaviour
         bearDict.Remove(id);
         bearRemoved.Invoke();
     }
+    public void RemoveAnimal(GameObject targetAnimal){
+        string animalBreed = targetAnimal.GetComponent<AnimalBlackboard_Base>().animalBreed;
+        switch (animalBreed)
+        {
+            case "Wolf":
+                RemoveWolf(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                break;
+
+            case "Sheep":
+                RemoveSheep(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                break;
+
+            case "Rabbit":
+                RemoveRabbit(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                break;
+
+            case "Goat":
+                RemoveGoat(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                break;
+                
+            case "Bear":
+                RemoveBear(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                break;
+        }
+    }
+
+
     // Weather Settings
     void RandomChanceForRain(){
         if(!isRaining){

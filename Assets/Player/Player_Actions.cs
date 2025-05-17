@@ -41,7 +41,7 @@ public class Player_Actions : MonoBehaviour
 
         if (Physics.Raycast(interactionRay.origin, interactionRay.direction, out interactionHitInfo, interactionRayLength,interactionlayerMask))
         {
-            Debug.Log("Hit Object's Layer Is: "+interactionHitInfo.transform.gameObject.layer);
+            // Debug.Log("Hit Object's Layer Is: "+interactionHitInfo.transform.gameObject.layer);
             if (interactionHitInfo.transform.gameObject.layer == 7)
             {
                 uiManager.TurnOnIndicator_PickFood();

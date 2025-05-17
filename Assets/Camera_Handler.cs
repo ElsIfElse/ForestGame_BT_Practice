@@ -301,7 +301,7 @@ public class Camera_Handler : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(handheldCameraRay, out hit,20f, handheldRayLayerMask))
         {
-            return hit.transform.gameObject.GetComponent<Animal_BaseClass>().animalType;
+            return hit.transform.gameObject.GetComponent<AnimalBlackboard_Base>().animalType;
         }
         else
         {

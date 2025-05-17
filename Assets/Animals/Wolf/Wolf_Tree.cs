@@ -43,7 +43,8 @@ public class Wolf_Tree : MonoBehaviour
     Leaf_Node Wandering_Action = new Leaf_Node("Wandering Node",false,isDebugOn);
 
     // Wolf_State wolfStatus;
-    Wolf_Blackboard wolfStatus;
+    // Wolf_Blackboard wolfStatus;
+    Predator_Blackboard wolfStatus;
     static bool isDebugOn = false; 
 
     void Start()
@@ -53,7 +54,7 @@ public class Wolf_Tree : MonoBehaviour
         
         Build_IsSleepTime();
         Build_NotHungry();
-        Wandering_Action.SetAction(wolfStatus.Wandering_Action);
+        Wandering_Action.SetAction(wolfStatus.Wandering);
 
     }
     void Update()
@@ -66,7 +67,7 @@ public class Wolf_Tree : MonoBehaviour
         isSleepTime_Condition.condition = wolfStatus.isDay;
         isHome_Condition.condition = wolfStatus.isHome;
         //
-        notHungry_Condition.condition = wolfStatus.notHungry;
+        notHungry_Condition.condition = !wolfStatus.isHungry;
         hasFood_Condition.condition = wolfStatus.hasFood;
         canAttack_Condition.condition = wolfStatus.canAttack; 
         canSeePrey_Condition.condition = wolfStatus.canSeePrey;
@@ -89,7 +90,7 @@ public class Wolf_Tree : MonoBehaviour
         stayHomeAndSleep_Fallback.AddChild(isHome_Condition);
         stayHomeAndSleep_Fallback.AddChild(goHome_Action);
 
-        stayHomeAndSleep_Action.SetAction(wolfStatus.Sleep_Action);
+        stayHomeAndSleep_Action.SetAction(wolfStatus.Stay);
         goHome_Action.SetAction(wolfStatus.GoHome); 
     }
     void Build_NotHungry(){
@@ -114,14 +115,14 @@ public class Wolf_Tree : MonoBehaviour
         chase_Fallback.AddChild(canSeePrey_Condition);
         chase_Fallback.AddChild(goToHuntLocation_Action);
 
-        eat_Action.SetAction(wolfStatus.Eat_Action);
-        attack_Action.SetAction(wolfStatus.Attack_Action);
-        chase_Action.SetAction(wolfStatus.Chase_Action);
-        goToHuntLocation_Action.SetAction(wolfStatus.GoToHuntingLocation_Action);
+        eat_Action.SetAction(wolfStatus.Eat);
+        attack_Action.SetAction(wolfStatus.Attack);
+        chase_Action.SetAction(wolfStatus.Chase);
+        goToHuntLocation_Action.SetAction(wolfStatus.LookForPrey);
     }
     void GetReferences(){
         // wolfStatus = GetComponent<Wolf_State>();
-        wolfStatus = GetComponent<Wolf_Blackboard>();
+        wolfStatus = GetComponent<Predator_Blackboard>();
 
     }
 }
