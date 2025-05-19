@@ -21,6 +21,8 @@ public class Audio_Manager : MonoBehaviour
     public AudioClip chatWishNotificationSound;
     public AudioClip wishFulfilledSound;
     public AudioClip wishFailedSound;
+    public AudioClip tabletOut;
+    public AudioClip cameraSwitchSound;
     //
     [Space]
     [Header("Thunder Clips")]
@@ -31,6 +33,13 @@ public class Audio_Manager : MonoBehaviour
     [Header("Player Sounds")]
     [SerializeField] private AudioClip walkSound;
     [SerializeField] private AudioClip runSound;
+    [SerializeField] private AudioClip pickSound;
+    [SerializeField] private AudioClip jumpSound_ground;
+    [SerializeField] private AudioClip jumpSound_exhale;
+
+    [Space]
+    [Header("UI Sounds")]
+    [SerializeField] private AudioClip uiClickSound;
     AudioSource walkSource;
     AudioSource runSource;
 
@@ -58,6 +67,10 @@ public class Audio_Manager : MonoBehaviour
         worldStatus.thunderEvent.AddListener(PlayThunder);
     }
 
+    // UI
+    public void PlayUIClickSound(){
+        PlayAudio(uiClickSound,0.7f,true,false);
+    }
 
     // Walk
     void InitializeWalkSoundSource()
@@ -167,6 +180,25 @@ public class Audio_Manager : MonoBehaviour
     {
         PlayAudio(wishFailedSound, 0.5f);
     }
+    public void PlayTabletToggle()
+    {
+        PlayAudio(tabletOut, 0.7f,true);
+    }
+    public void PlayJumpSound()
+    {
+        PlayAudio(jumpSound_ground, 0.5f);
+        PlayAudio(jumpSound_exhale, 0.5f);
+    }
+    public void PlayCameraSwitchSound()
+    {
+        PlayAudio(cameraSwitchSound, 0.5f,true);
+    }
+    // Interaction Sounds
+    public void PlayPickSound()
+    {
+        PlayAudio(pickSound, 0.5f);
+    }
+
     // Utility
     void PlayAudio(AudioClip clipToPlay,float volume = 0.5f,bool isRandomPitch = false,bool isLooping = false,float startFrom = 0,float delay = 0){
         

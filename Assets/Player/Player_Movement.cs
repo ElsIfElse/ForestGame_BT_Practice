@@ -68,6 +68,7 @@ public class Player_Movement : MonoBehaviour
         // Jump
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            audioManager.PlayJumpSound();
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 

@@ -23,6 +23,7 @@ public class Player_Actions : MonoBehaviour
 
     Player_Movement playerMovement;
     CinemachinePanTilt playerCameraRotation;
+    Audio_Manager audioManager;
 
     float originalPanAxis;
     float originalTilAxis;
@@ -35,6 +36,7 @@ public class Player_Actions : MonoBehaviour
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         uiManager = managerCollector.uiManager;
+        audioManager = managerCollector.audioManager;
         playerCameraRotation = GameObject.FindWithTag("FpsCameraHandler").GetComponent<CinemachinePanTilt>();
         playerMovement = GetComponent<Player_Movement>();
     }
@@ -97,6 +99,7 @@ public class Player_Actions : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            audioManager.PlayPickSound();
             backpack.ItemPickup(interactionHitInfo.transform.gameObject.GetComponent<Pickable_Object>());
         }
 

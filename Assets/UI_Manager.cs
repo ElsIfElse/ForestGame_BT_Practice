@@ -11,6 +11,7 @@ public class UI_Manager : MonoBehaviour
     World_Status worldStatus;
     Spawn_Manager spawnManager;
     Manager_Collector managerCollector;
+    Audio_Manager audioManager;
     //
     [Header("Time Texts")]
     public TextMeshProUGUI timeText;
@@ -66,6 +67,7 @@ public class UI_Manager : MonoBehaviour
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         worldStatus = managerCollector.worldStatus;
         spawnManager = managerCollector.spawnManager;
+        audioManager = managerCollector.audioManager;
 
         indicatorBackgroundImage = indicatorObject.transform.Find("BG").GetComponent<Image>();
         indicatorFrameImage = indicatorObject.transform.Find("Frame").GetComponent<Image>();
@@ -101,6 +103,7 @@ public class UI_Manager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O))
         {
             ToggleStreamView();
+            audioManager.PlayTabletToggle();
             isPhoneOut = !isPhoneOut;
         }
         if (Input.GetKeyDown(KeyCode.I))

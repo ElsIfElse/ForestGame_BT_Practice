@@ -60,6 +60,7 @@ public class Camera_Handler : MonoBehaviour
     //
     Manager_Collector managerCollector;
     UI_Manager uiManager;
+    Audio_Manager audioManager;
     [SerializeField] GameObject handcamPositionObject;
     [SerializeField] GameObject crosshair;
     Ray handheldCameraRay;
@@ -81,6 +82,7 @@ public class Camera_Handler : MonoBehaviour
 
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         uiManager = managerCollector.uiManager;
+        audioManager = managerCollector.audioManager;
 
         CameraVolume();
         followedAnimal = handcamPositionObject;
@@ -125,6 +127,7 @@ public class Camera_Handler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
+            
             isCamHandHeld = false;
             if (animals.Count == 0)
             {
@@ -139,6 +142,7 @@ public class Camera_Handler : MonoBehaviour
 
             uiManager.AnimalCamera();
             SetAnimalCard(followedAnimal);
+            audioManager.PlayCameraSwitchSound();
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
@@ -147,20 +151,21 @@ public class Camera_Handler : MonoBehaviour
             {
                 Debug.Log("Animal List is emmpty. Attempting to collect animals.");
                 CollectAnimals();
-            }
-            ;
+            };
 
             animalIndex--;
             if (animalIndex < 0) animalIndex = animals.Count - 1;
             followedAnimal = animals[animalIndex];
             uiManager.AnimalCamera();
             SetAnimalCard(followedAnimal);
+            audioManager.PlayCameraSwitchSound();
         }
 
         else if (Input.GetKeyDown(KeyCode.V))
         {
             followedAnimal = handcamPositionObject;
             uiManager.HandHeldCamera();
+            audioManager.PlayCameraSwitchSound();
         }
 
         Transform cameraHolderTransform = followedAnimal.transform.FindDeepChild("CameraHolder");
