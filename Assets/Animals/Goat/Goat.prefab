@@ -2550,13 +2550,13 @@ GameObject:
   - component: {fileID: 6885452974112614186}
   - component: {fileID: 8754536388629182556}
   - component: {fileID: 1243757222493650973}
-  - component: {fileID: -3108676367613324894}
   - component: {fileID: 416812585887708513}
   - component: {fileID: -8622530226297338052}
   - component: {fileID: 3547038380415406076}
   - component: {fileID: -3855347254043916288}
+  - component: {fileID: 5474365467739607950}
   m_Layer: 8
-  m_Name: SK_Goat_white
+  m_Name: Goat
   m_TagString: Prey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2622,33 +2622,11 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
-  m_ProvidesContacts: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1.6, z: 1.7}
   m_Center: {x: 0, y: 0.8, z: 0.2}
---- !u!95 &-3108676367613324894
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6885452974112614176}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 37ab5ee15ddf4eb4d85c2d2b26fc8276, type: 3}
-  m_Controller: {fileID: 9100000, guid: 1215e98cc02a91340b3a9af5af091f14, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!195 &416812585887708513
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2683,13 +2661,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b05033880c1ff24ba9bd3513eaf7886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTired: 0
-  notHungry: 1
-  isHome: 0
-  isEating: 0
+  animalName: 
+  animalBreed: 
+  animalType: 
+  animalId: 0
   isDay: 0
+  isHome: 0
+  home: {fileID: 0}
+  wanderingArea: {fileID: 0}
   isWandering: 0
-  isWanderIdling: 0
+  isIdle: 0
+  currentWanderingLocation: {x: 0, y: 0, z: 0}
   names:
   - Finn
   - Sparky
@@ -2803,24 +2785,9 @@ MonoBehaviour:
   - Xander
   - Yvonne
   - Zachary
-  animalName: 
-  animalType: 
-  animalId: 0
-  home: {fileID: 0}
-  wanderingArea: {fileID: 0}
-  animalVisual: {fileID: 0}
-  wanderingLocation: {x: 0, y: 0, z: 0}
-  animalWalkspeed: 0
-  animalRunspeed: 0
-  enemySleepTime: 0
-  enemyWakeTime: 0
-  animalAgent: {fileID: 0}
-  animalAnimator: {fileID: 0}
-  managerCollector: {fileID: 0}
-  worldStatus: {fileID: 0}
   isSafe: 0
-  isEnemyNear: 0
-  isAtWanderingLocation: 0
+  isEnemyNearby: 0
+  isFleeDone: 0
 --- !u!114 &3547038380415406076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2849,6 +2816,28 @@ MonoBehaviour:
   runAnimation: run_forward
   eatAnimation: eating
   idleAnimation: idle
+--- !u!95 &5474365467739607950
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885452974112614176}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 37ab5ee15ddf4eb4d85c2d2b26fc8276, type: 3}
+  m_Controller: {fileID: 9100000, guid: 1215e98cc02a91340b3a9af5af091f14, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6885452974152113413
 GameObject:
   m_ObjectHideFlags: 0

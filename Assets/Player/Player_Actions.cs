@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player_Actions : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class Player_Actions : MonoBehaviour
     Manager_Collector managerCollector;
     UI_Manager uiManager;
 
+    //
+
+    [SerializeField] Backpack backpack;
+
     void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
@@ -23,6 +28,7 @@ public class Player_Actions : MonoBehaviour
     void Update()
     {
         InteractionRaycasting();
+        PickFoodAction();
     }
 
     // INITIALIZATION
@@ -61,6 +67,10 @@ public class Player_Actions : MonoBehaviour
     // INTERACTIONS
     void PickFoodAction()
     {
+        if (interactionHitInfo.transform.gameObject.layer == 7 && Input.GetKeyDown(KeyCode.E))
+        {
+            backpack.ItemPickup(interactionHitInfo.transform.gameObject.GetComponent<Pickable_Object>());
+        }
         
     }
     void SetCameraOnAnimalAction()

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
-
+using UTILITIES;
 public class Spawn_Manager : MonoBehaviour
 {
     [Header("References")]
@@ -11,22 +11,27 @@ public class Spawn_Manager : MonoBehaviour
     [Header("Sheep")]
     public GameObject sheepCollectorObject;
     public int sheepSpawnAmount;
+    public GameObject spawnArea_Sheep;
 
     [Header("Wolf")]
     public GameObject wolfCollectorObject;
     public int wolfSpawnAmount;
+    public GameObject spawnArea_Wolf;
 
     [Header("Rabbit")]
     public GameObject rabbitCollectorObject;
     public int rabbitSpawnAmount;
+    public GameObject spawnArea_Rabbit;
 
     [Header("Goat")]
     public GameObject goatCollectorObject;
     public int goatSpawnAmount;
+    public GameObject spawnArea_Goat;
 
     [Header("Bear")]
     public GameObject bearCollectorObject;
     public int bearSpawnAmount;
+    public GameObject spawnArea_Bear;
 
     int sheepAvoidancePriority = 1;
     int wolfAvoidancePriority = 1;
@@ -63,11 +68,8 @@ public class Spawn_Manager : MonoBehaviour
     }
     
     void SpawnSheep(){
-
-        float randomX = Random.Range(-30f,10f);
-        float randomZ = Random.Range(-130f,-90f);
-
-        Vector3 samplePos = new Vector3(randomX, 0, randomZ);
+ 
+        Vector3 samplePos = Utility_Collection.GetRandom_X_Z_LocationAtArea(spawnArea_Sheep);
         NavMeshHit navHit;
 
         if (NavMesh.SamplePosition(samplePos, out navHit, 20f, NavMesh.AllAreas))
@@ -75,7 +77,7 @@ public class Spawn_Manager : MonoBehaviour
             samplePos = navHit.position;
 
             RaycastHit groundHit;
-            if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f))
+            if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f,10))
             {
                 samplePos.y = groundHit.point.y;
             }
@@ -100,52 +102,44 @@ public class Spawn_Manager : MonoBehaviour
             SpawnSheep();
         }
     }
-    void SpawnWolf()
-    
-    {
-        float randomX = Random.Range(-30f,10f);
-        float randomZ = Random.Range(-130f,-90f);
+    void SpawnWolf(){
 
-    Vector3 samplePos = new Vector3(randomX, 0, randomZ);
-    NavMeshHit navHit;
+        Vector3 samplePos = Utility_Collection.GetRandom_X_Z_LocationAtArea(spawnArea_Wolf);
+        NavMeshHit navHit;
 
-    if (NavMesh.SamplePosition(samplePos, out navHit, 20f, NavMesh.AllAreas))
-    {
-        samplePos = navHit.position;
-
-        RaycastHit groundHit;
-        if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f))
+        if (NavMesh.SamplePosition(samplePos, out navHit, 20f, NavMesh.AllAreas))
         {
-            samplePos.y = groundHit.point.y;
+            samplePos = navHit.position;
+
+            RaycastHit groundHit;
+            if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f,10))
+            {
+                samplePos.y = groundHit.point.y;
+            }
+
+            Addressables.InstantiateAsync("Wolf", samplePos, Quaternion.identity).Completed += (handle) =>
+            {
+                GameObject wolf = handle.Result;
+                wolf.name = "Wolf";
+                wolf.GetComponent<AnimalBlackboard_Base>().animalId = idCounter;
+                wolf.GetComponent<NavMeshAgent>().avoidancePriority = wolfAvoidancePriority;
+                wolf.transform.parent = wolfCollectorObject.transform;
+
+                cameraHandler.CollectAnimals();
+                wolfAvoidancePriority++;
+                managerCollector.worldStatus.AddWolf(wolf);
+                idCounter++;
+            };
         }
-
-        Addressables.InstantiateAsync("Wolf", samplePos, Quaternion.identity).Completed += (handle) =>
+        else
         {
-            GameObject wolf = handle.Result;
-            wolf.name = "Wolf";
-            wolf.GetComponent<AnimalBlackboard_Base>().animalId = idCounter;
-            wolf.GetComponent<NavMeshAgent>().avoidancePriority = wolfAvoidancePriority;
-            wolf.transform.parent = wolfCollectorObject.transform;
-
-            cameraHandler.CollectAnimals();
-            wolfAvoidancePriority++;
-            managerCollector.worldStatus.AddWolf(wolf);
-            idCounter++;
-        };
-    }
-    else
-    {
-        Debug.LogWarning("Failed to find NavMesh position for Wolf. RETRYING");
-        SpawnWolf();
-    }
-}    
+            Debug.LogWarning("Failed to find NavMesh position for Wolf. RETRYING");
+            SpawnWolf();
+        }
+    }    
     void SpawnRabbit(){
 
-    float randomX = Random.Range(-15f,-125f);
-    float randomZ = Random.Range(-4f,-140f); // Start should be lower than end
-    float randomY = 0f;
-
-    Vector3 samplePos = new Vector3(randomX, 0, randomZ);
+    Vector3 samplePos = Utility_Collection.GetRandom_X_Z_LocationAtArea(spawnArea_Rabbit);    
     NavMeshHit navHit;
 
     // Try to find nearest NavMesh position within a radius
@@ -156,10 +150,10 @@ public class Spawn_Manager : MonoBehaviour
 
         // Raycast from above to get correct terrain Y height
         RaycastHit groundHit;
-        if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f))
+        
+        if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f,10))
         {
-            randomY = groundHit.point.y;
-            samplePos.y = randomY;
+            samplePos.y = groundHit.point.y;
         }
 
         // Spawn the rabbit at the correct location
@@ -167,7 +161,7 @@ public class Spawn_Manager : MonoBehaviour
         {
             GameObject rabbit = handle.Result;
             rabbit.name = "Rabbit";
-            rabbit.GetComponent<Animal_BaseClass>().animalId = idCounter;
+            rabbit.GetComponent<AnimalBlackboard_Base>().animalId = idCounter;
             rabbit.transform.parent = rabbitCollectorObject.transform;
             rabbit.GetComponent<NavMeshAgent>().avoidancePriority = rabbitAvoidancePriority;
             cameraHandler.CollectAnimals();
@@ -185,35 +179,32 @@ public class Spawn_Manager : MonoBehaviour
 }
     void SpawnGoat(){
 
-    float randomX = Random.Range(-15f,-125f);
-    float randomZ = Random.Range(-4f,-140f);
+        Vector3 samplePos = Utility_Collection.GetRandom_X_Z_LocationAtArea(spawnArea_Goat);  
+        NavMeshHit navHit;
 
-    Vector3 samplePos = new Vector3(randomX, 0, randomZ);
-    NavMeshHit navHit;
-
-    if (NavMesh.SamplePosition(samplePos, out navHit, 10f, NavMesh.AllAreas))
-    {
-        samplePos = navHit.position;
-
-        RaycastHit groundHit;
-        if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f))
+        if (NavMesh.SamplePosition(samplePos, out navHit, 10f, NavMesh.AllAreas))
         {
-            samplePos.y = groundHit.point.y;
-        }
+            samplePos = navHit.position;
 
-        Addressables.InstantiateAsync("Goat", samplePos, Quaternion.identity).Completed += (handle) =>
-        {
-            GameObject goat = handle.Result;
-            goat.name = "Goat";
-            goat.GetComponent<Animal_BaseClass>().animalId = idCounter;
-            goat.GetComponent<NavMeshAgent>().avoidancePriority = goatAvoidancePriority;
-            goat.transform.parent = goatCollectorObject.transform;
+            RaycastHit groundHit;
+            if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f,10))
+            {
+                samplePos.y = groundHit.point.y;
+            }
 
-            cameraHandler.CollectAnimals();
-            goatAvoidancePriority++;
-            managerCollector.worldStatus.AddGoat(goat);
-            idCounter++;
-        };
+            Addressables.InstantiateAsync("Goat", samplePos, Quaternion.identity).Completed += (handle) =>
+            {
+                GameObject goat = handle.Result;
+                goat.name = "Goat";
+                goat.GetComponent<AnimalBlackboard_Base>().animalId = idCounter;
+                goat.GetComponent<NavMeshAgent>().avoidancePriority = goatAvoidancePriority;
+                goat.transform.parent = goatCollectorObject.transform;
+
+                cameraHandler.CollectAnimals();
+                goatAvoidancePriority++;
+                managerCollector.worldStatus.AddGoat(goat);
+                idCounter++;
+            };
     }
     else
     {
@@ -223,41 +214,38 @@ public class Spawn_Manager : MonoBehaviour
 }
     void SpawnBear()
     {
-    float randomX = Random.Range(-15f,-125f);
-    float randomZ = Random.Range(-4f,-140f);
+        Vector3 samplePos = Utility_Collection.GetRandom_X_Z_LocationAtArea(spawnArea_Bear); 
+        NavMeshHit navHit;
 
-    Vector3 samplePos = new Vector3(randomX, 0, randomZ);
-    NavMeshHit navHit;
-
-    if (NavMesh.SamplePosition(samplePos, out navHit, 10f, NavMesh.AllAreas))
-    {
-        samplePos = navHit.position;
-
-        RaycastHit groundHit;
-        if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f))
+        if (NavMesh.SamplePosition(samplePos, out navHit, 10f, NavMesh.AllAreas))
         {
-            samplePos.y = groundHit.point.y;
+            samplePos = navHit.position;
+
+            RaycastHit groundHit;
+            if (Physics.Raycast(new Vector3(samplePos.x, 100f, samplePos.z), Vector3.down, out groundHit, 200f,10))
+            {
+                samplePos.y = groundHit.point.y;
+            }
+
+            Addressables.InstantiateAsync("Bear", samplePos, Quaternion.identity).Completed += (handle) =>
+            {
+                GameObject bear = handle.Result;
+                bear.name = "Bear"; 
+                bear.GetComponent<AnimalBlackboard_Base>().animalId = idCounter;
+                bear.GetComponent<NavMeshAgent>().avoidancePriority = bearAvoidancePriority;
+                bear.transform.parent = bearCollectorObject.transform;
+
+                cameraHandler.CollectAnimals();
+                bearAvoidancePriority++;
+                managerCollector.worldStatus.AddBear(bear);
+                idCounter++;
+            };
         }
-
-        Addressables.InstantiateAsync("Bear", samplePos, Quaternion.identity).Completed += (handle) =>
+        else
         {
-            GameObject bear = handle.Result;
-            bear.name = "Bear"; 
-            bear.GetComponent<Animal_BaseClass>().animalId = idCounter;
-            bear.GetComponent<NavMeshAgent>().avoidancePriority = bearAvoidancePriority;
-            bear.transform.parent = bearCollectorObject.transform;
-
-            cameraHandler.CollectAnimals();
-            bearAvoidancePriority++;
-            managerCollector.worldStatus.AddBear(bear);
-            idCounter++;
-        };
-    }
-    else
-    {
-        Debug.LogWarning("Failed to find NavMesh position for Goat. RETRYING");
-        SpawnGoat();
-    }
+            Debug.LogWarning("Failed to find NavMesh position for Goat. RETRYING");
+            SpawnGoat();
+        }
     }
     void SpawnAtTheBeginningOfBuild(int sheepSpawnAmount, int wolfSpawnAmount, int rabbitSpawnAmount, int goatSpawnAmount, int bearSpawnAmount)
     {

@@ -53,7 +53,7 @@ Root_Node RootNode = new Root_Node("Root Node");
         
         Build_IsSleepTime();
         Build_NotHungry();
-        Wandering_Action.SetAction(bearStatus.Wandering_Action);
+        Wandering_Action.SetAction(bearStatus.Wandering);
 
     }
     void Update()
@@ -67,7 +67,7 @@ Root_Node RootNode = new Root_Node("Root Node");
         isSleepTime_Condition.condition = bearStatus.isDay;
         isHome_Condition.condition = bearStatus.isHome;
         //
-        notHungry_Condition.condition = bearStatus.notHungry;
+        notHungry_Condition.condition = !bearStatus.isHungry;
         hasFood_Condition.condition = bearStatus.hasFood;
         canAttack_Condition.condition = bearStatus.canAttack; 
         canSeePrey_Condition.condition = bearStatus.canSeePrey;
@@ -90,7 +90,7 @@ Root_Node RootNode = new Root_Node("Root Node");
         stayHomeAndSleep_Fallback.AddChild(isHome_Condition);
         stayHomeAndSleep_Fallback.AddChild(goHome_Action);
 
-        stayHomeAndSleep_Action.SetAction(bearStatus.Sleep_Action);
+        stayHomeAndSleep_Action.SetAction(bearStatus.StayHomeAndSleep_Action);
         goHome_Action.SetAction(bearStatus.GoHome); 
     }
     void Build_NotHungry(){
@@ -115,10 +115,10 @@ Root_Node RootNode = new Root_Node("Root Node");
         chase_Fallback.AddChild(canSeePrey_Condition);
         chase_Fallback.AddChild(goToHuntLocation_Action);
 
-        eat_Action.SetAction(bearStatus.Eat_Action);
-        attack_Action.SetAction(bearStatus.Attack_Action);
-        chase_Action.SetAction(bearStatus.Chase_Action);
-        goToHuntLocation_Action.SetAction(bearStatus.GoToHuntingLocation_Action);
+        eat_Action.SetAction(bearStatus.Eat);
+        attack_Action.SetAction(bearStatus.Attack);
+        chase_Action.SetAction(bearStatus.Chase);
+        goToHuntLocation_Action.SetAction(bearStatus.LookForPrey);
     }
     void GetReferences(){
         // wolfStatus = GetComponent<Wolf_State>();

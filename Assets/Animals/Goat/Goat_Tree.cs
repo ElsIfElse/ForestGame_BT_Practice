@@ -57,7 +57,7 @@ public class Goat_Tree : MonoBehaviour
     Leaf_Node getDestination_Action = new("Get Destination Action",false,isDebugOn);
 
     static bool isDebugOn = false;
-    Goat_Blackboard goatStatus;
+    Prey_Blackboard goatStatus;
     World_Status worldStatus;
 
     void Start()
@@ -73,11 +73,11 @@ public class Goat_Tree : MonoBehaviour
     {
         CheckConditions();
         RootNode.Tick();
-        RootNode.Reset();
+        // RootNode.Reset();
     }
 
     void GetReferences(){
-        goatStatus = gameObject.GetComponent<Goat_Blackboard>();
+        goatStatus = gameObject.GetComponent<Prey_Blackboard>();
         worldStatus = GameObject.FindWithTag("WorldStatus").GetComponent<World_Status>();
     }
     void ConnectTrees(){
@@ -85,10 +85,10 @@ public class Goat_Tree : MonoBehaviour
 
         MainSequence.children.Add(isSafeHead_Fallback);
         MainSequence.children.Add(isDayHead_Fallback);
-        // MainSequence.children.Add(isHungryHead_Fallback);
         MainSequence.children.Add(wandering_Action);
     }
-    void Build_IsSafe(){
+    void Build_IsSafe()
+    {
         isSafeHead_Fallback.AddChild(noEnemy_Condition);
         isSafeHead_Fallback.AddChild(noEnemy_Sequence);
 
@@ -98,8 +98,9 @@ public class Goat_Tree : MonoBehaviour
         staySafe_Fallback.AddChild(isSafe_Condition);
         staySafe_Fallback.AddChild(runToSafety_Action);
 
-        staySafe_Action.SetAction(goatStatus.IdleStayStill);
-        runToSafety_Action.SetAction(goatStatus.GoToClosestSafePlace);
+        staySafe_Action.SetAction(goatStatus.StayAndIdle);
+        runToSafety_Action.SetAction(goatStatus.GetToSafePlace_Action);
+        runToSafety_Action.SetIsDone(()=>goatStatus.isFleeDone); 
     } 
     void Build_IsDay(){
         isDayHead_Fallback.AddChild(isDay_Condition);
@@ -111,30 +112,16 @@ public class Goat_Tree : MonoBehaviour
         staySleep_Fallback.AddChild(isHome_Condition);
         staySleep_Fallback.AddChild(goHome_Action);
 
-        sleepAction.SetAction(goatStatus.IdleStayStill);
+        sleepAction.SetAction(goatStatus.StayHomeAndSleep_Action);
         goHome_Action.SetAction(goatStatus.GoHome);
     }
 
     void Build_Wandering(){
-        // isAtPositionHead_Fallback.AddChild(sequence01);
-        // isAtPositionHead_Fallback.AddChild(sequence02);
-
-        // sequence01.AddChild(atPosition_Condition);
-        // sequence01.AddChild(stayAtPosition_Action);
-
-        // sequence02.AddChild(go_Fallback);
-        // sequence01.AddChild(wandering_Action);
-
-        // go_Fallback.AddChild(hasDestination_Condition);
-        // go_Fallback.AddChild(getDestination_Action);
-
-        // stayAtPosition_Action.SetAction(sheepStatus.StandStillAndWander); 
-        wandering_Action.SetAction(goatStatus.Wandering_Action); 
-        // getDestination_Action.SetAction(rabbitStatus.GetRandomMeadowLocationForWandering);
+        wandering_Action.SetAction(goatStatus.Wandering); 
     }
     void CheckConditions(){
-        noEnemy_Condition.condition = !goatStatus.isEnemyNear;
-        isSafe_Condition.condition = goatStatus.isSafe;
+        noEnemy_Condition.condition = !goatStatus.isEnemyNearby;
+        isSafe_Condition.condition = goatStatus.isSafe; 
 
         isDay_Condition.condition = worldStatus.isDay;
         isHome_Condition.condition = goatStatus.isHome;
@@ -142,7 +129,7 @@ public class Goat_Tree : MonoBehaviour
         // notHungry_Condition.condition = !rabbitStatus.isHungry;
         // atFood_Condition.condition = rabbitStatus.atFood;
 
-        atPosition_Condition.condition = goatStatus.isAtWanderingLocation;
+        // atPosition_Condition.condition = goatStatus.isAtWanderingLocation;
         // hasDestination_Condition.condition = rabbitStatus.hasWanderingLocation;
     }
 }

@@ -25,7 +25,6 @@ public class Animation_Manager_Wolf : Animal_AnimatorBaseClass
         if(idleAnimations[index] != sitAnimation){
             animator.Play(idleAnimations[index]);
         }
-
     }
 
     IEnumerator IdleHelper(string anim_01, string anim_02){

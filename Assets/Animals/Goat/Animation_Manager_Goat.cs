@@ -10,7 +10,7 @@ public class Animation_Manager_Goat : Animal_AnimatorBaseClass
     [HideInInspector]
     public string eatAnimation = "eating";
     [HideInInspector]
-    public string idleAnimation = "idle";
+    public string idleAnimation = "idle"; 
 
     public override void PlayWalk(){
         animator.Play(walkAnimation);
@@ -25,9 +25,10 @@ public class Animation_Manager_Goat : Animal_AnimatorBaseClass
         animator.Play(idleAnimation);
     }
 
-    void Start()
+    void Awake()
     {
         animator = gameObject.GetComponent<Animator>();
+        if(animator == null) Debug.Log("No animator found on  " + gameObject.name);
     }
 
     public override void PlayAttack()

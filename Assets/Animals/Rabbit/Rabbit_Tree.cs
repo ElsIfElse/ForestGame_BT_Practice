@@ -73,7 +73,7 @@ public class Rabbit_Tree : MonoBehaviour
     {
         CheckConditions();
         RootNode.Tick();
-        RootNode.Reset();
+        // RootNode.Reset();
     }
 
     void GetReferences(){
@@ -85,10 +85,10 @@ public class Rabbit_Tree : MonoBehaviour
 
         MainSequence.children.Add(isSafeHead_Fallback);
         MainSequence.children.Add(isDayHead_Fallback);
-        // MainSequence.children.Add(isHungryHead_Fallback);
         MainSequence.children.Add(wandering_Action);
     }
-    void Build_IsSafe(){
+    void Build_IsSafe()
+    {
         isSafeHead_Fallback.AddChild(noEnemy_Condition);
         isSafeHead_Fallback.AddChild(noEnemy_Sequence);
 
@@ -98,8 +98,9 @@ public class Rabbit_Tree : MonoBehaviour
         staySafe_Fallback.AddChild(isSafe_Condition);
         staySafe_Fallback.AddChild(runToSafety_Action);
 
-        staySafe_Action.SetAction(rabbitStatus.IdleStayStill);
-        runToSafety_Action.SetAction(rabbitStatus.GoToClosestSafePlace);
+        staySafe_Action.SetAction(rabbitStatus.StayAndIdle);
+        runToSafety_Action.SetAction(rabbitStatus.GetToSafePlace_Action);
+        runToSafety_Action.SetIsDone(()=>rabbitStatus.isFleeDone); 
     }
     void Build_IsDay(){
         isDayHead_Fallback.AddChild(isDay_Condition);
@@ -111,29 +112,15 @@ public class Rabbit_Tree : MonoBehaviour
         staySleep_Fallback.AddChild(isHome_Condition);
         staySleep_Fallback.AddChild(goHome_Action);
 
-        sleepAction.SetAction(rabbitStatus.IdleStayStill);
+        sleepAction.SetAction(rabbitStatus.StayHomeAndSleep_Action);
         goHome_Action.SetAction(rabbitStatus.GoHome);
     } 
 
     void Build_Wandering(){
-        // isAtPositionHead_Fallback.AddChild(sequence01);
-        // isAtPositionHead_Fallback.AddChild(sequence02);
-
-        // sequence01.AddChild(atPosition_Condition);
-        // sequence01.AddChild(stayAtPosition_Action);
-
-        // sequence02.AddChild(go_Fallback);
-        // sequence01.AddChild(wandering_Action);
-
-        // go_Fallback.AddChild(hasDestination_Condition);
-        // go_Fallback.AddChild(getDestination_Action);
-
-        // stayAtPosition_Action.SetAction(sheepStatus.StandStillAndWander); 
-        wandering_Action.SetAction(rabbitStatus.Wandering_Action); 
-        // getDestination_Action.SetAction(rabbitStatus.GetRandomMeadowLocationForWandering);
+        wandering_Action.SetAction(rabbitStatus.Wandering); 
     }
     void CheckConditions(){
-        noEnemy_Condition.condition = !rabbitStatus.isEnemyNear;
+        noEnemy_Condition.condition = !rabbitStatus.isEnemyNearby;
         isSafe_Condition.condition = rabbitStatus.isSafe;
 
         isDay_Condition.condition = worldStatus.isDay;
@@ -142,7 +129,7 @@ public class Rabbit_Tree : MonoBehaviour
         // notHungry_Condition.condition = !rabbitStatus.isHungry;
         // atFood_Condition.condition = rabbitStatus.atFood;
 
-        atPosition_Condition.condition = rabbitStatus.isAtWanderingLocation;
+        // atPosition_Condition.condition = rabbitStatus.isAtWanderingLocation;
         // hasDestination_Condition.condition = rabbitStatus.hasWanderingLocation;
     }
 }

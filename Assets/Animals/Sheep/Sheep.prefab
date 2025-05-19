@@ -1511,11 +1511,11 @@ GameObject:
   - component: {fileID: 5097435568743589445}
   - component: {fileID: 2499073279126956483}
   - component: {fileID: 3009449095532680331}
-  - component: {fileID: 2106409554972517144}
-  - component: {fileID: 7125114356347889199}
   - component: {fileID: -2928621328828572582}
   - component: {fileID: 970424317952024658}
-  - component: {fileID: 5564482364802730609}
+  - component: {fileID: 7125114356347889199}
+  - component: {fileID: 2106409554972517144}
+  - component: {fileID: 5767382325192287729}
   m_Layer: 8
   m_Name: Sheep
   m_TagString: Prey
@@ -1585,34 +1585,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2106409554972517144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3930536829682006628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0373fda597509ae409334126ec269792, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7125114356347889199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3930536829682006628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f81d455165d28cc4d840be2e1f322660, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkAnimation: walk_forward
-  runAnimation: run_forward
-  eatAnimation: eating
-  idleAnimation: idle
 --- !u!54 &-2928621328828572582
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1661,7 +1633,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.2, y: 1.6, z: 1.6}
   m_Center: {x: 0, y: 0.8, z: 0.2}
---- !u!114 &5564482364802730609
+--- !u!114 &7125114356347889199
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1670,7 +1642,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 3930536829682006628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25802c8a971127549af412a0252e238d, type: 3}
+  m_Script: {fileID: 11500000, guid: f81d455165d28cc4d840be2e1f322660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkAnimation: walk_forward
+  runAnimation: run_forward
+  eatAnimation: eating
+  idleAnimation: idle
+--- !u!114 &2106409554972517144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3930536829682006628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0373fda597509ae409334126ec269792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5767382325192287729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3930536829682006628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4831e55c09278654ab464db242013717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animalName: 
@@ -1798,6 +1798,8 @@ MonoBehaviour:
   - Yvonne
   - Zachary
   isSafe: 0
+  isEnemyNearby: 0
+  isFleeDone: 0
 --- !u!1 &3963526771421734846
 GameObject:
   m_ObjectHideFlags: 0

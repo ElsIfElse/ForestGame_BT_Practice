@@ -12,7 +12,6 @@ public class Predator_Blackboard : AnimalBlackboard_Base
 
     Vector3 currentLookingForPrayLocation;
     bool hasLookingForPreyLocation = false;
-    float attackDistance = 5f;
     float chaseDistance = 20f;
     UnityEvent gotLookingForPreyLocation = new UnityEvent();
 
@@ -31,18 +30,22 @@ public class Predator_Blackboard : AnimalBlackboard_Base
 
     public override void Start()
     {
-        SetAnimalType("Predator");
-        SetAnimalBreed("Wolf");
-
         base.Start();
+
+        worldStatus.dayPassedEvent.AddListener(() =>
+        {
+            TurnOnVisual();
+            TurnOnNavmeshAgentComponent();
+        });
         PredatorInitialization();
-
-        Debug.Log("Animal Type is: " + animalType + ". Animal Breed is: " + animalBreed + "Animal Home is: " + home);
-
     }
-
+    public override void Update()
+    {
+        base.Update();
+    }
     void PredatorInitialization()
     {
+        SetAnimalType("Predator");
         GetHuntingAreas();
         AssignHuntingArea();
         GetPreys();
@@ -74,7 +77,8 @@ public class Predator_Blackboard : AnimalBlackboard_Base
     }
     public void Attack()
     {
-        if(!isAttacking){
+        if (!isAttacking)
+        {
             StopAllCoroutines();
             StartCoroutine(AttackHelper_Coroutine());
         }
@@ -104,7 +108,7 @@ public class Predator_Blackboard : AnimalBlackboard_Base
     // Looking For Prey | Hunting
     public void LookForPrey()
     {
-        
+
         GetClosestPrey();
 
         if (!hasLookingForPreyLocation)
@@ -139,7 +143,7 @@ public class Predator_Blackboard : AnimalBlackboard_Base
         {
             return;
         }
-        if(currentPrey == null) currentPrey = preys[0];
+        if (currentPrey == null) currentPrey = preys[0];
 
         for (int i = 0; i < preys.Length; i++)
         {
@@ -172,14 +176,29 @@ public class Predator_Blackboard : AnimalBlackboard_Base
         }
     }
 
-    // Can Attack
-    protected override void OnTriggerEnter(Collider other)
+    // Can Attack   
+    void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other);
+        if (other.gameObject == home && !isDay)
+        {
+            isHome = true;
+        }
 
-        if (other.gameObject == currentPrey)
+        if (other.gameObject == currentPrey && currentPrey.GetComponent<Prey_Blackboard>().isSafe == false)
         {
             canAttack = true;
         }
+
     }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == home)
+        {
+            isHome = false;
+        }
+        if(other.gameObject == currentPrey){
+            canAttack = false;
+        }
+    }
+
 }

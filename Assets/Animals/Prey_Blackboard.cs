@@ -4,9 +4,8 @@ using UnityEngine.Events;
 public class Prey_Blackboard : AnimalBlackboard_Base
 {
     public bool isSafe = false;
-    float scaredDistance = 20f;
+    float scaredDistance = 10f;
     GameObject[] predators;
-
 
     GameObject closestPredator;
     GameObject closestHome;
@@ -15,27 +14,36 @@ public class Prey_Blackboard : AnimalBlackboard_Base
     UnityEvent fleeing = new();
     public bool isEnemyNearby;
     public bool isFleeDone = false;
+    public bool isHiding = false;
 
     public override void Start()
     {
-        SetAnimalType("Prey");
-        SetAnimalBreed("Sheep");
-
+        GetPredators();
         base.Start();
-
-        fleeing.AddListener(GetToSafePlace);
+        InitializePrey();
+    }
+    protected void InitializePrey()
+    {
+        SetAnimalType("Prey");
+        fleeing.AddListener(GetToSafePlace_Helper);
         GetPredators();
 
         closestPredator = predators[0];
         closestHome = home;
     }
-    void Update()
+    public override void Update()
     {
+        base.Update();
         isEnemyNearby = IsEnemyNearby();
 
         if (!isEnemyNearby)
         {
             isFleeDone = false;
+        }
+
+        if (isEnemyNearby && isSafe)
+        {
+            Hiding();
         }
     }
     // Is Enemy Nearby
@@ -43,8 +51,20 @@ public class Prey_Blackboard : AnimalBlackboard_Base
     {
         GetPredators();
 
+        if (predators.Length == 0 || predators == null)
+        {
+            Debug.Log("No predators found in IsEnemyNearby() by " + gameObject.name);
+            return false;
+        }
+
+        closestPredator = predators[0];
+
         for (int i = 0; i < predators.Length; i++)
         {
+            if (predators[i] == null)
+            {
+                Debug.Log("No predators found in IsEnemyNearby() in the loopby " + gameObject.name);
+            }
             if (IsCloserThan(gameObject.transform.position, predators[i].transform.position, Vector3.Distance(gameObject.transform.position, closestPredator.transform.position)))
             {
                 closestPredator = predators[i];
@@ -59,18 +79,33 @@ public class Prey_Blackboard : AnimalBlackboard_Base
         return false;
 
     }
-
     void GetPredators()
     {
         predators = GameObject.FindGameObjectsWithTag("Predator");
+        // Debug.Log(predators.Length);
     }
-
-    // Get To Safe Place
-    void GetToSafePlace()
+    protected override void CheckIsSleeping()
     {
-        animator.PlayRun();
+        if (isSleeping)
+        {
+            animalAgent.radius = 0f;
+            TurnOffVisual();
+            TurnOffNavmeshAgentComponent();
+        }
+        else
+        {
+            if (!isHiding)
+            {
+                animalAgent.radius = 1f;
+                TurnOnNavmeshAgentComponent(); 
+                TurnOnVisual();
+            }
+        }
+    }
+    // Get To Safe Place
+    void GetToSafePlace_Helper()
+    {
         RunSpeed();
-
         GetHomes(animalBreed);
         GetClosestHome();
 
@@ -81,18 +116,42 @@ public class Prey_Blackboard : AnimalBlackboard_Base
     {
         if (!needToGoSafePlace)
         {
-            ResetWanderingBools();
             needToGoSafePlace = true;
+            ResetWanderingBools();
             fleeing.Invoke();
+            isFleeDone = false;
         }
+
         else if (needToGoSafePlace && !IsCloserThan(gameObject.transform.position, closestPredator.transform.position, scaredDistance))
         {
             isFleeDone = true;
             needToGoSafePlace = false;
-            isEnemyNearby = false;
+            // isEnemyNearby = false;
         }
     }
-
+    public void Hiding()
+    {
+        if (isHiding == false)
+        {
+            isHiding = true;
+            Hiding_Helper();
+        }
+        else if (!IsEnemyNearby() && isHiding == true)
+        {
+            isHiding = false;
+        }
+    }
+    public void Hiding_Helper()
+    {
+        Debug.Log("Hiding helper is fired");
+        gameObject.transform.position = home.transform.position;
+        animalAgent. radius = 0f;
+        animalAgent.ResetPath();
+        ResetWanderingBools();
+        // StopAllCoroutines();
+        TurnOffVisual();
+        TurnOffNavmeshAgentComponent();
+    }
 
     void GetClosestHome()
     {
@@ -106,24 +165,34 @@ public class Prey_Blackboard : AnimalBlackboard_Base
     }
 
     // Is Safe
-    protected override void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        base.OnTriggerEnter(other);
+        if (other.gameObject == home && !isDay)
+        {
+            isSafe = true;
+            isHome = true;
+            isSleeping = true;
+
+            gameObject.transform.position = home.transform.position;
+        }
+
+        if (other.gameObject == home)
+        {
+            isHome = true;
+        }
 
         if (other.gameObject == closestHome || other.gameObject == home)
         {
-            TurnOffVisual();
             isSafe = true;
         }
     }
-    protected override void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider other)
     {
-        base.OnTriggerExit(other);
-
         if (other.gameObject == closestHome || other.gameObject == home)
         {
-            TurnOnVisual();
             isSafe = false;
-        }
+            isHome = false;
+            isHiding = false;
+        }        
     }
 }

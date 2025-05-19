@@ -90,7 +90,7 @@ public class Wolf_Tree : MonoBehaviour
         stayHomeAndSleep_Fallback.AddChild(isHome_Condition);
         stayHomeAndSleep_Fallback.AddChild(goHome_Action);
 
-        stayHomeAndSleep_Action.SetAction(wolfStatus.Stay);
+        stayHomeAndSleep_Action.SetAction(wolfStatus.StayHomeAndSleep_Action);
         goHome_Action.SetAction(wolfStatus.GoHome); 
     }
     void Build_NotHungry(){

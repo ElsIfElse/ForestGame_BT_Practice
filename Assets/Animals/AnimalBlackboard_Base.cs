@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -43,6 +44,9 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     protected NavMeshAgent animalAgent;
     protected GameObject animalVisual;
 
+    // Sleep
+    public bool isSleeping = false;
+
     // String Arrays For Names
     public string[] names = {
         "Finn", "Sparky", "Oliver", "Bear", "Luna", "Maggie", "Max", "Charlie", "Daisy", "Buddy", "Rocky", "Lucy", "Cooper", "Ginger", "Simba", "Coco", "Duke", "Lola", "Hunter", "Sandy", "Molly", "Sam", "Toby", "Ruby", "Baxter", "Abby", "Rusty", "Gracie", "Bella", "Maverick", "Penny", "Jasper", "Cody", "Lily", "Odie", "Zoey", "Nala", "Sasha", "Maddie", "Murphy", "Bailey", "Tucker", "Emma", "Fiona", "Dakota", "Chloe", "Chase", "Lila", "Jackson", "Morgan", "Hank", "Sadie", "Gizmo", "Ava", "Jax", "Willow", "Riley", "Sophie", "Bentley", "Lacey", "Mason", "Lexi", "Katie", "Diesel", "Julia", "Hannah", "Titan", "Paisley", "Easton", "Lainey", "Bryce", "Ashley", "Colby", "Avery", "Kolby", "Skye", "Savannah", "Jace", "Cheyenne", "Jenna", "Kai", "Kayla", "Landry", "Leslie", "Mackenzie", "Mallory", "Micah", "Natalie", "Nicole", "Noah", "Paige", "Parker", "Quinn", "Rachel", "Reese", "Rylee", "Savannah", "Sierra", "Taylor", "Tatum", "Teagan", "Tessa", "Trey", "Trinity", "Tyson", "Vivian", "Waylon", "Wesley", "Wyatt", "Xander", "Yvonne", "Zachary"
@@ -63,7 +67,7 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
 
     void InitializeAnimal()
     {
-        SubscribeTo_WanderingEvent();
+        SubscribeTo_Events();
         GetAgent();
         GetAnimator();
         GetAnimalVisual();
@@ -77,11 +81,17 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
         WalkSpeed();
 
     }
-    void Update()
+    public virtual void Update()
     {
         isDay = worldStatus.isDay;
-    }
 
+        CheckIsSleeping();
+
+        if (worldStatus.currentTimeInHours == 7)
+        {
+            WakeUp();
+        }
+    }
     void AssignSpeeds()
     {
         switch (animalBreed)
@@ -118,8 +128,14 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
         {
             case "Sheep":
                 GameObject[] sheepHomes = GameObject.FindGameObjectsWithTag("SheepHome");
+                if (sheepHomes.Length == 0)
+                {
+                    Debug.LogError("No sheep homes found RETRYING");
+                    AssignHome();
+                }
                 GameObject sheepHome = sheepHomes[Random.Range(0, sheepHomes.Length)];
                 home = sheepHome;
+
                 break;
 
             case "Wolf":
@@ -135,20 +151,39 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
 
             case "Rabbit":
                 GameObject[] rabbitHomes = GameObject.FindGameObjectsWithTag("RabbitHome");
+                if (rabbitHomes.Length == 0)
+                {
+                    Debug.LogError("No rabbit homes found RETRYING");
+                    AssignHome();
+                }
                 GameObject rabbitHome = rabbitHomes[Random.Range(0, rabbitHomes.Length)];
                 home = rabbitHome;
+
                 break;
 
             case "Goat":
                 GameObject[] goatHomes = GameObject.FindGameObjectsWithTag("GoatHome");
+                if (goatHomes.Length == 0)
+                {
+                    Debug.LogError("No goat homes found RETRYING");
+                    AssignHome();
+                }
                 GameObject goatHome = goatHomes[Random.Range(0, goatHomes.Length)];
                 home = goatHome;
+
                 break;
 
             case "Bear":
                 GameObject[] bearHomes = GameObject.FindGameObjectsWithTag("BearHome");
+                if (bearHomes.Length == 0)
+                {
+                    Debug.LogError("No bear homes found RETRYING");
+                    AssignHome();
+                }
+
                 GameObject bearHome = bearHomes[Random.Range(0, bearHomes.Length)];
                 home = bearHome;
+
                 break;
         }
 
@@ -167,30 +202,56 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
         {
             case "Sheep":
                 GameObject[] sheepWanderingAreas = GameObject.FindGameObjectsWithTag("Meadow");
+                if (sheepWanderingAreas.Length == 0)
+                {
+                    Debug.LogError("No sheep WanderingArea AKA MEADOW found");
+                }
+
                 wanderingAreas = sheepWanderingAreas;
                 wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
                 break;
 
             case "Wolf":
                 GameObject[] wolfWanderingAreas = GameObject.FindGameObjectsWithTag("WolfWanderingArea");
+                if (wolfWanderingAreas.Length == 0)
+                {
+                    Debug.LogError("No wolf WanderingArea found");
+                }
+
                 wanderingAreas = wolfWanderingAreas;
                 wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
                 break;
 
             case "Rabbit":
                 GameObject[] rabbitWanderingAreas = GameObject.FindGameObjectsWithTag("Meadow");
+                if (rabbitWanderingAreas.Length == 0)
+                {
+                    Debug.LogError("No rabbit WanderingArea AKA MEADOW found");
+                }
+
                 wanderingAreas = rabbitWanderingAreas;
                 wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
                 break;
 
             case "Goat":
                 GameObject[] goatWanderingAreas = GameObject.FindGameObjectsWithTag("GoatWanderingArea");
+                if (goatWanderingAreas.Length == 0)
+                {
+                    Debug.LogError("No goat WanderingArea found");
+                }
+
                 wanderingAreas = goatWanderingAreas;
                 wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
+
                 break;
 
             case "Bear":
                 GameObject[] bearWanderingAreas = GameObject.FindGameObjectsWithTag("BearWanderingArea");
+                if (bearWanderingAreas.Length == 0)
+                {
+                    Debug.LogError("No bear WanderingArea found");
+                }
+
                 wanderingAreas = bearWanderingAreas;
                 wanderingArea = wanderingAreas[Random.Range(0, wanderingAreas.Length)];
                 break;
@@ -199,6 +260,7 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     void AssignAnimalBreed()
     {
         animalBreed = gameObject.name;
+        Debug.Log(animalBreed);
     }
     public void SetId(int id)
     {
@@ -207,6 +269,7 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     void GetAnimalVisual()
     {
         animalVisual = gameObject.transform.Find("animalVisual").gameObject;
+        if (animalVisual == null) Debug.Log("No visual found on " + gameObject.name);
     }
     protected void SetAnimalType(string type)
     {
@@ -219,32 +282,35 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     void GetAgent()
     {
         animalAgent = gameObject.GetComponent<NavMeshAgent>();
+        if (animalAgent == null) Debug.Log("No agent found on " + gameObject.name);
     }
     void GetAnimator()
     {
         animator = gameObject.GetComponent<Animal_AnimatorBaseClass>();
+        if (animator == null) Debug.Log("No animator found on " + gameObject.name);
     }
 
     // Wandering Functions
-    void SubscribeTo_WanderingEvent()
+    void SubscribeTo_Events()
     {
         gotWanderingLocation.AddListener(GoToWanderingLocation);
+        // worldStatus.dayPassedEvent.AddListener(WakeUp);
     }
     void GoToWanderingLocation()
     {
         WalkSpeed();
         animalAgent.SetDestination(currentWanderingLocation);
-        animator.PlayWalk();
     }
     public void Wandering()
     {
+
         if (!isIdle && animalAgent.velocity.sqrMagnitude < 1f && hasWanderingLocation)
         {
             currentStuckTime -= Time.deltaTime;
 
             if (currentStuckTime <= 0f)
             {
-                Debug.Log("Animal Stuck Time is up. Looking for new location for "+animalBreed);
+                // Debug.Log("Animal Stuck Time is up. Looking for new location for " + animalBreed);
                 hasWanderingLocation = false;
                 currentStuckTime = maximumStuckTime;
             }
@@ -256,15 +322,18 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
 
         if (!hasWanderingLocation)
         {
+            StopAllCoroutines();
+
             hasWanderingLocation = true;
             isWandering = true;
             currentWanderingLocation = GetRandomLocationAtArea(wanderingArea);
+
+            WalkSpeed();
 
             while (IsCloserThan(gameObject.transform.position, currentWanderingLocation, 5f))
             {
                 currentWanderingLocation = GetRandomLocationAtArea(wanderingArea);
             }
-
             gotWanderingLocation.Invoke();
         }
         else
@@ -275,13 +344,13 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
                 isWandering = false;
                 StartCoroutine(WanderingHelper_Idle_Coroutine());
             }
-        } 
+        }
     }
     IEnumerator WanderingHelper_Idle_Coroutine()
     {
         animator.PlayIdle();
         animalAgent.ResetPath();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3.4f);
         isIdle = false;
         hasWanderingLocation = false;
     }
@@ -293,16 +362,42 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     }
 
     // Tree Actions
-    public void Stay()
+    public void StayAndIdle()
     {
         StopAllCoroutines();
         animator.PlayIdle();
-        // ResetWanderingBools();
+        ResetWanderingBools();
         animalAgent.ResetPath();
+    }
+    public void StayHomeAndSleep_Action()
+    {
+        if (!isSleeping && isHome && !isDay)
+        {
+            isSleeping = true;
+            animalAgent.radius = 0f;
+            animalAgent.ResetPath();
+            ResetWanderingBools();
+            StopAllCoroutines();
+            TurnOffVisual();
+            TurnOffNavmeshAgentComponent();
+        }
+    }
+    void WakeUp()
+    {
+        // Debug.Log("Waking up " + gameObject.name);
+        if (isSleeping == true && isDay)
+        {
+            isSleeping = false;
+            animalAgent.radius = 1f;
+            TurnOnNavmeshAgentComponent();
+            ResetWanderingBools();
+            TurnOnVisual();
+        }
+
     }
     public void GoHome()
     {
-        // StopAllCoroutines();
+        StopAllCoroutines();
         WalkSpeed();
         animalAgent.SetDestination(home.transform.position);
     }
@@ -379,22 +474,26 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     {
         animalVisual.SetActive(false);
     }
-    protected virtual void OnTriggerEnter(Collider other)
+    protected void TurnOnNavmeshAgentComponent()
     {
-        if (other.gameObject == home)
-        {
-            if (!isDay)
-            {
-                TurnOffVisual();
-                isHome = true;
-            }
-        }
+        animalAgent.enabled = true;
     }
-    protected virtual void OnTriggerExit(Collider other)
+    protected void TurnOffNavmeshAgentComponent()
     {
-        if (other.gameObject == home)
+        animalAgent.enabled = false;
+    }
+    protected virtual void CheckIsSleeping()
+    {
+        if (isSleeping)
         {
-            isHome = false;
+            animalAgent.radius = 0f;
+            TurnOffVisual();
+            TurnOffNavmeshAgentComponent();
+        }
+        else
+        {
+            animalAgent.radius = 1f;
+            TurnOnNavmeshAgentComponent();
             TurnOnVisual();
         }
     }
@@ -408,4 +507,6 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
         animator.PlayRun();
         animalAgent.speed = speed_Running;
     }
+    
+
 }

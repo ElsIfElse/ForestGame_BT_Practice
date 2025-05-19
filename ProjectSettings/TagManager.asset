@@ -25,6 +25,7 @@ TagManager:
   - BearHuntingArea
   - BearWanderingArea
   - FpsCameraHandler
+  - InventoryManager
   layers:
   - Default
   - TransparentFX
@@ -36,7 +37,7 @@ TagManager:
   - Food
   - Animal
   - Phone
-  - 
+  - Ground
   - 
   - 
   - 

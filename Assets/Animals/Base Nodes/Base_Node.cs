@@ -27,7 +27,8 @@ public class Root_Node : Base_Node{
     }
 
     public override Node_States Tick()
-    {
+    { 
+        // Reset();
         var result = child.Tick();
         return result;
     }
@@ -145,7 +146,7 @@ public class Leaf_Node : Base_Node
         {
             Debug.Log(nodeName + " is running");
         }
- 
+  
         if (isDoneCondition != null && isDoneCondition.Invoke())
         {
             if (isDebugOn)
@@ -166,7 +167,7 @@ public class Leaf_Node : Base_Node
             Reset();
         }
 
-        action.Invoke();
+        action();
         return Node_States.Running;
     }
 }

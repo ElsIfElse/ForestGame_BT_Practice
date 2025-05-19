@@ -36,6 +36,7 @@ public class UI_Manager : MonoBehaviour
     public Sprite sheepImage;
     public Sprite rabbitImage;
     public Sprite goatImage;
+    public Sprite bearImage;
     //
     [Space]
     [Header("Stream UI Elements")]
@@ -143,7 +144,8 @@ public class UI_Manager : MonoBehaviour
     {
         goatCounterText.text = "Goats: " + worldStatus.goatDict.Count.ToString();
     }
-    //
+
+    // Card Settings
     public void SetAnimalName(string currentName)
     {
         animalName_Text.text = currentName;
@@ -167,6 +169,9 @@ public class UI_Manager : MonoBehaviour
                 break;
             case "Goat":
                 animalImage_Image.sprite = goatImage;
+                break;
+            case "Bear":
+                animalImage_Image.sprite = bearImage;
                 break;
         }
     }
@@ -194,6 +199,7 @@ public class UI_Manager : MonoBehaviour
     {
         cameraType.text = "Animal_Cam";
     }
+   
     // Viewership
     public void SetViewerCounter(int currentViewers)
     {

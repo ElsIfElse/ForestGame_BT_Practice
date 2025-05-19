@@ -101,8 +101,7 @@ public class Sheep_Tree : MonoBehaviour
         staySafe_Fallback.AddChild(isSafe_Condition);
         staySafe_Fallback.AddChild(runToSafety_Action);
 
-        staySafe_Action.SetAction(sheepStatus.Stay);
-
+        staySafe_Action.SetAction(sheepStatus.Hiding);
         runToSafety_Action.SetAction(sheepStatus.GetToSafePlace_Action);
         runToSafety_Action.SetIsDone(()=>sheepStatus.isFleeDone); 
     }
@@ -116,8 +115,8 @@ public class Sheep_Tree : MonoBehaviour
         staySleep_Fallback.AddChild(isHome_Condition);
         staySleep_Fallback.AddChild(goHome_Action);
 
-        sleepAction.SetAction(sheepStatus.Stay);
-        goHome_Action.SetAction(sheepStatus.GoHome);
+        sleepAction.SetAction(sheepStatus.StayHomeAndSleep_Action);
+        goHome_Action.SetAction(sheepStatus.GoHome); 
     }
 
     void Build_Wandering()

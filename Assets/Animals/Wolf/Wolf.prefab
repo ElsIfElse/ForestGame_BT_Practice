@@ -1392,18 +1392,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7699322067309695447}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af40d70d57f37ca4dac71d9ae842472a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTired: 0
-  notHungry: 0
-  isHome: 0
-  isEating: 0
+  animalName: 
+  animalBreed: 
+  animalType: Wolf
+  animalId: 0
   isDay: 0
+  isHome: 0
+  home: {fileID: 0}
+  wanderingArea: {fileID: 0}
   isWandering: 0
-  isWanderIdling: 0
+  isIdle: 0
+  currentWanderingLocation: {x: 0, y: 0, z: 0}
   names:
   - Finn
   - Sparky
@@ -1517,26 +1521,10 @@ MonoBehaviour:
   - Xander
   - Yvonne
   - Zachary
-  animalName: 
-  animalType: Wolf
-  animalId: 0
-  home: {fileID: 0}
-  wanderingArea: {fileID: 0}
-  animalVisual: {fileID: 0}
-  wanderingLocation: {x: 0, y: 0, z: 0}
-  animalWalkspeed: 0
-  animalRunspeed: 0
-  enemySleepTime: 0
-  enemyWakeTime: 0
-  animalAgent: {fileID: 0}
-  animalAnimator: {fileID: 0}
-  isSafe: 0
+  isHungry: 0
   hasFood: 0
-  isOnWayToHuntingArea: 0
   canSeePrey: 0
   canAttack: 0
-  currentPrey: {fileID: 0}
-  preys: []
 --- !u!114 &4961593362063884195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1544,7 +1532,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7699322067309695447}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98e8d20984109b747b0db757cca215fe, type: 3}
   m_Name: 

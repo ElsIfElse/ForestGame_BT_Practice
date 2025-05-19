@@ -214,16 +214,17 @@ public class Camera_Handler : MonoBehaviour
     {
         if (animal != null)
         {
-            uiManager.SetAnimalImage(animal.GetComponent<Animal_BaseClass>().animalType);
-            uiManager.SetAnimalName(animal.GetComponent<Animal_BaseClass>().animalName);
-            // uiManager.SetAnimalAge(followedAnimal.GetComponent<Animal_BaseClass>().animalAge);
+            AnimalBlackboard_Base data = animal.GetComponent<AnimalBlackboard_Base>();
+            Debug.Log(data.animalName + ", " + data.animalBreed + " is being followed.");
+            uiManager.SetAnimalImage(data.animalBreed);
+            uiManager.SetAnimalName(data.animalName);
         }
     }
     public string CurrentAnimalType()
     {
-        if (followedAnimal.GetComponent<Animal_BaseClass>() != null)
+        if (followedAnimal.GetComponent<AnimalBlackboard_Base>() != null)
         {
-            return followedAnimal.GetComponent<Animal_BaseClass>().animalType;
+            return followedAnimal.GetComponent<AnimalBlackboard_Base>().animalBreed;
         }
         else
         {
@@ -301,7 +302,7 @@ public class Camera_Handler : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(handheldCameraRay, out hit,20f, handheldRayLayerMask))
         {
-            return hit.transform.gameObject.GetComponent<AnimalBlackboard_Base>().animalType;
+            return hit.transform.gameObject.GetComponent<AnimalBlackboard_Base>().animalBreed;
         }
         else
         {
@@ -359,7 +360,7 @@ public class Camera_Handler : MonoBehaviour
             {
                 if (hit.transform.tag == "Prey" || hit.transform.tag == "Predator")
                 {
-                    Debug.Log("Clicked on Animal. Animal ID is: " + hit.transform.gameObject.GetComponent<Animal_BaseClass>().animalId);
+                    Debug.Log("Clicked on Animal. Animal ID is: " + hit.transform.gameObject.GetComponent<AnimalBlackboard_Base>().animalId);
                     uiManager.TurnOnAnimalCard();
                     followAnimal = true;
                     followedAnimal = hit.transform.gameObject;

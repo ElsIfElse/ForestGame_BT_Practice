@@ -166,7 +166,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 081111d72c1c2d04b8d62b159609fb87, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 35944c59abfb56b4fa0fcb3362264aac, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &13223804
 Transform:
@@ -378,7 +378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDay: 0
   dayCounter: 0
-  currentTimeInHours: 7
+  currentTimeInHours: 19
   hourLengthInSeconds: 7
   hourTimerCounter: 0
   thunderTimerCounter: 0
@@ -454,7 +454,7 @@ GameObject:
   - component: {fileID: 63984500}
   - component: {fileID: 63984499}
   - component: {fileID: 63984501}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bear Home _02
   m_TagString: BearHome
   m_Icon: {fileID: 0}
@@ -470,7 +470,7 @@ Transform:
   m_GameObject: {fileID: 63984496}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -58.55, y: 0, z: -109.8}
+  m_LocalPosition: {x: -33.350002, y: 0, z: -109.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -550,6 +550,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5, y: 2, z: 1.5}
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &66630266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 66630268}
+  - component: {fileID: 66630267}
+  m_Layer: 0
+  m_Name: Spawn Area Sheep
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &66630267
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66630266}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &66630268
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66630266}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -17.7, y: 0, z: -86.05}
+  m_LocalScale: {x: 20, y: 0.2, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &80697423
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,7 +849,7 @@ GameObject:
   - component: {fileID: 146295331}
   - component: {fileID: 146295333}
   - component: {fileID: 146295332}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SheepHome_01 (2)
   m_TagString: SheepHome
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -869,7 +922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 171505104}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sheep_Homes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1799,7 +1852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 262115150}
   - component: {fileID: 262115151}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GoatWanderingArea_01
   m_TagString: GoatWanderingArea
   m_Icon: {fileID: 0}
@@ -1815,7 +1868,7 @@ Transform:
   m_GameObject: {fileID: 262115149}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.1, y: 17.75, z: 27.84999}
+  m_LocalPosition: {x: 5.8999996, y: 0, z: -107.90001}
   m_LocalScale: {x: 60, y: 1, z: 42.759}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1934,7 +1987,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &265399921
 Transform:
   m_ObjectHideFlags: 0
@@ -2100,7 +2153,7 @@ GameObject:
   - component: {fileID: 276642279}
   - component: {fileID: 276642281}
   - component: {fileID: 276642280}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2188,7 +2241,7 @@ GameObject:
   - component: {fileID: 294402681}
   - component: {fileID: 294402680}
   - component: {fileID: 294402684}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfHome_02
   m_TagString: WolfHome
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -2354,13 +2407,13 @@ GameObject:
   - component: {fileID: 305187652}
   - component: {fileID: 305187651}
   - component: {fileID: 305187650}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rabbit Home (4)
   m_TagString: RabbitHome
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &305187649
 Transform:
   m_ObjectHideFlags: 0
@@ -2460,7 +2513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 323942410}
   - component: {fileID: 323942411}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wandering Area_01
   m_TagString: BearWanderingArea
   m_Icon: {fileID: 0}
@@ -2476,7 +2529,7 @@ Transform:
   m_GameObject: {fileID: 323942409}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -78.75}
+  m_LocalPosition: {x: 0, y: 0, z: -91.700005}
   m_LocalScale: {x: 40, y: 0.2, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2561,7 +2614,7 @@ GameObject:
   - component: {fileID: 328905651}
   - component: {fileID: 328905650}
   - component: {fileID: 328905649}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfHome_02 (2)
   m_TagString: WolfHome
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -2859,7 +2912,7 @@ GameObject:
   m_Component:
   - component: {fileID: 365750286}
   - component: {fileID: 365750287}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfHuntingArea (1)
   m_TagString: WolfHuntingArea
   m_Icon: {fileID: 0}
@@ -3083,7 +3136,7 @@ GameObject:
   - component: {fileID: 410908430}
   - component: {fileID: 410908433}
   - component: {fileID: 410908432}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3282,7 +3335,7 @@ Transform:
   m_GameObject: {fileID: 464666072}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.599999, y: 9.55, z: -18.499996}
+  m_LocalPosition: {x: 15.599999, y: 0, z: -99.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3371,7 +3424,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 470678710}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WanderingAreas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3541,7 +3594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 506603955}
   - component: {fileID: 506603956}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hunting Area_01
   m_TagString: BearHuntingArea
   m_Icon: {fileID: 0}
@@ -3557,7 +3610,7 @@ Transform:
   m_GameObject: {fileID: 506603954}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -68.4, y: 0, z: -30.85}
+  m_LocalPosition: {x: -13.6, y: 0, z: -103.65}
   m_LocalScale: {x: 40, y: 0.2, z: 40}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3951,7 +4004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 586401279}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rabbit_Homes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4123,7 +4176,7 @@ GameObject:
   - component: {fileID: 658267788}
   - component: {fileID: 658267787}
   - component: {fileID: 658267786}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rabbit Home (2)
   m_TagString: RabbitHome
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -4139,7 +4192,7 @@ Transform:
   m_GameObject: {fileID: 658267784}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.85, y: 0, z: -153.00002}
+  m_LocalPosition: {x: 16.300001, y: 0, z: -153.00002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4527,7 +4580,7 @@ GameObject:
   - component: {fileID: 677564512}
   - component: {fileID: 677564515}
   - component: {fileID: 677564514}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4917,15 +4970,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraHandler: {fileID: 0}
   sheepCollectorObject: {fileID: 1627210678}
-  sheepSpawnAmount: 1
+  sheepSpawnAmount: 2
+  spawnArea_Sheep: {fileID: 66630266}
   wolfCollectorObject: {fileID: 1012750516}
-  wolfSpawnAmount: 1
+  wolfSpawnAmount: 2
+  spawnArea_Wolf: {fileID: 2083947661}
   rabbitCollectorObject: {fileID: 2089476929}
-  rabbitSpawnAmount: 0
+  rabbitSpawnAmount: 2
+  spawnArea_Rabbit: {fileID: 1238854678}
   goatCollectorObject: {fileID: 1220829238}
-  goatSpawnAmount: 0
+  goatSpawnAmount: 2
+  spawnArea_Goat: {fileID: 1557492836}
   bearCollectorObject: {fileID: 265399920}
-  bearSpawnAmount: 0
+  bearSpawnAmount: 2
+  spawnArea_Bear: {fileID: 1601123894}
   sheepSpawned:
     m_PersistentCalls:
       m_Calls: []
@@ -4942,7 +5000,7 @@ GameObject:
   m_Component:
   - component: {fileID: 741453817}
   - component: {fileID: 741453818}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfWanderingArea_02
   m_TagString: WolfWanderingArea
   m_Icon: {fileID: 0}
@@ -5448,7 +5506,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 892275458}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bear Homes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5485,13 +5543,13 @@ GameObject:
   - component: {fileID: 912948033}
   - component: {fileID: 912948032}
   - component: {fileID: 912948034}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bear Home _03
   m_TagString: BearHome
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &912948030
 Transform:
   m_ObjectHideFlags: 0
@@ -5692,7 +5750,7 @@ GameObject:
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &938305754
 Transform:
   m_ObjectHideFlags: 0
@@ -5868,7 +5926,7 @@ GameObject:
   - component: {fileID: 952446263}
   - component: {fileID: 952446262}
   - component: {fileID: 952446264}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SheepHome_01
   m_TagString: SheepHome
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -5905,7 +5963,7 @@ Transform:
   m_GameObject: {fileID: 952446261}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.95, y: 0, z: -91.07}
+  m_LocalPosition: {x: -10.900001, y: 0, z: -89.200005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6427,7 +6485,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: bb35cd398997682478b04f65a80ecd5e, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 8f5b50afd5b1dc04695eaac10edd8e62, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &1005002899
 GameObject:
@@ -6438,7 +6496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1005002900}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wolf Homes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6948,7 +7006,7 @@ GameObject:
   - component: {fileID: 1046974982}
   - component: {fileID: 1046974981}
   - component: {fileID: 1046974980}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rabbit Home
   m_TagString: RabbitHome
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -6964,7 +7022,7 @@ Transform:
   m_GameObject: {fileID: 1046974978}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11, y: 0, z: -193.90002}
+  m_LocalPosition: {x: -11, y: 0, z: -148.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7600,7 +7658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1076152866}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wandering Areas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7633,7 +7691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1084333674}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hunting Areas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7755,7 +7813,7 @@ GameObject:
   - component: {fileID: 1143462161}
   - component: {fileID: 1143462163}
   - component: {fileID: 1143462162}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8252,7 +8310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1220829239
 Transform:
   m_ObjectHideFlags: 0
@@ -8287,13 +8345,13 @@ GameObject:
   - component: {fileID: 1230498942}
   - component: {fileID: 1230498941}
   - component: {fileID: 1230498940}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rabbit Home (1)
   m_TagString: RabbitHome
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1230498939
 Transform:
   m_ObjectHideFlags: 0
@@ -8383,6 +8441,59 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1230498938}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1238854678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1238854680}
+  - component: {fileID: 1238854679}
+  m_Layer: 0
+  m_Name: Spawn Area Rabbit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1238854679
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238854678}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1238854680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238854678}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.150001, y: 0, z: -111.15}
+  m_LocalScale: {x: 20, y: 0.2, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1299412449
 GameObject:
   m_ObjectHideFlags: 0
@@ -9109,7 +9220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1385052447
 Transform:
   m_ObjectHideFlags: 0
@@ -9195,13 +9306,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1396342806}
   - component: {fileID: 1396342807}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wandering Area_02
   m_TagString: BearWanderingArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1396342806
 Transform:
   m_ObjectHideFlags: 0
@@ -9338,7 +9449,7 @@ GameObject:
   - component: {fileID: 1404905149}
   - component: {fileID: 1404905148}
   - component: {fileID: 1404905147}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfHome_02 (1)
   m_TagString: WolfHome
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -9495,7 +9606,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1480879920}
   - component: {fileID: 1480879921}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfHuntingArea
   m_TagString: WolfHuntingArea
   m_Icon: {fileID: 0}
@@ -9511,7 +9622,7 @@ Transform:
   m_GameObject: {fileID: 1480879919}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.65, y: 0, z: -118.6}
+  m_LocalPosition: {x: 2.7999992, y: 0, z: -97.4}
   m_LocalScale: {x: 40, y: 1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9749,6 +9860,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511662274}
   m_CullTransparentMesh: 1
+--- !u!1 &1557492836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1557492838}
+  - component: {fileID: 1557492837}
+  m_Layer: 0
+  m_Name: Spawn Area Goat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1557492837
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557492836}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1557492838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557492836}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 32.850002, y: 0, z: -77.05}
+  m_LocalScale: {x: 20, y: 0.2, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1572200462
 GameObject:
   m_ObjectHideFlags: 0
@@ -9762,7 +9926,7 @@ GameObject:
   - component: {fileID: 1572200464}
   - component: {fileID: 1572200463}
   - component: {fileID: 1572200467}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfHome_01
   m_TagString: WolfHome
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -9908,6 +10072,59 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2059692370}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1601123894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1601123896}
+  - component: {fileID: 1601123895}
+  m_Layer: 0
+  m_Name: Spawn Area Bear
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1601123895
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601123894}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1601123896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601123894}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 34.25, y: 0, z: -144}
+  m_LocalScale: {x: 20, y: 0.2, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1607643993
 PrefabInstance:
@@ -10254,13 +10471,13 @@ GameObject:
   - component: {fileID: 1651290877}
   - component: {fileID: 1651290876}
   - component: {fileID: 1651290875}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Rabbit Home (3)
   m_TagString: RabbitHome
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1651290874
 Transform:
   m_ObjectHideFlags: 0
@@ -10694,7 +10911,7 @@ GameObject:
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1742004447
 Transform:
   m_ObjectHideFlags: 0
@@ -10793,7 +11010,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1761333046}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hunting Areas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10835,7 +11052,7 @@ GameObject:
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1779366429
 Transform:
   m_ObjectHideFlags: 0
@@ -11093,13 +11310,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1863263580}
   - component: {fileID: 1863263581}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Hunting Area_02
   m_TagString: BearHuntingArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1863263580
 Transform:
   m_ObjectHideFlags: 0
@@ -11146,7 +11363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1865966428}
   - component: {fileID: 1865966429}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfHuntingArea (2)
   m_TagString: WolfHuntingArea
   m_Icon: {fileID: 0}
@@ -11479,7 +11696,7 @@ GameObject:
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1901733359
 Transform:
   m_ObjectHideFlags: 0
@@ -11852,7 +12069,7 @@ GameObject:
   - component: {fileID: 1916541858}
   - component: {fileID: 1916541857}
   - component: {fileID: 1916541856}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Center_Tile_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11945,7 +12162,7 @@ GameObject:
   - component: {fileID: 1935085122}
   - component: {fileID: 1935085121}
   - component: {fileID: 1935085123}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SheepHome_02
   m_TagString: SheepHome
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
@@ -12771,7 +12988,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2037019348}
   - component: {fileID: 2037019347}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: WolfWanderingArea_01
   m_TagString: WolfWanderingArea
   m_Icon: {fileID: 0}
@@ -12808,7 +13025,7 @@ Transform:
   m_GameObject: {fileID: 2037019346}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.300003, y: 0, z: -125.1}
+  m_LocalPosition: {x: 6.1000004, y: 0, z: -98.200005}
   m_LocalScale: {x: 60, y: 1, z: 60}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12826,7 +13043,7 @@ GameObject:
   - component: {fileID: 2054935139}
   - component: {fileID: 2054935138}
   - component: {fileID: 2054935140}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Bear Home _01
   m_TagString: BearHome
   m_Icon: {fileID: 0}
@@ -12842,7 +13059,7 @@ Transform:
   m_GameObject: {fileID: 2054935135}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -58.55, y: 0, z: -120.9}
+  m_LocalPosition: {x: -32.600002, y: 0, z: -72.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13150,7 +13367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2069935376}
   - component: {fileID: 2069935377}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Meadow_01
   m_TagString: Meadow
   m_Icon: {fileID: 0}
@@ -13166,7 +13383,7 @@ Transform:
   m_GameObject: {fileID: 2069935375}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: -189.8}
+  m_LocalPosition: {x: 0.5, y: 9.2, z: -189.8}
   m_LocalScale: {x: 50, y: 0.1, z: 50}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13353,6 +13570,59 @@ Transform:
   - {fileID: 1808539977}
   m_Father: {fileID: 300903940}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2083947661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083947662}
+  - component: {fileID: 2083947663}
+  m_Layer: 0
+  m_Name: Spawn Area Wolf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2083947662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083947661}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.5, y: 0, z: -98.200005}
+  m_LocalScale: {x: 20, y: 0.2, z: 20}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2083947663
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083947661}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2089476929
 GameObject:
   m_ObjectHideFlags: 0
@@ -13368,7 +13638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2089476930
 Transform:
   m_ObjectHideFlags: 0
@@ -13396,13 +13666,13 @@ GameObject:
   - component: {fileID: 2115352516}
   - component: {fileID: 2115352518}
   - component: {fileID: 2115352517}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SheepHome_01 (1)
   m_TagString: SheepHome
   m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2115352516
 Transform:
   m_ObjectHideFlags: 0
@@ -13412,7 +13682,7 @@ Transform:
   m_GameObject: {fileID: 2115352515}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -92.25001}
+  m_LocalPosition: {x: 15.650002, y: 0, z: -68.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14095,3 +14365,8 @@ SceneRoots:
   - {fileID: 518665748}
   - {fileID: 263711882}
   - {fileID: 1607643993}
+  - {fileID: 2083947662}
+  - {fileID: 66630268}
+  - {fileID: 1238854680}
+  - {fileID: 1557492838}
+  - {fileID: 1601123896}
