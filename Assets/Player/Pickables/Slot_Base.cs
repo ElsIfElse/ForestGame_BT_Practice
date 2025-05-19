@@ -54,7 +54,7 @@ public class Slot_Base : MonoBehaviour
 
         // slotButton.image.sprite = newImage;
         // // slotNameText.text = newName;
-        // slotValueText.text = GetSlotValue().ToString();
+        // slotValueText.text = GetSlotValue().ToString();  
     }
     public void SetSlotUi()
     {
