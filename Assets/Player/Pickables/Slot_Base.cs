@@ -10,7 +10,9 @@ public class Slot_Base : MonoBehaviour
     [SerializeField] protected Chest chest;
 
     // Set Get
-    string slotName = "Empty";
+    [Space]
+    [Header("Slot Info")]
+    [SerializeField] string slotName = "Empty";
     public string GetSlotName()
     {
         return slotName;
@@ -20,14 +22,14 @@ public class Slot_Base : MonoBehaviour
         slotName = newName;
     }
 
-    int slotValue = 0;
+    [SerializeField] int slotValue = 0;
     public int GetSlotValue()
     {
         return slotValue;
     }
-    public void IncreaseSlotValueBy(int value)
+    public void SetValue(int value)
     {
-        slotValue += value;
+        slotValue = value;
     }
     public void DecreaseSlotValueBy(int value)
     {
@@ -39,7 +41,7 @@ public class Slot_Base : MonoBehaviour
         }
     }
 
-    Sprite slotImage = null;
+    [SerializeField] Sprite slotImage = null;
     public Sprite GetSlotImage()
     {
         return slotImage;
@@ -54,7 +56,7 @@ public class Slot_Base : MonoBehaviour
     {
         SetSlotImage(newImage);
         SetSlotName(newName);
-        IncreaseSlotValueBy(newValue);
+        SetValue(newValue);
 
         SetSlotUi();
 

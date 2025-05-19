@@ -1,4 +1,5 @@
 
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -49,8 +50,13 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] Sprite indicator_PickFood_Sprite;
     [SerializeField] Sprite indicator_FeedAnimal_Sprite;
     [SerializeField] Sprite indicator_SetCameraOnAnimal_Sprite;
+    [SerializeField] Sprite indicator_OpenChest_Sprite;
     [SerializeField] UnityEngine.UI.Image currentIndicator;
-    [SerializeField] GameObject indicatorObject; 
+
+    [SerializeField] GameObject indicatorObject;
+    [SerializeField] Image indicatorBackgroundImage;
+    [SerializeField] Image indicatorFrameImage;
+    float indicatorFadeTime = 0.5f;
     //
     public bool isPhoneOut = false;
     float viewershipRandomizerCounter;
@@ -60,6 +66,9 @@ public class UI_Manager : MonoBehaviour
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         worldStatus = managerCollector.worldStatus;
         spawnManager = managerCollector.spawnManager;
+
+        indicatorBackgroundImage = indicatorObject.transform.Find("BG").GetComponent<Image>();
+        indicatorFrameImage = indicatorObject.transform.Find("Frame").GetComponent<Image>();
 
         SetDay();
         SetTime();
@@ -199,7 +208,7 @@ public class UI_Manager : MonoBehaviour
     {
         cameraType.text = "Animal_Cam";
     }
-   
+
     // Viewership
     public void SetViewerCounter(int currentViewers)
     {
@@ -229,17 +238,25 @@ public class UI_Manager : MonoBehaviour
 
 
     }
- 
+
     // Interaction Indicators
     public void TurnOnIndicator_PickFood()
     {
         indicatorObject.SetActive(true);
         currentIndicator.sprite = indicator_PickFood_Sprite;
+        FadeIndicatorIn();
     }
     public void TurnOnIndicator_FeedAnimal()
     {
         indicatorObject.SetActive(true);
         currentIndicator.sprite = indicator_FeedAnimal_Sprite;
+        FadeIndicatorIn();
+    }
+    public void TurnOnIndicator_OpenChest()
+    {
+        indicatorObject.SetActive(true);
+        currentIndicator.sprite = indicator_OpenChest_Sprite;
+        FadeIndicatorIn();
     }
     // public void TurnOnIndicator_SetCameraOnAnmial()
     // {
@@ -248,7 +265,20 @@ public class UI_Manager : MonoBehaviour
     // }
     public void TurnOffIndicator()
     {
+        FadeIndicatorOut();
         indicatorObject.SetActive(false);
+    }
+    void FadeIndicatorIn()
+    {
+        indicatorBackgroundImage.DOFade(1, indicatorFadeTime);
+        indicatorFrameImage.DOFade(1, indicatorFadeTime);
+        currentIndicator.DOFade(1, indicatorFadeTime);
+    }
+    void FadeIndicatorOut()
+    {
+        indicatorBackgroundImage.DOFade(0, indicatorFadeTime);
+        indicatorFrameImage.DOFade(0, indicatorFadeTime);
+        currentIndicator.DOFade(0, indicatorFadeTime);
     }
     
     

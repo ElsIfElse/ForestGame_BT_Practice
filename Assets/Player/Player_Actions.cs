@@ -1,6 +1,9 @@
+using System;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class Player_Actions : MonoBehaviour
 {
@@ -18,6 +21,12 @@ public class Player_Actions : MonoBehaviour
     UI_Manager uiManager;
     bool isDebugOn = false;
 
+    Player_Movement playerMovement;
+    CinemachinePanTilt playerCameraRotation;
+
+    float originalPanAxis;
+    float originalTilAxis;
+
     //
 
     [SerializeField] Backpack backpack;
@@ -26,13 +35,14 @@ public class Player_Actions : MonoBehaviour
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         uiManager = managerCollector.uiManager;
+        playerCameraRotation = GameObject.FindWithTag("FpsCameraHandler").GetComponent<CinemachinePanTilt>();
+        playerMovement = GetComponent<Player_Movement>();
     }
     void Update()
     {
         InteractionRaycasting();
 
-        PickFood_Action();
-        FeedAnimal_Action();
+        CloseChest_Action();
     }
 
     // INITIALIZATION
@@ -49,18 +59,32 @@ public class Player_Actions : MonoBehaviour
         Debug.DrawRay(interactionRay.origin, interactionRay.direction * interactionRayLength, Color.red);
 
 
-        if (Physics.Raycast(interactionRay.origin, interactionRay.direction, out interactionHitInfo, interactionRayLength,interactionlayerMask))
+        if (Physics.Raycast(interactionRay.origin, interactionRay.direction, out interactionHitInfo, interactionRayLength, interactionlayerMask))
         {
-            // Debug.Log("Hit Object's Layer Is: "+interactionHitInfo.transform.gameObject.layer);
+
             if (interactionHitInfo.transform.gameObject.layer == 7)
             {
                 uiManager.TurnOnIndicator_PickFood();
+                PickFood_Action();
             }
             else if (interactionHitInfo.transform.gameObject.layer == 8)
             {
                 uiManager.TurnOnIndicator_FeedAnimal();
+                FeedAnimal_Action();
+            }
+            else if (interactionHitInfo.transform.gameObject.layer == 11)
+            {
+                GameObject hitObject = interactionHitInfo.transform.gameObject;
+
+                if (hitObject.transform.name == "Chest")
+                {
+                    uiManager.TurnOnIndicator_OpenChest();
+
+                    OpenChest_Action();
+                }
             }
         }
+
         else
         {
             uiManager.TurnOffIndicator();
@@ -71,17 +95,16 @@ public class Player_Actions : MonoBehaviour
     // INTERACTIONS
     void PickFood_Action()
     {
-        if (interactionHitInfo.transform.gameObject.layer == 7 && Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             backpack.ItemPickup(interactionHitInfo.transform.gameObject.GetComponent<Pickable_Object>());
         }
 
         return;
-        
     }
     void FeedAnimal_Action()
     {
-        if (Input.GetKeyDown(KeyCode.E) && interactionHitInfo.transform.gameObject.layer == 8){
+        if (Input.GetKeyDown(KeyCode.E)){
             switch (interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().animalBreed)
             {
                 case "Sheep":
@@ -104,6 +127,7 @@ public class Player_Actions : MonoBehaviour
                     }
 
                     slotToCheck.DecreaseSlotValueBy(1);
+                    slotToCheck.SetSlotUi();
 
                     if (isDebugOn)
                     {
@@ -130,6 +154,7 @@ public class Player_Actions : MonoBehaviour
                     }
 
                     slotToCheck.DecreaseSlotValueBy(1);
+                    slotToCheck.SetSlotUi();
 
                     if (isDebugOn)
                     {
@@ -155,6 +180,7 @@ public class Player_Actions : MonoBehaviour
                     }
 
                     slotToCheck.DecreaseSlotValueBy(1);
+                    slotToCheck.SetSlotUi();
                     
                     if (isDebugOn)
                     {
@@ -180,6 +206,7 @@ public class Player_Actions : MonoBehaviour
                     }
 
                     slotToCheck.DecreaseSlotValueBy(1);
+                    slotToCheck.SetSlotUi();
                     
                     if (isDebugOn)
                     {
@@ -205,6 +232,7 @@ public class Player_Actions : MonoBehaviour
                     }
 
                     slotToCheck.DecreaseSlotValueBy(1);
+                    slotToCheck.SetSlotUi();
                     
                     if (isDebugOn)
                     {
@@ -215,6 +243,43 @@ public class Player_Actions : MonoBehaviour
             }      
         }
     }
+    void OpenChest_Action()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            originalPanAxis = playerCameraRotation.PanAxis.Value;
+            originalTilAxis = playerCameraRotation.TiltAxis.Value;
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            playerMovement.enabled = false;
+            playerCameraRotation.enabled = false;
+
+            Inventory_Manager.Instance.OpenChest();
+            Inventory_Manager.Instance.OpenBackpack();
+
+            playerMovement.StopPlayer();
+        }
+    }
+    void CloseChest_Action()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            playerCameraRotation.PanAxis.Value = originalPanAxis;
+            playerCameraRotation.TiltAxis.Value = originalTilAxis;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            playerMovement.enabled = true;
+            playerCameraRotation.enabled = true;
+
+            Inventory_Manager.Instance.CloseChest();
+            Inventory_Manager.Instance.CloseBackpack();
+        }
+    }
+
     void SetCameraOnAnimal_Action()
     {
         
@@ -225,6 +290,6 @@ public class Player_Actions : MonoBehaviour
 
     // REFERENCES
 
-    // DEBUGGING
+    // DEBUGGIN
 
 }

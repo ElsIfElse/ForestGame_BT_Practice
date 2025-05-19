@@ -4,7 +4,7 @@ using Unity.Cinemachine;
 
 public class Player_Movement : MonoBehaviour
 {
-     [Header("Movement Settings")]
+    [Header("Movement Settings")]
     public float walkSpeed = 4f;
     public float sprintSpeed = 7f;
     public float jumpForce = 5f;
@@ -18,10 +18,10 @@ public class Player_Movement : MonoBehaviour
     private Vector2 input;
     private bool isGrounded;
     bool isRunning = false;
-    [SerializeField] CinemachineCamera  fpsCamera;
+    [SerializeField] CinemachineCamera fpsCamera;
 
     //
-    
+
     Manager_Collector managerCollector;
     Audio_Manager audioManager;
     Fps_Camera_Handler fpsCameraHandler;
@@ -73,7 +73,7 @@ public class Player_Movement : MonoBehaviour
 
         // Sprint
         if (Input.GetKey(KeyCode.LeftShift) && isGrounded && (input.x != 0 || input.y != 0))
-        {   
+        {
             fpsCameraHandler.SetHeadBop_Run();
             audioManager.PlayRunSound();
             isRunning = true;
@@ -110,11 +110,20 @@ public class Player_Movement : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + Vector3.down * raycastLength);
     }
 
-    void FollowCameraRotation(){
-    // Get the camera's current Y rotation (yaw)
-    float yRotation = fpsCamera.transform.eulerAngles.y;
+    void FollowCameraRotation()
+    {
+        // Get the camera's current Y rotation (yaw)
+        float yRotation = fpsCamera.transform.eulerAngles.y;
 
-    // Apply the camera's Y rotation to the player, while keeping the player's X and Z rotation the same
-    transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
+        // Apply the camera's Y rotation to the player, while keeping the player's X and Z rotation the same
+        transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
+    }
+    public void StopPlayer()
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        isRunning = false;
+        audioManager.StopWalkSound();
+        audioManager.StopRunSound();
     }
 }

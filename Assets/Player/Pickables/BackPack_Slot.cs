@@ -14,13 +14,13 @@ public class BackPack_Slot : Slot_Base
         // If the item type is present already
         for (int i = 0; i < chest.StorageSlots().Length; i++)
         {
-            Chest_Slot checkedSlot = chest.StorageSlots()[i] as Chest_Slot;
+            Chest_Slot checkedChestSlot = chest.StorageSlots()[i] as Chest_Slot;
 
-            if (checkedSlot.GetSlotName() == GetSlotName())
+            if (checkedChestSlot.GetSlotName() == GetSlotName())
             {
-                checkedSlot.SetSlotName(GetSlotName());
-                checkedSlot.SetSlotImage(GetSlotImage());
-                checkedSlot.IncreaseSlotValueBy(1);
+                Debug.Log($"Item was present in chest. Stacking {GetSlotName()}");
+
+                checkedChestSlot.SetSlot(GetSlotName(), checkedChestSlot.GetSlotValue() + 1, GetSlotImage());
 
                 DecreaseSlotValueBy(1);
 
@@ -28,25 +28,34 @@ public class BackPack_Slot : Slot_Base
                 {
                     EmptySlot();
                 }
+
+                checkedChestSlot.SetSlotUi();
+                SetSlotUi();
                 return;
             }
+
+            Debug.Log("Item type is not present in chest");
         }
 
         // If there is an empty slot
         for (int i = 0; i < chest.StorageSlots().Length; i++)
         {
-            Chest_Slot checkedSlot = chest.StorageSlots()[i] as Chest_Slot;
+            Chest_Slot checkedChestSlot = chest.StorageSlots()[i] as Chest_Slot;
 
-            if (checkedSlot.GetSlotValue() == 0 || checkedSlot.GetSlotName() == "Empty")
+            if (checkedChestSlot.GetSlotValue() == 0 || checkedChestSlot.GetSlotName() == "Empty")
             {
-                checkedSlot.SetSlot(GetSlotName(), 1, GetSlotImage());
+                Debug.Log($"Empty slot found. Transfering {GetSlotName()}");
 
+                checkedChestSlot.SetSlot(GetSlotName(), checkedChestSlot.GetSlotValue()+1, GetSlotImage());
                 DecreaseSlotValueBy(1);
 
                 if (GetSlotValue() == 0)
                 {
                     EmptySlot();
                 }
+
+                checkedChestSlot.SetSlotUi();
+                SetSlotUi();
                 return;
             }
         }

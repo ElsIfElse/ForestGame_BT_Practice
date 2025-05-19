@@ -25,7 +25,7 @@ public class Backpack : Storage
 
             if (checkedSlot.GetSlotName() == pickable.GetPickableName())
             {
-                checkedSlot.SetSlot(pickable.GetPickableName(), pickable.GetPickableValue(), pickable.GetPickableImage());
+                checkedSlot.SetSlot(pickable.GetPickableName(),checkedSlot.GetSlotValue() +  pickable.GetPickableValue(), pickable.GetPickableImage());
                 return;
             }
         }
@@ -42,7 +42,7 @@ public class Backpack : Storage
 
                 Debug.Log(pickable.GetPickableName() + ", " + pickable.GetPickableValue() + ", " + pickable.GetPickableImage());
 
-                checkedSlot.SetSlot(pickable.GetPickableName(), pickable.GetPickableValue(), pickable.GetPickableImage());
+                checkedSlot.SetSlot(pickable.GetPickableName(), checkedSlot.GetSlotValue() + pickable.GetPickableValue(), pickable.GetPickableImage());
                 return;
             }
         }

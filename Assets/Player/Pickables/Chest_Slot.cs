@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Chest_Slot : Slot_Base
 {
+
     public void ChestToBackpack()
     {
         // If Backpack Full
@@ -14,13 +15,12 @@ public class Chest_Slot : Slot_Base
         // If the item type is present already
         for (int i = 0; i < backpack.StorageSlots().Length; i++)
         {
-            BackPack_Slot checkedSlot = backpack.StorageSlots()[i] as BackPack_Slot;
+            BackPack_Slot checkedBackpackSlot = backpack.StorageSlots()[i] as BackPack_Slot;
 
-            if (checkedSlot.GetSlotName() == GetSlotName())
+            if (checkedBackpackSlot.GetSlotName() == GetSlotName())
             {
-                checkedSlot.SetSlotName(GetSlotName());
-                checkedSlot.SetSlotImage(GetSlotImage());
-                checkedSlot.IncreaseSlotValueBy(1);
+
+                checkedBackpackSlot.SetSlot(GetSlotName(), checkedBackpackSlot.GetSlotValue() + 1, GetSlotImage());
 
                 DecreaseSlotValueBy(1);
 
@@ -28,6 +28,8 @@ public class Chest_Slot : Slot_Base
                 {
                     EmptySlot();
                 }
+
+                SetSlotUi();
                 return;
             }
         }
@@ -35,11 +37,11 @@ public class Chest_Slot : Slot_Base
         // If there is an empty slot
         for (int i = 0; i < backpack.StorageSlots().Length; i++)
         {
-            BackPack_Slot checkedSlot = backpack.StorageSlots()[i] as BackPack_Slot;
+            BackPack_Slot checkedBackpackSlot = backpack.StorageSlots()[i] as BackPack_Slot;
 
-            if (checkedSlot.GetSlotValue() == 0)
+            if (checkedBackpackSlot.GetSlotValue() == 0)
             {
-                checkedSlot.SetSlot(GetSlotName(), 1, GetSlotImage());
+                checkedBackpackSlot.SetSlot(GetSlotName(), checkedBackpackSlot.GetSlotValue() + 1, GetSlotImage());
 
                 DecreaseSlotValueBy(1);
 
@@ -47,6 +49,8 @@ public class Chest_Slot : Slot_Base
                 {
                     EmptySlot();
                 }
+
+                SetSlotUi();
                 return;
             }
         }
