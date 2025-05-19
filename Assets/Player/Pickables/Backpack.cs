@@ -12,7 +12,7 @@ public class Backpack : Storage
     {
         if (StorageValueSum() >= StorageCapacity())
         {
-            Debug.Log("Backpack is full"); 
+            Debug.Log("Backpack is full");
             return;
         }
 
@@ -20,8 +20,8 @@ public class Backpack : Storage
         for (int i = 0; i < StorageSlots().Length; i++)
         {
             BackPack_Slot checkedSlot = StorageSlots()[i] as BackPack_Slot;
-            if(checkedSlot == null) Debug.Log("Slot is null");
-            if(pickable == null) Debug.Log("Pickable is null");
+            if (checkedSlot == null) Debug.Log("Slot is null");
+            if (pickable == null) Debug.Log("Pickable is null");
 
             if (checkedSlot.GetSlotName() == pickable.GetPickableName())
             {
@@ -37,17 +37,29 @@ public class Backpack : Storage
 
             if (checkedSlot.GetSlotValue() == 0)
             {
-                if(checkedSlot == null) Debug.Log("Slot is null");
-                if(pickable == null) Debug.Log("Pickable is null");
+                if (checkedSlot == null) Debug.Log("Slot is null");
+                if (pickable == null) Debug.Log("Pickable is null");
 
                 Debug.Log(pickable.GetPickableName() + ", " + pickable.GetPickableValue() + ", " + pickable.GetPickableImage());
 
-                checkedSlot.SetSlot(pickable.GetPickableName(),pickable.GetPickableValue(),pickable.GetPickableImage());
+                checkedSlot.SetSlot(pickable.GetPickableName(), pickable.GetPickableValue(), pickable.GetPickableImage());
                 return;
             }
         }
 
         Debug.Log("No empty slot in backpack");
         return;
+    }
+
+    public BackPack_Slot CheckIfBackpackHasItem(string itemName)
+    {
+        for (int i = 0; i < StorageSlots().Length; i++)
+        {
+            if (StorageSlots()[i].GetSlotName() == itemName)
+            {
+                return StorageSlots()[i] as BackPack_Slot;
+            }
+        }
+        return null;
     }
 }

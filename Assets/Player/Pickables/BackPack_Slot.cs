@@ -37,7 +37,7 @@ public class BackPack_Slot : Slot_Base
         {
             Chest_Slot checkedSlot = chest.StorageSlots()[i] as Chest_Slot;
 
-            if (checkedSlot.GetSlotValue() == 0)
+            if (checkedSlot.GetSlotValue() == 0 || checkedSlot.GetSlotName() == "Empty")
             {
                 checkedSlot.SetSlot(GetSlotName(), 1, GetSlotImage());
 

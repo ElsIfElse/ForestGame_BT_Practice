@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,7 @@ public class Slot_Base : MonoBehaviour
         slotName = newName;
     }
 
-    int slotValue;
+    int slotValue = 0;
     public int GetSlotValue()
     {
         return slotValue;
@@ -30,10 +31,15 @@ public class Slot_Base : MonoBehaviour
     }
     public void DecreaseSlotValueBy(int value)
     {
+        slotValue -= value;
 
+        if (slotValue <= 0)
+        {
+            EmptySlot();
+        }
     }
 
-    Sprite slotImage;
+    Sprite slotImage = null;
     public Sprite GetSlotImage()
     {
         return slotImage;
@@ -79,6 +85,8 @@ public class Slot_Base : MonoBehaviour
         slotName = "Empty";
         slotValue = 0;
         slotImage = null;
+
+        SetSlotUi();
     }
 
     // UI

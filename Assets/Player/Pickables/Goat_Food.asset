@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41a8c86ce0ec8e845bb0245c29235367, type: 3}
-  m_Name: Food_02
+  m_Name: Goat_Food
   m_EditorClassIdentifier: 
-  pickableName: Gogogog
+  pickableName: GoatFood
   pickableValue: 1
-  pickableImage: {fileID: 21300000, guid: 2ecf426961052084f8f1ee231654943d, type: 3}
+  pickableImage: {fileID: 21300000, guid: d16eb5ce42a81614ab267e512b78a23d, type: 3}

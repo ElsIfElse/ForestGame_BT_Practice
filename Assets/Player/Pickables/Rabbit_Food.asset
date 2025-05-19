@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41a8c86ce0ec8e845bb0245c29235367, type: 3}
-  m_Name: Food
+  m_Name: Rabbit_Food
   m_EditorClassIdentifier: 
-  pickableName: Food
+  pickableName: RabbitFood
   pickableValue: 1
-  pickableImage: {fileID: 21300000, guid: fd3db0f2fd0f2944eabe269ec8676044, type: 3}
+  pickableImage: {fileID: 21300000, guid: a639c6a49a42ea940a754d48dbdd724f, type: 3}
