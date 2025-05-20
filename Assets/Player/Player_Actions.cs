@@ -31,6 +31,7 @@ public class Player_Actions : MonoBehaviour
     //
 
     [SerializeField] Backpack backpack;
+    CraftingTable_Manager craftingTableManager;
 
     void Start()
     {
@@ -39,6 +40,8 @@ public class Player_Actions : MonoBehaviour
         audioManager = managerCollector.audioManager;
         playerCameraRotation = GameObject.FindWithTag("FpsCameraHandler").GetComponent<CinemachinePanTilt>();
         playerMovement = GetComponent<Player_Movement>();
+        craftingTableManager = managerCollector.craftingTableManager;
+        
     }
     void Update()
     {
@@ -71,10 +74,13 @@ public class Player_Actions : MonoBehaviour
             }
             else if (interactionHitInfo.transform.gameObject.layer == 8)
             {
-                uiManager.TurnOnIndicator_FeedAnimal();
-                FeedAnimal_Action();
+                if (interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().isFriendly == false)
+                {
+                    uiManager.TurnOnIndicator_FeedAnimal();
+                    FeedAnimal_Action();
+                }
             }
-            else if (interactionHitInfo.transform.gameObject.layer == 11)
+            else if (interactionHitInfo.transform.gameObject.layer == 11)   
             {
                 GameObject hitObject = interactionHitInfo.transform.gameObject;
 
@@ -83,6 +89,11 @@ public class Player_Actions : MonoBehaviour
                     uiManager.TurnOnIndicator_OpenChest();
 
                     OpenChest_Action();
+                }
+                else if (hitObject.transform.name == "CraftingTable")
+                {
+                    uiManager.TurnOnIndicator_CraftingTable();
+                    CraftCamera_Action();
                 }
             }
         }
@@ -99,7 +110,6 @@ public class Player_Actions : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            audioManager.PlayPickSound();
             backpack.ItemPickup(interactionHitInfo.transform.gameObject.GetComponent<Pickable_Object>());
         }
 
@@ -124,8 +134,10 @@ public class Player_Actions : MonoBehaviour
                         if (isDebugOn)
                         {
                             Debug.Log("Backpack does not contain sheep food");
+                            
                         }
 
+                        audioManager.PlayCantDoIt();
                         return;
                     }
 
@@ -136,7 +148,12 @@ public class Player_Actions : MonoBehaviour
                     {
                         Debug.Log($"Sheep was fed and used 1 sheep food");
                     }
+
+                    interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
+                    audioManager.PlayFeedingAnimal();
                     break;
+
+
                 case "Wolf":
 
                     if (isDebugOn)
@@ -151,8 +168,10 @@ public class Player_Actions : MonoBehaviour
                         if (isDebugOn)
                         {
                             Debug.Log("Backpack does not contain wolf food");
+                            
                         }
 
+                        audioManager.PlayCantDoIt();
                         return;
                     }
 
@@ -164,10 +183,14 @@ public class Player_Actions : MonoBehaviour
                         Debug.Log("Wolf was fed and used 1 wolf food");
                     }
 
-                break;
+                    interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
+                    audioManager.PlayFeedingAnimal();
+                    break;
+
                 case "Goat":
 
-                    if(isDebugOn){
+                    if (isDebugOn)
+                    {
                         Debug.Log("Attempting to feed Goat");
                     }
 
@@ -175,25 +198,32 @@ public class Player_Actions : MonoBehaviour
 
                     if (slotToCheck == null || slotToCheck.GetSlotValue() == 0)
                     {
-                        if(isDebugOn){
+                        if (isDebugOn)
+                        {
                             Debug.Log("Backpack does not contain Goat food");
+                            
                         }
 
+                        audioManager.PlayCantDoIt();
                         return;
                     }
 
                     slotToCheck.DecreaseSlotValueBy(1);
                     slotToCheck.SetSlotUi();
-                    
+
                     if (isDebugOn)
                     {
                         Debug.Log("Goat was fed and used 1 Goat food");
                     }
 
-                break;
+                    interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
+                    audioManager.PlayFeedingAnimal();
+                    break;
+
                 case "Rabbit":
 
-                    if(isDebugOn){
+                    if (isDebugOn)
+                    {
                         Debug.Log("Attempting to feed Rabbit");
                     }
 
@@ -201,25 +231,32 @@ public class Player_Actions : MonoBehaviour
 
                     if (slotToCheck == null || slotToCheck.GetSlotValue() == 0)
                     {
-                        if(isDebugOn){
+                        if (isDebugOn)
+                        {
                             Debug.Log("Backpack does not contain Rabbit food");
+                            
                         }
 
+                        audioManager.PlayCantDoIt();
                         return;
                     }
 
                     slotToCheck.DecreaseSlotValueBy(1);
                     slotToCheck.SetSlotUi();
-                    
+
                     if (isDebugOn)
                     {
                         Debug.Log("Rabbit was fed and used 1 Rabbit food");
                     }
 
-                break;
+                    interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
+                    audioManager.PlayFeedingAnimal();
+                    break;
+
                 case "Bear":
 
-                    if(isDebugOn){
+                    if (isDebugOn)
+                    {
                         Debug.Log("Attempting to feed Bear");
                     }
 
@@ -227,22 +264,27 @@ public class Player_Actions : MonoBehaviour
 
                     if (slotToCheck == null || slotToCheck.GetSlotValue() == 0)
                     {
-                        if(isDebugOn){
+                        if (isDebugOn)
+                        {
                             Debug.Log("Backpack does not contain Bear food");
+                            
                         }
 
+                        audioManager.PlayCantDoIt();
                         return;
                     }
 
                     slotToCheck.DecreaseSlotValueBy(1);
                     slotToCheck.SetSlotUi();
-                    
+
                     if (isDebugOn)
                     {
                         Debug.Log("Bear was fed and used 1 Bear food");
                     }
 
-                break;
+                    interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
+                    audioManager.PlayFeedingAnimal();
+                    break;
             }      
         }
     }
@@ -282,12 +324,18 @@ public class Player_Actions : MonoBehaviour
             Inventory_Manager.Instance.CloseBackpack();
         }
     }
-
+    void CraftCamera_Action()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            craftingTableManager.CraftItem("Camera");
+        }
+    }
     void SetCameraOnAnimal_Action()
     {
         
     }
-
+ 
     // UTILITIES
 
 

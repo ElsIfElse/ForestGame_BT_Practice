@@ -10,29 +10,39 @@ public class Animation_Manager_Goat : Animal_AnimatorBaseClass
     [HideInInspector]
     public string eatAnimation = "eating";
     [HideInInspector]
-    public string idleAnimation = "idle"; 
+    public string idleAnimation = "idle";
+    [HideInInspector]
+    public string deathAnimation = "death";
 
-    public override void PlayWalk(){
+    public override void PlayWalk()
+    {
         animator.Play(walkAnimation);
     }
-    public override void PlayRun(){
+    public override void PlayRun()
+    {
         animator.Play(runAnimation);
     }
-    public override void PlayEat(){
-        animator.CrossFade(eatAnimation,0.2f);
+    public override void PlayEat()
+    {
+        animator.CrossFade(eatAnimation, 0.2f);
     }
-    public override void PlayIdle(){
+    public override void PlayIdle()
+    {
         animator.Play(idleAnimation);
     }
 
     void Awake()
     {
         animator = gameObject.GetComponent<Animator>();
-        if(animator == null) Debug.Log("No animator found on  " + gameObject.name);
+        if (animator == null) Debug.Log("No animator found on  " + gameObject.name);
     }
 
     public override void PlayAttack()
     {
         Debug.Log("Attack");
+    }
+    public override void PlayDeath() 
+    {
+        animator.Play(deathAnimation);
     }
 }

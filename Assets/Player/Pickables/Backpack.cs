@@ -1,9 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Backpack : Storage
 {
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         storageCapacity = 10;
         storageSlotNumber = 4;
         // storageSlots = new BackPack_Slot[storageSlotNumber];
@@ -13,6 +15,7 @@ public class Backpack : Storage
         if (StorageValueSum() >= StorageCapacity())
         {
             Debug.Log("Backpack is full");
+            audioManager.PlayCantDoIt();
             return;
         }
 
@@ -26,6 +29,7 @@ public class Backpack : Storage
             if (checkedSlot.GetSlotName() == pickable.GetPickableName())
             {
                 checkedSlot.SetSlot(pickable.GetPickableName(),checkedSlot.GetSlotValue() +  pickable.GetPickableValue(), pickable.GetPickableImage());
+                audioManager.PlayPickSound();
                 return;
             }
         }
@@ -43,14 +47,19 @@ public class Backpack : Storage
                 Debug.Log(pickable.GetPickableName() + ", " + pickable.GetPickableValue() + ", " + pickable.GetPickableImage());
 
                 checkedSlot.SetSlot(pickable.GetPickableName(), checkedSlot.GetSlotValue() + pickable.GetPickableValue(), pickable.GetPickableImage());
+                audioManager.PlayPickSound();
                 return;
             }
         }
 
         Debug.Log("No empty slot in backpack");
+        audioManager.PlayCantDoIt();
         return;
     }
-
+    public bool IsBackpackFull()
+    {
+        return StorageValueSum() >= StorageCapacity();
+    }
     public BackPack_Slot CheckIfBackpackHasItem(string itemName)
     {
         for (int i = 0; i < StorageSlots().Length; i++)

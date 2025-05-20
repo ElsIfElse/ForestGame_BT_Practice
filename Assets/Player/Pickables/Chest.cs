@@ -1,9 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Chest : Storage
 {
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         storageCapacity = 20;
         storageSlotNumber = 5;
     }

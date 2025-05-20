@@ -116,6 +116,7 @@ public class Wolf_Tree : MonoBehaviour
         chase_Fallback.AddChild(goToHuntLocation_Action);
 
         eat_Action.SetAction(wolfStatus.Eat);
+
         attack_Action.SetAction(wolfStatus.Attack);
         chase_Action.SetAction(wolfStatus.Chase);
         goToHuntLocation_Action.SetAction(wolfStatus.LookForPrey);

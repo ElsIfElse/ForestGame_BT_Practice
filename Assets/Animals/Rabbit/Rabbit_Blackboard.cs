@@ -9,5 +9,17 @@ public class Rabbit_Blackboard : Prey_Blackboard
         SetAnimalBreed("Rabbit");
         base.Start();
     }
+    public override void Dying()
+    {
+        if (!isDying)
+        { 
+            animalAgent.ResetPath();
+            animalAgent.isStopped = true;
+
+            isDying = true;
+            worldStatus.RemoveAnimal(gameObject);
+            animator.PlayDeath(); 
+        }
+    }
 
 }

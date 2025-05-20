@@ -107,7 +107,7 @@ public class Camera_Handler : MonoBehaviour
         // ClickingOnAnimal();
         // GODMODE();
 
-        Debug.Log("Currently handheld animal ray hit: " + CurrentlyViewedAnimalType());
+        // Debug.Log("Currently handheld animal ray hit: " + CurrentlyViewedAnimalType());
     }
 
     public void CollectAnimals()

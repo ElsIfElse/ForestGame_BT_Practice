@@ -3,6 +3,14 @@ using UnityEngine;
 
 public class Storage : MonoBehaviour
 {
+    protected Manager_Collector managerCollector;
+    protected Audio_Manager audioManager;
+    protected virtual void Start()
+    {
+        managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
+        audioManager = managerCollector.audioManager;
+    }
+
     protected int storageCapacity;
     public int StorageCapacity()
     {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Audio_Manager : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class Audio_Manager : MonoBehaviour
     [SerializeField] private AudioClip pickSound;
     [SerializeField] private AudioClip jumpSound_ground;
     [SerializeField] private AudioClip jumpSound_exhale;
+    [SerializeField] private AudioClip animalBecameFriendly;
+    [SerializeField] private AudioClip feedingAnimal;
+    [SerializeField] private AudioClip cantDoIt;
 
     [Space]
     [Header("UI Sounds")]
@@ -186,17 +190,29 @@ public class Audio_Manager : MonoBehaviour
     }
     public void PlayJumpSound()
     {
-        PlayAudio(jumpSound_ground, 0.5f);
+        PlayAudio(jumpSound_ground, 0.2f);
         PlayAudio(jumpSound_exhale, 0.5f);
     }
     public void PlayCameraSwitchSound()
     {
         PlayAudio(cameraSwitchSound, 0.5f,true);
     }
+
     // Interaction Sounds
     public void PlayPickSound()
     {
         PlayAudio(pickSound, 0.5f);
+    }
+    public void PlayAnimalBecameFriendly(){
+        PlayAudio(animalBecameFriendly,0.5f);
+    }
+    public void PlayFeedingAnimal()
+    {
+        PlayAudio(feedingAnimal, 0.5f);
+    }
+    public void PlayCantDoIt()
+    {
+        PlayAudio(cantDoIt, 0.5f);
     }
 
     // Utility

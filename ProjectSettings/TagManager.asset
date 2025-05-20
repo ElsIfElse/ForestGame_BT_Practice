@@ -26,6 +26,7 @@ TagManager:
   - BearWanderingArea
   - FpsCameraHandler
   - InventoryManager
+  - CraftingTableManager
   layers:
   - Default
   - TransparentFX

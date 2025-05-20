@@ -26,7 +26,8 @@ public class Predator_Blackboard : AnimalBlackboard_Base
     float timeWithoutHungerAfterEating = 8f;
 
     // Attacking Helpers
-    bool isAttacking = false;
+    [SerializeField] bool isAttacking = false;
+    [SerializeField] bool isEating = false;
 
     public override void Start()
     {
@@ -68,12 +69,21 @@ public class Predator_Blackboard : AnimalBlackboard_Base
     // Tree Actions
     public void Eat()
     {
-        StopAllCoroutines();
         animalAgent.ResetPath();
-        animator.PlayEat();
 
+        if (!isEating)
+        {
+            animator.PlayEat();
+            isEating = true;
+            StartCoroutine(EatHelper_Coroutine());
+        }
+    }
+    IEnumerator EatHelper_Coroutine()
+    {
+        yield return new WaitForSeconds(4.4f);
         isHungry = false;
         hasFood = false;
+        isEating = false;
     }
     public void Attack()
     {
@@ -86,7 +96,8 @@ public class Predator_Blackboard : AnimalBlackboard_Base
     IEnumerator AttackHelper_Coroutine()
     {
         animalAgent.velocity = Vector3.zero;
-        worldStatus.RemoveAnimal(currentPrey);
+
+        currentPrey.GetComponent<Prey_Blackboard>().Dying();
         currentPrey = null;
         isAttacking = true;
         animalAgent.ResetPath();

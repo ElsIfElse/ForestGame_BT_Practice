@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Animation_Manager_Rabbit : Animal_AnimatorBaseClass
 {
-     Animator animator;
+    Animator animator;
     [HideInInspector]
     public string walkAnimation = "walk";
     [HideInInspector]
@@ -12,17 +12,21 @@ public class Animation_Manager_Rabbit : Animal_AnimatorBaseClass
     [HideInInspector]
     public string idleAnimation = "idle";
 
-    public override void PlayWalk(){
+    public override void PlayWalk()
+    {
         animator.Play(runAnimation);
     }
 
-    public override void PlayRun(){
+    public override void PlayRun()
+    {
         animator.Play(runAnimation);
     }
-    public override void PlayEat(){
+    public override void PlayEat()
+    {
         animator.Play(idleAnimation);
     }
-    public override void PlayIdle(){
+    public override void PlayIdle()
+    {
         animator.Play(idleAnimation);
     }
 
@@ -34,5 +38,9 @@ public class Animation_Manager_Rabbit : Animal_AnimatorBaseClass
     public override void PlayAttack()
     {
         Debug.Log("Attack");
+    }
+    public override void PlayDeath() 
+    {
+        animator.Play("death");
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine.AddressableAssets;
 using DG.Tweening;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
+using System.Collections;
+using System;
 
 public class World_Status : MonoBehaviour
 {
@@ -120,7 +122,7 @@ public class World_Status : MonoBehaviour
             sun.DOIntensity(1, 4).SetEase(Ease.Linear);
             DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0.00f, 4).SetEase(Ease.Linear);
             RenderSettings.ambientLight = defaultAmbientColor;
-            DOTween.To(() => RenderSettings.reflectionIntensity, x => RenderSettings.reflectionIntensity = x, 1f, 4).SetEase(Ease.Linear);
+            DOTween.To(() => RenderSettings.reflectionIntensity, x => RenderSettings.reflectionIntensity = x, 1f, 10).SetEase(Ease.Linear);
         }
         else
         {
@@ -128,7 +130,7 @@ public class World_Status : MonoBehaviour
             sun.DOIntensity(0.0f, 4).SetEase(Ease.Linear);
             DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0.015f, 4).SetEase(Ease.Linear);
             RenderSettings.ambientLight = nightAmbientColor;
-            DOTween.To(() => RenderSettings.reflectionIntensity, x => RenderSettings.reflectionIntensity = x, 0.15f, 4).SetEase(Ease.Linear);
+            DOTween.To(() => RenderSettings.reflectionIntensity, x => RenderSettings.reflectionIntensity = x, 0.15f, 10).SetEase(Ease.Linear);
         }
 
         HourPass();
@@ -250,32 +252,45 @@ public class World_Status : MonoBehaviour
         switch (animalBreed)
         {
             case "Wolf":
-                RemoveWolf(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+            StartCoroutine(Remover_Coroutine(()=>RemoveWolf(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId)));
+                // RemoveWolf(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
                 break;
 
             case "Sheep":
-                RemoveSheep(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                StartCoroutine(Remover_Coroutine(()=>RemoveSheep(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId),2.7f));
+
+                // RemoveSheep(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
                 break;
 
             case "Rabbit":
-                RemoveRabbit(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                StartCoroutine(Remover_Coroutine(()=>RemoveRabbit(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId),1.1f));
+
+                // RemoveRabbit(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
                 break;
 
             case "Goat":
-                RemoveGoat(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                StartCoroutine(Remover_Coroutine(()=>RemoveGoat(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId),2.7f));
+
+                // RemoveGoat(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
                 break;
                 
             case "Bear":
-                RemoveBear(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
+                StartCoroutine(Remover_Coroutine(()=>RemoveBear(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId)));
+
+                // RemoveBear(targetAnimal.GetComponent<AnimalBlackboard_Base>().animalId);
                 break;
         }
     }
 
+    IEnumerator Remover_Coroutine(Action action,float timeToWait = 0f){
+        yield return new WaitForSeconds(timeToWait);
+        action();
+    }
 
     // Weather Settings
     void RandomChanceForRain(){
         if(!isRaining){
-            float randomChance = Random.Range(0f,100f);
+            float randomChance = UnityEngine.Random.Range(0f,100f);
 
             if(randomChance < chanceForRain){
                 rainStarted.Invoke();
@@ -286,7 +301,7 @@ public class World_Status : MonoBehaviour
         }
 
         else{
-            float randomChance = Random.Range(0f,100f);
+            float randomChance = UnityEngine.Random.Range(0f,100f);
 
             if(randomChance < chanceForRainToStop){
                 rainStopped.Invoke();
@@ -298,7 +313,7 @@ public class World_Status : MonoBehaviour
     }
 
     void RandomChanceForThunder(){
-        float randomChance = Random.Range(0f,100f);
+        float randomChance = UnityEngine.Random.Range(0f,100f);
         if(randomChance < chanceForThunder){
             Thunder();
         }

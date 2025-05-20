@@ -12,10 +12,13 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     public string animalBreed;
     public string animalType;
     public int animalId;
+    public bool isFriendly = false;
+    [SerializeField] float chanceToGetFriendly;
 
     // Tree conditions
     public bool isDay;
     public bool isHome;
+    public bool isDying = false;
 
     // Homes and Areas
     [SerializeField] protected GameObject home;
@@ -43,9 +46,14 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     protected World_Status worldStatus;
     protected NavMeshAgent animalAgent;
     protected GameObject animalVisual;
+    protected GameObject friendIndicator;
+    Audio_Manager audioManager;
 
     // Sleep
     public bool isSleeping = false;
+
+    // Befriending
+    ParticleSystem friendParticle;
 
     // String Arrays For Names
     public string[] names = {
@@ -63,6 +71,11 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         worldStatus = managerCollector.worldStatus;
+        audioManager = managerCollector.audioManager;
+
+        friendParticle = gameObject.transform.Find("friendParticle").GetComponent<ParticleSystem>();
+        friendIndicator = gameObject.transform.Find("friendIndicator").gameObject;
+        friendIndicator.SetActive(false);
     }
 
     void InitializeAnimal()
@@ -507,6 +520,30 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
         animator.PlayRun();
         animalAgent.speed = speed_Running;
     }
-    
 
+    // Player Interactions
+    public void ChanceToGetFriendlyAfterFeeding()
+    {
+        float randomNum = Random.Range(0, 100);
+
+        if (randomNum < chanceToGetFriendly)
+        {
+            isFriendly = true;
+            audioManager.PlayAnimalBecameFriendly();
+            PlayFriendlyParticle();
+            TurnOnFriendlyAnimalVisual();
+
+        }
+
+        return;
+
+    }
+    public void PlayFriendlyParticle()
+    {
+        friendParticle.Play();
+    }
+    public void TurnOnFriendlyAnimalVisual()
+    {
+        friendIndicator.SetActive(true);
+    }
 }

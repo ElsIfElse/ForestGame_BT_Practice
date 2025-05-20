@@ -9,6 +9,11 @@ public class Manager_Collector : MonoBehaviour
     [HideInInspector] public Audio_Manager audioManager;
     [HideInInspector] public Camera_Handler cameraHandler;
     [HideInInspector] public Fps_Camera_Handler fpsCameraHandler;
+    [HideInInspector] public GameObject inventoryManager;
+    [HideInInspector] public Backpack backpack;
+    [HideInInspector] public Chest chest;
+    [HideInInspector] public CraftingTable_Manager craftingTableManager;
+    
 
 
     void Awake()
@@ -19,5 +24,11 @@ public class Manager_Collector : MonoBehaviour
         audioManager = GameObject.FindWithTag("AudioManager").GetComponent<Audio_Manager>();
         cameraHandler = GameObject.FindWithTag("CameraHandler").GetComponent<Camera_Handler>();
         fpsCameraHandler = GameObject.FindWithTag("FpsCameraHandler").GetComponent<Fps_Camera_Handler>();
+
+        craftingTableManager = GameObject.FindWithTag("CraftingTableManager").GetComponent<CraftingTable_Manager>();
+
+        inventoryManager = GameObject.FindWithTag("InventoryManager");
+        backpack = inventoryManager.GetComponent<Backpack>();
+        chest = inventoryManager.GetComponent<Chest>();
     }
 }

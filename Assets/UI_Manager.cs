@@ -52,6 +52,7 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] Sprite indicator_FeedAnimal_Sprite;
     [SerializeField] Sprite indicator_SetCameraOnAnimal_Sprite;
     [SerializeField] Sprite indicator_OpenChest_Sprite;
+    [SerializeField] Sprite indicator_CraftingTable_Sprite;
     [SerializeField] UnityEngine.UI.Image currentIndicator;
 
     [SerializeField] GameObject indicatorObject;
@@ -259,6 +260,12 @@ public class UI_Manager : MonoBehaviour
     {
         indicatorObject.SetActive(true);
         currentIndicator.sprite = indicator_OpenChest_Sprite;
+        FadeIndicatorIn();
+    }
+    public void TurnOnIndicator_CraftingTable()
+    {
+        indicatorObject.SetActive(true);
+        currentIndicator.sprite = indicator_CraftingTable_Sprite;
         FadeIndicatorIn();
     }
     // public void TurnOnIndicator_SetCameraOnAnmial()

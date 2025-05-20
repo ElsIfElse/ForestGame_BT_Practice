@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Prey_Blackboard : AnimalBlackboard_Base
+public abstract class Prey_Blackboard : AnimalBlackboard_Base
 {
+    public abstract void Dying();
     public bool isSafe = false;
     float scaredDistance = 10f;
     GameObject[] predators;
