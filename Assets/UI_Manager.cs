@@ -53,11 +53,16 @@ public class UI_Manager : MonoBehaviour
     [SerializeField] Sprite indicator_SetCameraOnAnimal_Sprite;
     [SerializeField] Sprite indicator_OpenChest_Sprite;
     [SerializeField] Sprite indicator_CraftingTable_Sprite;
+    [SerializeField] Sprite indicator_SetupCamera_Sprite;
     [SerializeField] UnityEngine.UI.Image currentIndicator;
 
     [SerializeField] GameObject indicatorObject;
     [SerializeField] Image indicatorBackgroundImage;
     [SerializeField] Image indicatorFrameImage;
+
+    [Space]
+    [Header("Crafting")]
+    [SerializeField] public GameObject craftingTable_UI;
     float indicatorFadeTime = 0.5f;
     //
     public bool isPhoneOut = false;
@@ -262,6 +267,12 @@ public class UI_Manager : MonoBehaviour
         currentIndicator.sprite = indicator_OpenChest_Sprite;
         FadeIndicatorIn();
     }
+    public void TurnOnIndicator_SetupCamera()
+    {
+        indicatorObject.SetActive(true);
+        currentIndicator.sprite = indicator_SetupCamera_Sprite;
+        FadeIndicatorIn();
+    }
     public void TurnOnIndicator_CraftingTable()
     {
         indicatorObject.SetActive(true);
@@ -291,6 +302,15 @@ public class UI_Manager : MonoBehaviour
         currentIndicator.DOFade(0, indicatorFadeTime);
     }
     
+    // Crafting
+    public void TurnOnCraftingTable()
+    {
+        craftingTable_UI.SetActive(true);
+    }
+    public void TurnOffCraftingTable()
+    {
+        craftingTable_UI.SetActive(false);
+    }
     
 
     

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickableName: RabbitFood
   pickableValue: 1
-  pickableImage: {fileID: 21300000, guid: a639c6a49a42ea940a754d48dbdd724f, type: 3}
+  pickableImage: {fileID: 21300000, guid: 390778e396cda2941876cd59a4c63d60, type: 3}

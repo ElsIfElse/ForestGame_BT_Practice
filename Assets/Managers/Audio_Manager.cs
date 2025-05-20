@@ -40,6 +40,8 @@ public class Audio_Manager : MonoBehaviour
     [SerializeField] private AudioClip animalBecameFriendly;
     [SerializeField] private AudioClip feedingAnimal;
     [SerializeField] private AudioClip cantDoIt;
+    [SerializeField] private AudioClip setupCamera_01;
+    [SerializeField] private AudioClip setupCamera_02;
 
     [Space]
     [Header("UI Sounds")]
@@ -201,8 +203,8 @@ public class Audio_Manager : MonoBehaviour
     // Interaction Sounds
     public void PlayPickSound()
     {
-        PlayAudio(pickSound, 0.5f);
-    }
+        PlayAudio(pickSound, 0.3f,true,false,0.23f);
+    }  
     public void PlayAnimalBecameFriendly(){
         PlayAudio(animalBecameFriendly,0.5f);
     }
@@ -214,7 +216,14 @@ public class Audio_Manager : MonoBehaviour
     {
         PlayAudio(cantDoIt, 0.5f);
     }
-
+    public void PlaySetupCamera_01()
+    {
+        PlayAudio(setupCamera_01, 0.5f);
+    }
+    public void PlaySetupCamera_02()
+    {
+        PlayAudio(setupCamera_02, 0.5f);
+    }
     // Utility
     void PlayAudio(AudioClip clipToPlay,float volume = 0.5f,bool isRandomPitch = false,bool isLooping = false,float startFrom = 0,float delay = 0){
         

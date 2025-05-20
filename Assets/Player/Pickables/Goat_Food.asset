@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickableName: GoatFood
   pickableValue: 1
-  pickableImage: {fileID: 21300000, guid: d16eb5ce42a81614ab267e512b78a23d, type: 3}
+  pickableImage: {fileID: 21300000, guid: 88ed37c5fdb4d2546bff96f6f28cf899, type: 3}

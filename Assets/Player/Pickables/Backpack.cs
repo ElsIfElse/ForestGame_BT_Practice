@@ -28,7 +28,7 @@ public class Backpack : Storage
 
             if (checkedSlot.GetSlotName() == pickable.GetPickableName())
             {
-                checkedSlot.SetSlot(pickable.GetPickableName(),checkedSlot.GetSlotValue() +  pickable.GetPickableValue(), pickable.GetPickableImage());
+                checkedSlot.SetSlot(pickable.GetPickableName(), checkedSlot.GetSlotValue() + pickable.GetPickableValue(), pickable.GetPickableImage());
                 audioManager.PlayPickSound();
                 return;
             }
@@ -56,6 +56,7 @@ public class Backpack : Storage
         audioManager.PlayCantDoIt();
         return;
     }
+
     public bool IsBackpackFull()
     {
         return StorageValueSum() >= StorageCapacity();
@@ -70,5 +71,27 @@ public class Backpack : Storage
             }
         }
         return null;
+    }
+    public void RemoveItem(string itemName)
+    {
+        for (int i = 0; i < StorageSlots().Length; i++)
+        {
+            BackPack_Slot currentSlot = storageSlots[i] as BackPack_Slot;
+            if (currentSlot.GetSlotName() == itemName)
+            {
+                currentSlot.DecreaseSlotValueBy(1);
+
+                if (currentSlot.GetSlotValue() == 0)
+                {
+                    currentSlot.EmptySlot();
+                }
+
+                currentSlot.SetSlotUi();
+                Debug.Log(itemName.ToUpper() + " was removed from backpack");
+                return;
+            }
+        }
+        
+        Debug.Log("Item was not found in backpack");
     }
 }

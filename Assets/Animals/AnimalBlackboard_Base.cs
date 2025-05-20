@@ -13,6 +13,7 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     public string animalType;
     public int animalId;
     public bool isFriendly = false;
+    public bool hasCamera = false;
     [SerializeField] float chanceToGetFriendly;
 
     // Tree conditions
@@ -92,8 +93,8 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
         AssignRandomName();
 
         WalkSpeed();
-
     }
+
     public virtual void Update()
     {
         isDay = worldStatus.isDay;
@@ -532,7 +533,6 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
             audioManager.PlayAnimalBecameFriendly();
             PlayFriendlyParticle();
             TurnOnFriendlyAnimalVisual();
-
         }
 
         return;
@@ -545,5 +545,9 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     public void TurnOnFriendlyAnimalVisual()
     {
         friendIndicator.SetActive(true);
+    }
+    public void PlaceCameraOnAnimal()
+    {
+        hasCamera = true;
     }
 }

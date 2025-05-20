@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -41,13 +42,14 @@ public class Player_Actions : MonoBehaviour
         playerCameraRotation = GameObject.FindWithTag("FpsCameraHandler").GetComponent<CinemachinePanTilt>();
         playerMovement = GetComponent<Player_Movement>();
         craftingTableManager = managerCollector.craftingTableManager;
-        
+
     }
     void Update()
     {
         InteractionRaycasting();
 
         CloseChest_Action();
+        CloseCraftingTable_Action();
     }
 
     // INITIALIZATION
@@ -61,39 +63,48 @@ public class Player_Actions : MonoBehaviour
     {
         SetRay();
 
-        Debug.DrawRay(interactionRay.origin, interactionRay.direction * interactionRayLength, Color.red);
+        // Debug.DrawRay(interactionRay.origin, interactionRay.direction * interactionRayLength, Color.red);
 
 
         if (Physics.Raycast(interactionRay.origin, interactionRay.direction, out interactionHitInfo, interactionRayLength, interactionlayerMask))
         {
+            GameObject currentObject = interactionHitInfo.transform.gameObject;
 
-            if (interactionHitInfo.transform.gameObject.layer == 7)
+            // FOOD
+            if (currentObject.layer == 7)
             {
                 uiManager.TurnOnIndicator_PickFood();
                 PickFood_Action();
             }
-            else if (interactionHitInfo.transform.gameObject.layer == 8)
+
+            // ANIMAL
+            else if (currentObject.layer == 8 && currentObject.GetComponent<AnimalBlackboard_Base>().isHome == false)
             {
-                if (interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().isFriendly == false)
+                if (currentObject.GetComponent<AnimalBlackboard_Base>().isFriendly == false)
                 {
                     uiManager.TurnOnIndicator_FeedAnimal();
                     FeedAnimal_Action();
                 }
+                else if (currentObject.GetComponent<AnimalBlackboard_Base>().hasCamera == false)
+                {
+                    uiManager.TurnOnIndicator_SetupCamera();
+                    SetCameraOnAnimal_Action(currentObject);
+                }
             }
-            else if (interactionHitInfo.transform.gameObject.layer == 11)   
-            {
-                GameObject hitObject = interactionHitInfo.transform.gameObject;
 
-                if (hitObject.transform.name == "Chest")
+            // INTERACTABLE
+            else if (currentObject.layer == 11)
+            {
+                if (currentObject.transform.name == "Chest")
                 {
                     uiManager.TurnOnIndicator_OpenChest();
 
                     OpenChest_Action();
                 }
-                else if (hitObject.transform.name == "CraftingTable")
+                else if (currentObject.transform.name == "CraftingTable")
                 {
                     uiManager.TurnOnIndicator_CraftingTable();
-                    CraftCamera_Action();
+                    OpenCraftingTable_Action();
                 }
             }
         }
@@ -102,7 +113,7 @@ public class Player_Actions : MonoBehaviour
         {
             uiManager.TurnOffIndicator();
         }
-        
+
     }
 
     // INTERACTIONS
@@ -117,7 +128,8 @@ public class Player_Actions : MonoBehaviour
     }
     void FeedAnimal_Action()
     {
-        if (Input.GetKeyDown(KeyCode.E)){
+        if (Input.GetKeyDown(KeyCode.E))
+        {
             switch (interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().animalBreed)
             {
                 case "Sheep":
@@ -134,7 +146,7 @@ public class Player_Actions : MonoBehaviour
                         if (isDebugOn)
                         {
                             Debug.Log("Backpack does not contain sheep food");
-                            
+
                         }
 
                         audioManager.PlayCantDoIt();
@@ -168,7 +180,7 @@ public class Player_Actions : MonoBehaviour
                         if (isDebugOn)
                         {
                             Debug.Log("Backpack does not contain wolf food");
-                            
+
                         }
 
                         audioManager.PlayCantDoIt();
@@ -201,7 +213,7 @@ public class Player_Actions : MonoBehaviour
                         if (isDebugOn)
                         {
                             Debug.Log("Backpack does not contain Goat food");
-                            
+
                         }
 
                         audioManager.PlayCantDoIt();
@@ -234,7 +246,7 @@ public class Player_Actions : MonoBehaviour
                         if (isDebugOn)
                         {
                             Debug.Log("Backpack does not contain Rabbit food");
-                            
+
                         }
 
                         audioManager.PlayCantDoIt();
@@ -267,7 +279,7 @@ public class Player_Actions : MonoBehaviour
                         if (isDebugOn)
                         {
                             Debug.Log("Backpack does not contain Bear food");
-                            
+
                         }
 
                         audioManager.PlayCantDoIt();
@@ -285,7 +297,7 @@ public class Player_Actions : MonoBehaviour
                     interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
                     audioManager.PlayFeedingAnimal();
                     break;
-            }      
+            }
         }
     }
     void OpenChest_Action()
@@ -324,16 +336,65 @@ public class Player_Actions : MonoBehaviour
             Inventory_Manager.Instance.CloseBackpack();
         }
     }
-    void CraftCamera_Action()
+    public void CraftCamera_Action()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             craftingTableManager.CraftItem("Camera");
         }
     }
-    void SetCameraOnAnimal_Action()
+    void OpenCraftingTable_Action()
     {
-        
+        if (Input.GetKeyDown(KeyCode.E) && !uiManager.craftingTable_UI.activeSelf)
+        {
+            originalPanAxis = playerCameraRotation.PanAxis.Value;
+            originalTilAxis = playerCameraRotation.TiltAxis.Value;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            playerMovement.enabled = false;
+            playerCameraRotation.enabled = false;
+
+            uiManager.TurnOnCraftingTable();
+        }
+    }
+    void CloseCraftingTable_Action()
+    {
+        if (uiManager.craftingTable_UI.activeSelf && Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            playerCameraRotation.PanAxis.Value = originalPanAxis;
+            playerCameraRotation.TiltAxis.Value = originalTilAxis;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            playerMovement.enabled = true;
+            playerCameraRotation.enabled = true;
+            uiManager.TurnOffCraftingTable();
+        }
+    }
+
+    void SetCameraOnAnimal_Action(GameObject animalObject)
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (animalObject.GetComponent<AnimalBlackboard_Base>().isFriendly == true && backpack.CheckIfBackpackHasItem("Camera") == true)
+            {
+                animalObject.GetComponent<AnimalBlackboard_Base>().PlaceCameraOnAnimal();
+                backpack.RemoveItem("Camera");
+                StartCoroutine(SetupCameraSoundHelper_Coroutine());
+            }
+            else
+            {
+                audioManager.PlayCantDoIt();
+            }
+        }
+    }
+    
+    IEnumerator SetupCameraSoundHelper_Coroutine()
+    {
+        audioManager.PlaySetupCamera_01();
+        yield return new WaitForSeconds(1.2f);
+        audioManager.PlaySetupCamera_02();
     }
  
     // UTILITIES

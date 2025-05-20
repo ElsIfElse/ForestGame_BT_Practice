@@ -86,8 +86,6 @@ public class Camera_Handler : MonoBehaviour
 
         CameraVolume();
         followedAnimal = handcamPositionObject;
-
-        
     }
 
     void Update()

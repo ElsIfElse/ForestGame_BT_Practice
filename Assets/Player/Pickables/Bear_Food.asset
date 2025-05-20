@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickableName: BearFood
   pickableValue: 1
-  pickableImage: {fileID: 21300000, guid: 04f3f11d123240d428302bc5f8037615, type: 3}
+  pickableImage: {fileID: 21300000, guid: c26ba79fffa55684e8f04be42c728a23, type: 3}

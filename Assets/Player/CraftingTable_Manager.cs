@@ -5,17 +5,20 @@ public class CraftingTable_Manager : MonoBehaviour
     Manager_Collector managerCollector;
     Backpack backpack;
     [SerializeField] Sprite camera_Sprite;
+    Audio_Manager audioManager;
 
     void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         backpack = managerCollector.backpack;
+        audioManager = managerCollector.audioManager;
     }
     public void CraftItem(string itemName)
     {
         if (backpack.IsBackpackFull())
         {
             Debug.Log("Backpack is full");
+            audioManager.PlayCantDoIt();
             return;
         }
 

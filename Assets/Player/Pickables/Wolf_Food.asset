@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickableName: WolfFood
   pickableValue: 1
-  pickableImage: {fileID: 21300000, guid: 2ecf426961052084f8f1ee231654943d, type: 3}
+  pickableImage: {fileID: 21300000, guid: 1aa53f8400f43744f9fddeafa51a23c1, type: 3}
