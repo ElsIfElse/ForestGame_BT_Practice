@@ -16,12 +16,17 @@ public class Sheep_Blackboard : Prey_Blackboard
     {
         animalAgent.ResetPath();
         animalAgent.isStopped = true;
-        
+
         if (!isDying)
         {
             isDying = true;
-            worldStatus.RemoveAnimal(gameObject);
+            animalCollection.RemoveAnimalFromGame(gameObject);
             animator.PlayDeath();
+
+            if (animalCollection.SearchForAnimal(gameObject))
+            {
+                notifications.CreateMessageObject(Feedback_Notifications.messageTypes.World_Notification, animalName + " the " + animalBreed + " died. Camera is lost.");
+            }
         }
     }
 

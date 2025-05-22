@@ -5,10 +5,12 @@ public class Storage : MonoBehaviour
 {
     protected Manager_Collector managerCollector;
     protected Audio_Manager audioManager;
+    protected Feedback_Notifications notifications;
     protected virtual void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         audioManager = managerCollector.audioManager;
+        notifications = managerCollector.notifications;
     }
 
     protected int storageCapacity;

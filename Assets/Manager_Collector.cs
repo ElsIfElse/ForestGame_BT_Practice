@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Manager_Collector : MonoBehaviour
 {
-    
+
     [HideInInspector] public UI_Manager uiManager;
     [HideInInspector] public World_Status worldStatus;
     [HideInInspector] public Spawn_Manager spawnManager;
@@ -13,7 +13,11 @@ public class Manager_Collector : MonoBehaviour
     [HideInInspector] public Backpack backpack;
     [HideInInspector] public Chest chest;
     [HideInInspector] public CraftingTable_Manager craftingTableManager;
-    
+    [HideInInspector] public Animal_Collection animalCollection;
+    [HideInInspector] public Feedback_Notifications notifications;
+
+
+
 
 
     void Awake()
@@ -30,5 +34,15 @@ public class Manager_Collector : MonoBehaviour
         inventoryManager = GameObject.FindWithTag("InventoryManager");
         backpack = inventoryManager.GetComponent<Backpack>();
         chest = inventoryManager.GetComponent<Chest>();
+
+        animalCollection = GameObject.FindWithTag("WorldStatus").GetComponent<Animal_Collection>();
+        notifications = GameObject.FindWithTag("WorldStatus").GetComponent<Feedback_Notifications>();
+    }
+    void Start()
+    {
+        if (uiManager == null)
+        { 
+            uiManager = GameObject.FindWithTag("UIManager").GetComponent<UI_Manager>();
+        }
     }
 }

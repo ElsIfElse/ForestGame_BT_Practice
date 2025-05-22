@@ -62,12 +62,14 @@ public class Stream_Chat : MonoBehaviour
     Manager_Collector managerCollector;
     Audio_Manager audioManager;
     Camera_Handler cameraHandler;
+    Feedback_Notifications notifications;
 
     void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         audioManager = managerCollector.audioManager;
         cameraHandler = managerCollector.cameraHandler;
+        notifications = managerCollector.notifications;
 
         percentageChanceToGetMessage = basePercentageToGetMessage;
 
@@ -437,11 +439,14 @@ public class Stream_Chat : MonoBehaviour
                 }
                 else
                 {
+                    notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Stream_Notification, "New wish from chat");
+
                     isWishActive = true;
                     audioManager.PlayChatNotification();
                     // Debug.Log("New Wish: " + wish);
                     currentWish = wish;
                     percentageChanceToGetMessage = basePercentageToGetMessage * wishMessageChanceMultiplier;
+
                 }
             }
             chatWishTimer = chatWishFrequencyCheck;
@@ -461,6 +466,8 @@ public class Stream_Chat : MonoBehaviour
                 isWishActive = false;
                 currentWish = null;
                 percentageChanceToGetMessage = basePercentageToGetMessage;
+
+                notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Stream_Notification, "Wish was fulfilled");
             }
         }
         else
@@ -487,6 +494,8 @@ public class Stream_Chat : MonoBehaviour
                 currentWish = null;
                 reminderSent = false;
                 percentageChanceToGetMessage = basePercentageToGetMessage;
+
+                notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Stream_Notification, "Wish was failed");
             }
         }
 

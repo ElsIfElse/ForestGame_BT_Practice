@@ -12,6 +12,7 @@ public class UI_Manager : MonoBehaviour
     Spawn_Manager spawnManager;
     Manager_Collector managerCollector;
     Audio_Manager audioManager;
+    Animal_Collection animalCollection;
     //
     [Header("Time Texts")]
     public TextMeshProUGUI timeText;
@@ -74,6 +75,7 @@ public class UI_Manager : MonoBehaviour
         worldStatus = managerCollector.worldStatus;
         spawnManager = managerCollector.spawnManager;
         audioManager = managerCollector.audioManager;
+        animalCollection = managerCollector.animalCollection;
 
         indicatorBackgroundImage = indicatorObject.transform.Find("BG").GetComponent<Image>();
         indicatorFrameImage = indicatorObject.transform.Find("Frame").GetComponent<Image>();
@@ -86,15 +88,15 @@ public class UI_Manager : MonoBehaviour
         worldStatus.dayPassedEvent.AddListener(SetDay);
         worldStatus.timeSpeedChanged.AddListener(SetTimeSpeed);
 
-        worldStatus.wolfAdded.AddListener(SetWolfNumber);
-        worldStatus.sheepAdded.AddListener(SetSheepNumber);
-        worldStatus.rabbitAdded.AddListener(SetRabbitNumber);
-        worldStatus.goatAdded.AddListener(SetGoatNumber);
+        animalCollection.wolfAdded.AddListener(SetWolfNumber);
+        animalCollection.sheepAdded.AddListener(SetSheepNumber);
+        animalCollection.rabbitAdded.AddListener(SetRabbitNumber);
+        animalCollection.goatAdded.AddListener(SetGoatNumber);
 
-        worldStatus.wolfRemoved.AddListener(SetWolfNumber);
-        worldStatus.sheepRemoved.AddListener(SetSheepNumber);
-        worldStatus.rabbitRemoved.AddListener(SetRabbitNumber);
-        worldStatus.goatRemoved.AddListener(SetGoatNumber);
+        animalCollection.wolfRemoved.AddListener(SetWolfNumber);
+        animalCollection.sheepRemoved.AddListener(SetSheepNumber);
+        animalCollection.rabbitRemoved.AddListener(SetRabbitNumber);
+        animalCollection.goatRemoved.AddListener(SetGoatNumber);
 
         SetWolfNumber();
         SetSheepNumber();
@@ -148,19 +150,19 @@ public class UI_Manager : MonoBehaviour
     }
     void SetWolfNumber()
     {
-        wolfCounterText.text = "Wolves: " + worldStatus.wolfDict.Count.ToString();
+        wolfCounterText.text = "Wolves: " + animalCollection.wolfDict.Count.ToString();
     }
     void SetSheepNumber()
     {
-        sheepCounterText.text = "Sheeps: " + worldStatus.sheepDict.Count.ToString();
+        sheepCounterText.text = "Sheeps: " + animalCollection.sheepDict.Count.ToString();
     }
     void SetRabbitNumber()
     {
-        rabbitCounterText.text = "Rabbits: " + worldStatus.rabbitDict.Count.ToString();
+        rabbitCounterText.text = "Rabbits: " + animalCollection.rabbitDict.Count.ToString();
     }
     void SetGoatNumber()
     {
-        goatCounterText.text = "Goats: " + worldStatus.goatDict.Count.ToString();
+        goatCounterText.text = "Goats: " + animalCollection.goatDict.Count.ToString();
     }
 
     // Card Settings

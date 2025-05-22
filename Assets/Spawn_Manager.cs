@@ -43,10 +43,12 @@ public class Spawn_Manager : MonoBehaviour
     [HideInInspector] public UnityEvent sheepSpawned;
     [HideInInspector] public UnityEvent wolfSpawned;
     Manager_Collector managerCollector;
+    Animal_Collection animalCollection;
 
     void Start()
     {
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
+        animalCollection = managerCollector.animalCollection;
         cameraHandler = managerCollector.cameraHandler;
         Addressables.InitializeAsync();
 
@@ -90,9 +92,10 @@ public class Spawn_Manager : MonoBehaviour
                 sheep.GetComponent<NavMeshAgent>().avoidancePriority = sheepAvoidancePriority;
                 sheep.transform.parent = sheepCollectorObject.transform;
 
-                cameraHandler.CollectAnimals();
+                
                 sheepAvoidancePriority++;
-                managerCollector.worldStatus.AddSheep(sheep);
+                animalCollection.AddSheep(sheep);
+                animalCollection.AddAnimalTo_AllAnimals(sheep);
                 idCounter++;
             };
         }
@@ -125,9 +128,10 @@ public class Spawn_Manager : MonoBehaviour
                 wolf.GetComponent<NavMeshAgent>().avoidancePriority = wolfAvoidancePriority;
                 wolf.transform.parent = wolfCollectorObject.transform;
 
-                cameraHandler.CollectAnimals();
+                
                 wolfAvoidancePriority++;
-                managerCollector.worldStatus.AddWolf(wolf);
+                animalCollection.AddWolf(wolf);
+                animalCollection.AddAnimalTo_AllAnimals(wolf);
                 idCounter++;
             };
         }
@@ -164,10 +168,11 @@ public class Spawn_Manager : MonoBehaviour
             rabbit.GetComponent<AnimalBlackboard_Base>().animalId = idCounter;
             rabbit.transform.parent = rabbitCollectorObject.transform;
             rabbit.GetComponent<NavMeshAgent>().avoidancePriority = rabbitAvoidancePriority;
-            cameraHandler.CollectAnimals();
+            
             rabbitAvoidancePriority++;
 
-            managerCollector.worldStatus.AddRabbit(rabbit);
+            animalCollection.AddRabbit(rabbit);
+            animalCollection.AddAnimalTo_AllAnimals(rabbit);
             idCounter++;
         };
     }
@@ -200,9 +205,10 @@ public class Spawn_Manager : MonoBehaviour
                 goat.GetComponent<NavMeshAgent>().avoidancePriority = goatAvoidancePriority;
                 goat.transform.parent = goatCollectorObject.transform;
 
-                cameraHandler.CollectAnimals();
+                
                 goatAvoidancePriority++;
-                managerCollector.worldStatus.AddGoat(goat);
+                animalCollection.AddGoat(goat);
+                animalCollection.AddAnimalTo_AllAnimals(goat);
                 idCounter++;
             };
     }
@@ -235,9 +241,10 @@ public class Spawn_Manager : MonoBehaviour
                 bear.GetComponent<NavMeshAgent>().avoidancePriority = bearAvoidancePriority;
                 bear.transform.parent = bearCollectorObject.transform;
 
-                cameraHandler.CollectAnimals();
+                
                 bearAvoidancePriority++;
-                managerCollector.worldStatus.AddBear(bear);
+                animalCollection.AddBear(bear);
+                animalCollection.AddAnimalTo_AllAnimals(bear);
                 idCounter++;
             };
         }

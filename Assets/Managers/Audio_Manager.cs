@@ -44,6 +44,11 @@ public class Audio_Manager : MonoBehaviour
     [SerializeField] private AudioClip setupCamera_02;
 
     [Space]
+    [Header("Score Clips")]
+    [SerializeField] private AudioClip score_01;
+    AudioSource scoreSource;
+
+    [Space]
     [Header("UI Sounds")]
     [SerializeField] private AudioClip uiClickSound;
     AudioSource walkSource;
@@ -66,6 +71,7 @@ public class Audio_Manager : MonoBehaviour
 
         InitializeRainAudioSource();
         InitializeForestAmbianceSource();
+        InitializeScoreSource();
 
         InitializeWalkSoundSource();
         InitializeRunSoundSource();
@@ -73,9 +79,19 @@ public class Audio_Manager : MonoBehaviour
         worldStatus.thunderEvent.AddListener(PlayThunder);
     }
 
+    // SCORE
+    void InitializeScoreSource()
+    {   
+        scoreSource = new GameObject().AddComponent<AudioSource>();
+        scoreSource.clip = score_01;
+        scoreSource.volume = 1f;
+        scoreSource.Play(); 
+    }
+
     // UI
-    public void PlayUIClickSound(){
-        PlayAudio(uiClickSound,0.7f,true,false);
+    public void PlayUIClickSound()
+    {
+        PlayAudio(uiClickSound, 0.7f, true, false);
     }
 
     // Walk

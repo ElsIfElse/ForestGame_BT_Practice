@@ -16,6 +16,7 @@ public class Backpack : Storage
         {
             Debug.Log("Backpack is full");
             audioManager.PlayCantDoIt();
+            notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Interaction_Fail, "Backpack is full");
             return;
         }
 

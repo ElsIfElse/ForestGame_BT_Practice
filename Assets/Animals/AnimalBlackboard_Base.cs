@@ -49,6 +49,8 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     protected GameObject animalVisual;
     protected GameObject friendIndicator;
     Audio_Manager audioManager;
+    protected Animal_Collection animalCollection;
+    protected Feedback_Notifications notifications;
 
     // Sleep
     public bool isSleeping = false;
@@ -73,6 +75,8 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         worldStatus = managerCollector.worldStatus;
         audioManager = managerCollector.audioManager;
+        animalCollection = managerCollector.animalCollection;
+        notifications = managerCollector.notifications;
 
         friendParticle = gameObject.transform.Find("friendParticle").GetComponent<ParticleSystem>();
         friendIndicator = gameObject.transform.Find("friendIndicator").gameObject;
@@ -274,7 +278,6 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     void AssignAnimalBreed()
     {
         animalBreed = gameObject.name;
-        Debug.Log(animalBreed);
     }
     public void SetId(int id)
     {
@@ -533,6 +536,9 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
             audioManager.PlayAnimalBecameFriendly();
             PlayFriendlyParticle();
             TurnOnFriendlyAnimalVisual();
+            animalCollection.AddAnimalTo_FriendlyAnimals(gameObject);
+
+            notifications.CreateMessageObject(Feedback_Notifications.messageTypes.World_Notification, "You became friends with " + animalName + "the " + animalBreed + "!");
         }
 
         return;
@@ -549,5 +555,8 @@ public abstract class AnimalBlackboard_Base : MonoBehaviour
     public void PlaceCameraOnAnimal()
     {
         hasCamera = true;
+        animalCollection.AddAnimalTo_AnimalsWithCamera(gameObject);
+
+        notifications.CreateMessageObject(Feedback_Notifications.messageTypes.World_Notification, "New camera available");
     }
 }

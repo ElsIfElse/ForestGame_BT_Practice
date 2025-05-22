@@ -40,11 +40,10 @@ public class Camera_Handler : MonoBehaviour
 
 
     private List<GameObject> animals = new();
-    private List<GameObject> wolfs = new();
-    private List<GameObject> preys = new();
 
     private int animalIndex = 0;
     private GameObject followedAnimal;
+    Transform cameraHolderTransform;
     private bool followAnimal = false;
     private Vector3 targetPosition;
     private Quaternion targetRotation;
@@ -61,17 +60,17 @@ public class Camera_Handler : MonoBehaviour
     Manager_Collector managerCollector;
     UI_Manager uiManager;
     Audio_Manager audioManager;
+    Animal_Collection animalCollection;
     [SerializeField] GameObject handcamPositionObject;
     [SerializeField] GameObject crosshair;
     Ray handheldCameraRay;
-
+ 
     //
     [Space]
     [Header("Handheld Raycasting")]
     [SerializeField] LayerMask handheldRayLayerMask;
     void Start()
     {
-        CollectAnimals();
         targetPosition = originalPosition;
         targetRotation = transform.rotation;
 
@@ -83,9 +82,13 @@ public class Camera_Handler : MonoBehaviour
         managerCollector = GameObject.FindWithTag("ManagerCollector").GetComponent<Manager_Collector>();
         uiManager = managerCollector.uiManager;
         audioManager = managerCollector.audioManager;
+        animalCollection = managerCollector.animalCollection;
 
         CameraVolume();
         followedAnimal = handcamPositionObject;
+        cameraHolderTransform = followedAnimal.transform;
+
+        DebuReferences();
     }
 
     void Update()
@@ -108,31 +111,28 @@ public class Camera_Handler : MonoBehaviour
         // Debug.Log("Currently handheld animal ray hit: " + CurrentlyViewedAnimalType());
     }
 
+
     public void CollectAnimals()
     {
-        animals.Clear();
-
-        preys = GameObject.FindGameObjectsWithTag("Prey").ToList();
-        wolfs = GameObject.FindGameObjectsWithTag("Predator").ToList();
-
-        animals.AddRange(wolfs);
-        animals.AddRange(preys);
-
-        // Debug.Log("Animals Found: " + animals.Count);
+        if (animalCollection == null)
+        {
+            Debug.Log("Animal Collection is null.");
+            animalCollection = managerCollector.animalCollection;
+        }
+        animals = animalCollection.GetAnimalsWithCamera();
     }
 
     private void HandleFollowAnimal()
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            
+            CollectAnimals();
             isCamHandHeld = false;
-            if (animals.Count == 0)
+            if (animals.Count == 0 || followedAnimal == null || animals.Count == 0)
             {
-                Debug.Log("Animal List is emmpty. Attempting to collect animals.");
-                CollectAnimals();
-            }
-            ;
+                Debug.Log("Animal List is empty.");
+                return;
+            };
 
             animalIndex++;
             if (animalIndex >= animals.Count) animalIndex = 0;
@@ -140,22 +140,26 @@ public class Camera_Handler : MonoBehaviour
 
             uiManager.AnimalCamera();
             SetAnimalCard(followedAnimal);
+            cameraHolderTransform = followedAnimal.transform.FindDeepChild("CameraHolder");
             audioManager.PlayCameraSwitchSound();
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
+            CollectAnimals();
             isCamHandHeld = false;
-            if (animals.Count == 0)
+            if (animals.Count == 0 || followedAnimal == null || animals.Count == 0)
             {
-                Debug.Log("Animal List is emmpty. Attempting to collect animals.");
-                CollectAnimals();
-            };
+                Debug.Log("Animal List is empty.");
+                return;
+            }
+            ;
 
             animalIndex--;
             if (animalIndex < 0) animalIndex = animals.Count - 1;
             followedAnimal = animals[animalIndex];
             uiManager.AnimalCamera();
             SetAnimalCard(followedAnimal);
+            cameraHolderTransform = followedAnimal.transform.FindDeepChild("CameraHolder");
             audioManager.PlayCameraSwitchSound();
         }
 
@@ -164,9 +168,15 @@ public class Camera_Handler : MonoBehaviour
             followedAnimal = handcamPositionObject;
             uiManager.HandHeldCamera();
             audioManager.PlayCameraSwitchSound();
+            cameraHolderTransform = handcamPositionObject.transform;
         }
 
-        Transform cameraHolderTransform = followedAnimal.transform.FindDeepChild("CameraHolder");
+        if (followedAnimal == null)
+        {
+            Debug.LogError("followedAnimal is null!");
+            followedAnimal = handcamPositionObject;
+            isCamHandHeld = true;
+        }
 
         if (cameraHolderTransform == null)
         {
@@ -260,6 +270,10 @@ public class Camera_Handler : MonoBehaviour
     // Flashlight
     void HandleFlashlight()
     {
+        if (uiManager == null)
+        {
+            uiManager = GameObject.FindWithTag("UIManager").GetComponent<UI_Manager>();
+        }
         if (uiManager.isPhoneOut && isCamHandHeld)
         {
             flashlight.enabled = true;
@@ -374,6 +388,24 @@ public class Camera_Handler : MonoBehaviour
         }
     }
 
-    
+    void DebuReferences()
+    {
+        if (managerCollector == null)
+        {
+            Debug.Log("Manager collector is null at start");
+        }
+        if(uiManager == null)
+        {
+            Debug.Log("UI Manager is null at start");
+        }
+        if (audioManager == null)
+        {
+            Debug.Log("Audio Manager is null at start");
+        }
+        if (animalCollection == null)
+        {
+            Debug.Log("Animal Collection is null at start");
+        }
+    }
 
 }

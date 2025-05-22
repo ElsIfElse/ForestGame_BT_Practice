@@ -7,5 +7,6 @@ public class Bear_BlackBoard : Predator_Blackboard
     {
         SetAnimalBreed("Bear");
         base.Start();
+        
     }
 }

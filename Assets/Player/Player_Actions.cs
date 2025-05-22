@@ -33,6 +33,7 @@ public class Player_Actions : MonoBehaviour
 
     [SerializeField] Backpack backpack;
     CraftingTable_Manager craftingTableManager;
+    Feedback_Notifications notifications;
 
     void Start()
     {
@@ -42,6 +43,7 @@ public class Player_Actions : MonoBehaviour
         playerCameraRotation = GameObject.FindWithTag("FpsCameraHandler").GetComponent<CinemachinePanTilt>();
         playerMovement = GetComponent<Player_Movement>();
         craftingTableManager = managerCollector.craftingTableManager;
+        notifications = managerCollector.notifications;
 
     }
     void Update()
@@ -149,6 +151,7 @@ public class Player_Actions : MonoBehaviour
 
                         }
 
+                        notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Interaction_Fail, "You have no Sheep food");
                         audioManager.PlayCantDoIt();
                         return;
                     }
@@ -160,6 +163,8 @@ public class Player_Actions : MonoBehaviour
                     {
                         Debug.Log($"Sheep was fed and used 1 sheep food");
                     }
+
+                    notifications.CreateMessageObject(Feedback_Notifications.messageTypes.World_Notification, "-1 Sheep Food");
 
                     interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
                     audioManager.PlayFeedingAnimal();
@@ -183,6 +188,7 @@ public class Player_Actions : MonoBehaviour
 
                         }
 
+                        notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Interaction_Fail, "You have no Wolf food");
                         audioManager.PlayCantDoIt();
                         return;
                     }
@@ -194,6 +200,8 @@ public class Player_Actions : MonoBehaviour
                     {
                         Debug.Log("Wolf was fed and used 1 wolf food");
                     }
+
+                    notifications.CreateMessageObject(Feedback_Notifications.messageTypes.World_Notification, "-1 Wolf Food");
 
                     interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
                     audioManager.PlayFeedingAnimal();
@@ -216,6 +224,7 @@ public class Player_Actions : MonoBehaviour
 
                         }
 
+                        notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Interaction_Fail, "You have no Goat food");
                         audioManager.PlayCantDoIt();
                         return;
                     }
@@ -227,6 +236,8 @@ public class Player_Actions : MonoBehaviour
                     {
                         Debug.Log("Goat was fed and used 1 Goat food");
                     }
+
+                    notifications.CreateMessageObject(Feedback_Notifications.messageTypes.World_Notification, "-1 Goat Food");
 
                     interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
                     audioManager.PlayFeedingAnimal();
@@ -249,6 +260,7 @@ public class Player_Actions : MonoBehaviour
 
                         }
 
+                        notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Interaction_Fail, "You have no Rabbit food");
                         audioManager.PlayCantDoIt();
                         return;
                     }
@@ -260,6 +272,8 @@ public class Player_Actions : MonoBehaviour
                     {
                         Debug.Log("Rabbit was fed and used 1 Rabbit food");
                     }
+
+                    notifications.CreateMessageObject(Feedback_Notifications.messageTypes.World_Notification, "-1 Rabbit Food");
 
                     interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
                     audioManager.PlayFeedingAnimal();
@@ -282,6 +296,7 @@ public class Player_Actions : MonoBehaviour
 
                         }
 
+                        notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Interaction_Fail, "You have no Bear food");
                         audioManager.PlayCantDoIt();
                         return;
                     }
@@ -293,6 +308,8 @@ public class Player_Actions : MonoBehaviour
                     {
                         Debug.Log("Bear was fed and used 1 Bear food");
                     }
+
+                    notifications.CreateMessageObject(Feedback_Notifications.messageTypes.World_Notification, "-1 Bear Food");
 
                     interactionHitInfo.transform.gameObject.GetComponent<AnimalBlackboard_Base>().ChanceToGetFriendlyAfterFeeding();
                     audioManager.PlayFeedingAnimal();
@@ -377,6 +394,15 @@ public class Player_Actions : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            if (animalObject.GetComponent<AnimalBlackboard_Base>().isFriendly == false)
+            {
+                notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Interaction_Fail, "Animal is not friendly");
+            }
+            else if (backpack.CheckIfBackpackHasItem("Camera") == false)
+            {
+                notifications.CreateMessageObject(Feedback_Notifications.messageTypes.Interaction_Fail, "You have no Camera");
+            }
+            
             if (animalObject.GetComponent<AnimalBlackboard_Base>().isFriendly == true && backpack.CheckIfBackpackHasItem("Camera") == true)
             {
                 animalObject.GetComponent<AnimalBlackboard_Base>().PlaceCameraOnAnimal();
@@ -391,7 +417,7 @@ public class Player_Actions : MonoBehaviour
     }
     
     IEnumerator SetupCameraSoundHelper_Coroutine()
-    {
+    {   
         audioManager.PlaySetupCamera_01();
         yield return new WaitForSeconds(1.2f);
         audioManager.PlaySetupCamera_02();
